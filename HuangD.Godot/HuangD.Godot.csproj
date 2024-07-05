@@ -6,6 +6,6 @@
     <EnableDynamicLoading>true</EnableDynamicLoading>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Chrona.Engine.Core\Chrona.Engine.Core.csproj" />
+    <Folder Include="addons\" />
   </ItemGroup>
 </Project>

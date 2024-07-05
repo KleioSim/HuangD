@@ -11,10 +11,18 @@ config_version=5
 [application]
 
 config/name="HuangD.Godot"
-config/features=PackedStringArray("4.2", "Forward Plus")
+config/features=PackedStringArray("4.2", "C#", "Forward Plus")
 boot_splash/show_image=false
 config/icon="res://icon.svg"
+
+[autoload]
+
+Chrona_Global="*res://addons/Chrona.Engine.Godot/Global.cs"
 
 [dotnet]
 
 project/assembly_name="HuangD.Godot"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/Chrona.Engine.Godot/plugin.cfg")
