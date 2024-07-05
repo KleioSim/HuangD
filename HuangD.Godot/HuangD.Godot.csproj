@@ -8,4 +8,7 @@
   <ItemGroup>
     <Folder Include="addons\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Chrona.Engine.Core\Chrona.Engine.Core.csproj" />
+  </ItemGroup>
 </Project>
