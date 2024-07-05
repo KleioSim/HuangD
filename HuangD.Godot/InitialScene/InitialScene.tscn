@@ -1,0 +1,28 @@
+[gd_scene load_steps=2 format=3 uid="uid://bb72evio3jkqu"]
+
+[ext_resource type="Script" path="res://InitialScene/InitialScene.cs" id="1_dj71v"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_dj71v")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+text = "Load"
+
+[node name="Button2" type="Button" parent="."]
+layout_mode = 0
+offset_top = 37.0
+offset_right = 46.0
+offset_bottom = 68.0
+text = "Start"
+
+[connection signal="pressed" from="Button" to="." method="Load"]
+[connection signal="pressed" from="Button2" to="." method="Start"]
