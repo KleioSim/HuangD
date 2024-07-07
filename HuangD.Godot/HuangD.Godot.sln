@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HuangD.Godot", "HuangD.Godo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chrona.Engine.Core", "..\Chrona.Engine.Core\Chrona.Engine.Core.csproj", "{5AC5F6D2-C699-4F34-87C5-5CD1A0EAC82A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HuangD.Sessions", "..\HuangD.Sessions\HuangD.Sessions.csproj", "{66913F9F-8C7F-4A27-8F6C-D4CEF0188B01}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,14 @@ Global
 		{5AC5F6D2-C699-4F34-87C5-5CD1A0EAC82A}.ExportRelease|Any CPU.Build.0 = Release|Any CPU
 		{5AC5F6D2-C699-4F34-87C5-5CD1A0EAC82A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5AC5F6D2-C699-4F34-87C5-5CD1A0EAC82A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66913F9F-8C7F-4A27-8F6C-D4CEF0188B01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66913F9F-8C7F-4A27-8F6C-D4CEF0188B01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66913F9F-8C7F-4A27-8F6C-D4CEF0188B01}.ExportDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66913F9F-8C7F-4A27-8F6C-D4CEF0188B01}.ExportDebug|Any CPU.Build.0 = Debug|Any CPU
+		{66913F9F-8C7F-4A27-8F6C-D4CEF0188B01}.ExportRelease|Any CPU.ActiveCfg = Release|Any CPU
+		{66913F9F-8C7F-4A27-8F6C-D4CEF0188B01}.ExportRelease|Any CPU.Build.0 = Release|Any CPU
+		{66913F9F-8C7F-4A27-8F6C-D4CEF0188B01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66913F9F-8C7F-4A27-8F6C-D4CEF0188B01}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -9,6 +9,11 @@
     <Folder Include="addons\" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="DynamicData" Version="8.4.1" />
+    <PackageReference Include="System.Reactive" Version="6.0.1" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\Chrona.Engine.Core\Chrona.Engine.Core.csproj" />
+    <ProjectReference Include="..\HuangD.Sessions\HuangD.Sessions.csproj" />
   </ItemGroup>
 </Project>
