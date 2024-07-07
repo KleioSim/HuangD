@@ -34,4 +34,11 @@ text = "MapScene"
 [node name="TerrainMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_oq2sr")
 format = 2
+layer_0/modulate = Color(0, 0, 1, 1)
+layer_1/modulate = Color(0, 1, 0, 1)
+layer_1/tile_data = PackedInt32Array()
+layer_2/modulate = Color(0.960784, 0.690196, 0.254902, 1)
+layer_2/tile_data = PackedInt32Array()
+layer_3/modulate = Color(0.556863, 0.266667, 0.678431, 1)
+layer_3/tile_data = PackedInt32Array()
 script = ExtResource("2_u0u2q")

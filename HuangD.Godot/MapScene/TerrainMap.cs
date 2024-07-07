@@ -9,7 +9,7 @@ public partial class TerrainMap : TileMap
     private Dictionary<TerrainType, int> layerIds = new Dictionary<TerrainType, int>()
     {
         { TerrainType.Water, 0 },
-        { TerrainType.Land, 1 },
+        { TerrainType.Land, 1},
         { TerrainType.Hill, 2 },
         { TerrainType.Mount, 3 },
         { TerrainType.Steppe, 4 },
@@ -26,11 +26,7 @@ public partial class TerrainMap : TileMap
 
     public override void _Ready()
     {
-        foreach(var type in Enum.GetValues<TerrainType>())
-        {
-            this.AddLayer(layerIds[type]);
-            this.SetLayerModulate(layerIds[type], colors[type]);
-        }
+
     }
 
     public void AddOrUpdate(HuangD.Sessions.Map.Index index, TerrainType type)

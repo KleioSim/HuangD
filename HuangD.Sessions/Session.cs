@@ -9,5 +9,5 @@ public class Session : AbstractSession
 
     public override IEnumerable<IEntity> Entities => throw new NotImplementedException();
 
-    public Map Map = new Map();
+    public Map Map = Map.Builder.Build(64, "123");
 }
