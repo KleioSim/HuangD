@@ -1,8 +1,7 @@
-using DynamicData;
-using Godot;
-using System;
+﻿using Godot;
+using HuangD.Sessions.Maps;
 using System.Collections.Generic;
-using static HuangD.Sessions.Map;
+using static HuangD.Sessions.Maps.Map;
 
 public partial class TerrainMap : TileMap
 {
@@ -29,7 +28,7 @@ public partial class TerrainMap : TileMap
 
     }
 
-    public void AddOrUpdate(HuangD.Sessions.Map.Index index, TerrainType type)
+    public void AddOrUpdate(Index index, TerrainType type)
     {
         this.SetCell(layerIds[type], new Vector2I(index.X, index.Y), 0, Vector2I.Zero, 0);
     }

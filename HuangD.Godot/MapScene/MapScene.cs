@@ -1,7 +1,7 @@
 ﻿using DynamicData;
 using Godot;
 using HuangD.Godot.Utilties;
-using HuangD.Sessions;
+using HuangD.Sessions.Maps;
 using System;
 using System.Reactive.Linq;
 
@@ -13,7 +13,7 @@ public partial class MapScene : Control
         session.Map.Terrains.Connect().Subscribe(OnTerrainAdd, null, null).EndWith(this, SignalName.TreeExiting);
     }
 
-    private void OnTerrainAdd(Map.TerrainItem item)
+    private void OnTerrainAdd(TerrainItem item)
     {
         var terrainMap = GetNode<TerrainMap>("TerrainMap");
         terrainMap.AddOrUpdate(item.Index, item.Type);
