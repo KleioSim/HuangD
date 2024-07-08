@@ -23,15 +23,9 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_3h0t5")
 
-[node name="Label" type="Label" parent="."]
-layout_mode = 0
-offset_left = 235.0
-offset_top = 213.0
-offset_right = 315.0
-offset_bottom = 236.0
-text = "MapScene"
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="TerrainMap" type="TileMap" parent="."]
+[node name="TerrainMap" type="TileMap" parent="CanvasLayer"]
 tile_set = SubResource("TileSet_oq2sr")
 format = 2
 layer_0/modulate = Color(0, 0, 1, 1)

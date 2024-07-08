@@ -15,7 +15,7 @@ public partial class MapScene : Control
 
     private void OnTerrainAdd(TerrainItem item)
     {
-        var terrainMap = GetNode<TerrainMap>("TerrainMap");
+        var terrainMap = GetNode<TerrainMap>("CanvasLayer/TerrainMap");
         terrainMap.AddOrUpdate(item.Index, item.Type);
     }
 

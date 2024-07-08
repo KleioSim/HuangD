@@ -11,18 +11,19 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_dj71v")
 
-[node name="Button" type="Button" parent="."]
-layout_mode = 0
-offset_right = 8.0
-offset_bottom = 8.0
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 99
+
+[node name="Button" type="Button" parent="CanvasLayer"]
+offset_right = 46.0
+offset_bottom = 31.0
 text = "Load"
 
-[node name="Button2" type="Button" parent="."]
-layout_mode = 0
+[node name="Button2" type="Button" parent="CanvasLayer"]
 offset_top = 37.0
 offset_right = 46.0
 offset_bottom = 68.0
 text = "Start"
 
-[connection signal="pressed" from="Button" to="." method="Load"]
-[connection signal="pressed" from="Button2" to="." method="Start"]
+[connection signal="pressed" from="CanvasLayer/Button" to="." method="Load"]
+[connection signal="pressed" from="CanvasLayer/Button2" to="." method="Start"]
