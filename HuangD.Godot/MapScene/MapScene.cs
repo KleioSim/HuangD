@@ -16,7 +16,7 @@ public partial class MapScene : Control
 
     private void OnPopCountAdd(PopItem item)
     {
-        var popCountMap = GetNode<PopCountMap>("CanvasLayer/TerrainMap");
+        var popCountMap = GetNode<PopCountMap>("CanvasLayer/PopCountMap");
         popCountMap.AddOrUpdate(item.Index, item.Count);
     }
 

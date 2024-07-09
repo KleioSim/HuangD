@@ -6,7 +6,7 @@ public partial class PopCountMap : TileMap
 {
     public override void _Ready()
     {
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i <= 10; i++)
         {
             this.AddLayer(i);
             this.SetLayerModulate(i, new Color(1f, (10 - i) * 0.1f, (10 - i) * 0.1f));
