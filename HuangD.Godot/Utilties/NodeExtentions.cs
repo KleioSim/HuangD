@@ -18,7 +18,7 @@ static class NodeExtentions
     public static void SetSession(this Node node, Session session)
     {
         var chroncle = node.GetNode<Global>("/root/Chrona_Global").Chroncle;
-        chroncle.Session = new Session();
+        chroncle.Session = session;
     }
 
     public static IDisposable Subscribe<TObject, TKey>(this IObservable<IChangeSet<TObject, TKey>> observable,

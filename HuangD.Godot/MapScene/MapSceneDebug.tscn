@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://qa5h50inevba"]
+
+[ext_resource type="Script" path="res://MapScene/MapSceneDebug.cs" id="1_bo3ue"]
+[ext_resource type="PackedScene" uid="uid://bnjubmq3phi3w" path="res://MapScene/MapScene.tscn" id="1_d0wot"]
+
+[node name="MapSceneDebug" type="Node2D"]
+
+[node name="Debug" type="Node2D" parent="."]
+script = ExtResource("1_bo3ue")
+
+[node name="MapScene" parent="." instance=ExtResource("1_d0wot")]
