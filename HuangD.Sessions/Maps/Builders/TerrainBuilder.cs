@@ -8,8 +8,8 @@ public static class TerrainBuilder
 
         var seaIndexs = BuildSea(maxSize);
         var landIndexs = BuildLand(startPoint, maxSize - 1, seed);
-        var hillIndexs = BuildHill(startPoint, landIndexs, seed);
-        var mountionIndexs = BuildMountion(startPoint, hillIndexs, seed);
+        //var hillIndexs = BuildHill(startPoint, landIndexs, seed);
+        //var mountionIndexs = BuildMountion(startPoint, hillIndexs, seed);
 
         var rslt = new Dictionary<Index, TerrainType>();
         foreach (var index in seaIndexs)
@@ -20,14 +20,14 @@ public static class TerrainBuilder
         {
             rslt[index] = TerrainType.Land;
         }
-        foreach (var index in hillIndexs)
-        {
-            rslt[index] = TerrainType.Hill;
-        }
-        foreach (var index in mountionIndexs)
-        {
-            rslt[index] = TerrainType.Mount;
-        }
+        //foreach (var index in hillIndexs)
+        //{
+        //    rslt[index] = TerrainType.Hill;
+        //}
+        //foreach (var index in mountionIndexs)
+        //{
+        //    rslt[index] = TerrainType.Mount;
+        //}
 
         return rslt;
     }
@@ -217,7 +217,7 @@ public static class TerrainBuilder
         {
             var eraserIndexs = new List<Index>();
 
-            foreach (var index in edgeFactors.Keys.OrderBy(x => x.ToString()).ToArray())
+            foreach (var index in edgeFactors.Keys.ToArray())
             {
                 var factor = edgeFactors[index];
 
