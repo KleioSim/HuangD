@@ -9,3 +9,11 @@
 script = ExtResource("1_bo3ue")
 
 [node name="MapScene" parent="." instance=ExtResource("1_d0wot")]
+
+[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+layer = 99
+
+[node name="Button" type="Button" parent="CanvasLayer2"]
+offset_right = 45.0
+offset_bottom = 31.0
+text = "Next"

@@ -42,9 +42,23 @@ public class SquareIndexMethods : IIndexMethods
         return new Index(index.X + Direction2Index[direction].x, index.Y + Direction2Index[direction].y);
     }
 
+
     public Dictionary<Direction, Index> GetNeighborCells(Index index)
     {
         return Direction2Index.ToDictionary(n => n.Key, m => new Index(index.X + m.Value.x, index.Y + m.Value.y));
+    }
+
+    public Dictionary<Direction, Index> GetNeighborCells4(Index index)
+    {
+        var directs = new HashSet<Direction>()
+        {
+            Direction.TopSide,
+            Direction.BottomSide,
+            Direction.LeftSide,
+            Direction.RightSide
+        };
+        
+        return directs.ToDictionary(n => n, m => new Index(index.X + Direction2Index[m].x, index.Y + Direction2Index[m].y));
     }
 
     public bool IsConnectNode(Index index, HashSet<Index> indexs)

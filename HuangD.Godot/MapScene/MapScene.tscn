@@ -34,7 +34,6 @@ layer_3/tile_data = PackedInt32Array()
 script = ExtResource("2_u0u2q")
 
 [node name="PopCountMap" type="TileMap" parent="CanvasLayer"]
-visible = false
 tile_set = SubResource("TileSet_oq2sr")
 format = 2
 script = ExtResource("4_xv01h")

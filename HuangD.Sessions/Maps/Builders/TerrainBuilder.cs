@@ -1,15 +1,26 @@
-﻿namespace HuangD.Sessions.Maps.Builders;
+﻿using DynamicData;
+
+namespace HuangD.Sessions.Maps.Builders;
 
 public static class TerrainBuilder
 {
     public static Dictionary<Index, TerrainType> Build(int maxSize, string seed)
     {
+        //var random = new Random();
+
+        //var rslt = new Dictionary<Index, TerrainType>();
+        //foreach (var index in Enumerable.Range(0, maxSize).SelectMany(x => Enumerable.Range(0, maxSize).Select(y => new Index(x, y))))
+        // {
+        //    rslt.Add(index, random.Next(0, 100) > 50 ? TerrainType.Land : TerrainType.Water);
+        // }
+
+        //return rslt;
         var startPoint = new Index(0, 0);
 
         var seaIndexs = BuildSea(maxSize);
         var landIndexs = BuildLand(startPoint, maxSize - 1, seed);
-        //var hillIndexs = BuildHill(startPoint, landIndexs, seed);
-        //var mountionIndexs = BuildMountion(startPoint, hillIndexs, seed);
+        var hillIndexs = BuildHill(startPoint, landIndexs, seed);
+        var mountionIndexs = BuildMountion(startPoint, hillIndexs, seed);
 
         var rslt = new Dictionary<Index, TerrainType>();
         foreach (var index in seaIndexs)
@@ -20,101 +31,142 @@ public static class TerrainBuilder
         {
             rslt[index] = TerrainType.Land;
         }
-        //foreach (var index in hillIndexs)
-        //{
-        //    rslt[index] = TerrainType.Hill;
-        //}
-        //foreach (var index in mountionIndexs)
-        //{
-        //    rslt[index] = TerrainType.Mount;
-        //}
+        foreach (var index in hillIndexs)
+        {
+            rslt[index] = TerrainType.Hill;
+        }
+        foreach (var index in mountionIndexs)
+        {
+            rslt[index] = TerrainType.Mount;
+        }
 
         return rslt;
     }
 
     private static HashSet<Index> BuildMountion(Index startPoint, HashSet<Index> hillIndexs, string seed)
     {
-        //var rslt = FlushLandEdge(hillIndexs, startPoint, seed, 0.7, false);
-        //return rslt;
 
         var random = new Random();
 
-        var cellQueue = new Queue<Index>(hillIndexs.OrderBy(_ => random.Next()));
+        var rslt = FlushLandEdge(hillIndexs, startPoint, seed, 0.65, false);
 
-        var mountionIndexs = new HashSet<Index>();
-        while (cellQueue.Count != 0 && mountionIndexs.Count < hillIndexs.Count * 0.35)
+        for(int i=0; i<10; i++)
         {
-            var currentIndex = cellQueue.Dequeue();
-            var expends = Map.IndexMethods.Expend(currentIndex, 1);
-
-            var factor = 2 * expends.Count(x => mountionIndexs.Contains(x)) - expends.Count(x => !hillIndexs.Contains(x));
-
-            if (random.Next(0, 100) <= factor)
+            var needRemoves = new HashSet<Index>();
+            foreach (var index in rslt)
             {
-                mountionIndexs.Add(currentIndex);
+                var neighorCount = Map.IndexMethods.GetNeighborCells(index).Values.Count(x => rslt.Contains(x));
+                if (random.Next(0, 100) < 2)
+                {
+                    needRemoves.Add(index);
+                }
             }
-            else
-            {
-                cellQueue.Enqueue(currentIndex);
-            }
+
+            rslt = rslt.Except(needRemoves).ToHashSet();
         }
 
-        return mountionIndexs;
+
+        return rslt;
     }
 
     private static HashSet<Index> BuildHill(Index startPoint, HashSet<Index> landIndexs, string seed)
     {
-
         var baseHills = AddBaseHill(landIndexs, startPoint, 1);
 
-        var rslt = FlushLandEdge(baseHills, startPoint, seed, 0.35, true);
-        rslt = FlushLandEdge(rslt, startPoint, seed, 0.15, false);
-
-        //var isolatePlains = AddIsolatePlains(rslt, startPoint, seed, 0.25);
-        //var isolateHills =  AddIsolateHill(landIndexs.Except(rslt).ToHashSet(), startPoint, seed, 0.25);
-
-        //rslt.UnionWith(isolateHills);
-        //rslt.ExceptWith(isolatePlains);
+        var rslt = FlushWithAutoCell(baseHills, landIndexs);
         return rslt;
+    }
+
+    private static HashSet<Index> FlushWithAutoCell(HashSet<Index> hillIndex, HashSet<Index> landIndex)
+    {
+        var random = new Random();
+        var needRemoved = new HashSet<Index>();
+        var needAdded = new HashSet<Index>();
+
+        for(int i=0;i<3; i++)
+        {
+            foreach (var index in hillIndex)
+            {
+                var count = Map.IndexMethods.GetNeighborCells(index).Values.Count(x => hillIndex.Contains(x));
+                if (count < 3)
+                {
+                    needRemoved.Add(index);
+                }
+            }
+
+            foreach (var index in landIndex.Except(hillIndex))
+            {
+                var count = Map.IndexMethods.GetNeighborCells(index).Values.Count(x => hillIndex.Contains(x));
+                if (count > 6)
+                {
+                    needAdded.Add(index);
+                }
+            }
+
+            hillIndex = hillIndex.Except(needRemoved).Union(needAdded).ToHashSet();
+        }
+
+
+        return hillIndex;
+
     }
 
     private static HashSet<Index> AddBaseHill(HashSet<Index> landIndexs, Index startPoint, double percent)
     {
-        var maxX = landIndexs.Select(index => index.X).Max();
-        var maxY = landIndexs.Select(index => index.Y).Max();
-
-        var baseLength = Math.Max(maxX, maxY);
-
-        var rslt = new HashSet<Index>();
-        for (int i = 0; i < baseLength; i++)
+        var random = new Random();
+        var dict = landIndexs.ToDictionary(k => k, v =>
         {
-            for (int j = 0; j < baseLength; j++)
+            var xdisct = Math.Abs(v.X - startPoint.X);
+            var ydisct = Math.Abs(v.Y - startPoint.Y);
+
+            var maxYDist = landIndexs.Max(i => i.Y);
+            if (ydisct < landIndexs.Max(i=>i.Y) * 0.15)
             {
-                var index = new Index(Math.Abs(startPoint.X - i), Math.Abs(startPoint.Y - j));
-                if (landIndexs.Contains(index))
-                {
-                    rslt.Add(index);
-                    if (rslt.Count() > landIndexs.Count() * percent)
-                    {
-                        return rslt;
-                    }
-                }
-
-                index = new Index(Math.Abs(startPoint.X - j), Math.Abs(startPoint.Y - i));
-                if (landIndexs.Contains(index))
-                {
-
-                    rslt.Add(index);
-                    if (rslt.Count() > landIndexs.Count() * percent)
-                    {
-                        return rslt;
-                    }
-                }
-
+                ydisct = (int)(maxYDist*random.Next(50,100)/100.0);
             }
-        }
 
-        return rslt;
+            return xdisct - ydisct;
+        });
+        dict = dict.ToDictionary(k => k.Key, v=> v.Value - dict.Values.Min());
+
+
+        return dict.Where(p => p.Key.X == startPoint.X || p.Key.Y == startPoint.Y || (random.Next(1, 101) > p.Value * 70 / dict.Values.Max())).Select(p => p.Key).ToHashSet();
+
+        //var maxX = landIndexs.Select(index => index.X).Max();
+        //var maxY = landIndexs.Select(index => index.Y).Max();
+
+        //var baseLength = Math.Max(maxX, maxY);
+
+        //var rslt = new HashSet<Index>();
+        //for (int i = 0; i < baseLength; i++)
+        //{
+        //    for (int j = 0; j < baseLength; j++)
+        //    {
+        //        var index = new Index(Math.Abs(startPoint.X - i), Math.Abs(startPoint.Y - j));
+        //        if (landIndexs.Contains(index))
+        //        {
+        //            rslt.Add(index);
+        //            if (rslt.Count() > landIndexs.Count() * percent)
+        //            {
+        //                return rslt;
+        //            }
+        //        }
+
+        //        index = new Index(Math.Abs(startPoint.X - j), Math.Abs(startPoint.Y - i));
+        //        if (landIndexs.Contains(index))
+        //        {
+
+        //            rslt.Add(index);
+        //            if (rslt.Count() > landIndexs.Count() * percent)
+        //            {
+        //                return rslt;
+        //            }
+        //        }
+
+        //    }
+        //}
+
+        //return rslt;
     }
 
     private static HashSet<Index> AddIsolateHill(HashSet<Index> indexs, Index startPoint, string seed, double percent)
@@ -217,7 +269,7 @@ public static class TerrainBuilder
         {
             var eraserIndexs = new List<Index>();
 
-            foreach (var index in edgeFactors.Keys.ToArray())
+            foreach (var index in edgeFactors.Keys.OrderBy(x => x.ToString()).ToArray())
             {
                 var factor = edgeFactors[index];
 
@@ -231,7 +283,7 @@ public static class TerrainBuilder
                 }
 
                 var factor2 = Map.IndexMethods.GetNeighborCells(index).Values.Where(x => rslt.Contains(x)).Count();
-                if (!allowIsland && factor2 <= 3 || random.Next(0, 10000) <= 1800 / factor)
+                if ((!allowIsland && factor2 <= 3) || random.Next(0, 3000) <= 1000 / factor)
                 {
                     edgeFactors.Remove(index);
                     rslt.Remove(index);
@@ -245,7 +297,7 @@ public static class TerrainBuilder
                 }
                 else
                 {
-                    edgeFactors[index] += 3;
+                    edgeFactors[index] += 1+edgeFactors[index]/3;
                 }
 
             }
