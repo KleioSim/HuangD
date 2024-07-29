@@ -12,10 +12,17 @@ public partial class MapScene : Node2D
         var session = this.GetSession();
         session.Map.Terrains.Connect().Subscribe(OnTerrainAdd, null, OnTerrainChanged).EndWith(this, SignalName.TreeExiting);
         session.Map.Pops.Connect().Subscribe(OnPopCountAdd, null, null).EndWith(this, SignalName.TreeExiting);
+        session.Map.Provinces.Connect().Subscribe(OnProvinceCellAdd, null, null).EndWith(this, SignalName.TreeExiting);
 
         var camera = GetNode<Camera2D>("CanvasLayer/Camera2D");
         var terrainMap = GetNode<TerrainMap>("CanvasLayer/TerrainMap");
         camera.Position = terrainMap.MapToLocal(terrainMap.GetUsedRect().GetCenter());
+    }
+
+    private void OnProvinceCellAdd(ProvinceCell item)
+    {
+        var provinceMap = GetNode<ProvinceMap>("CanvasLayer/ProvinceMap");
+        provinceMap.AddOrUpdate(item.Index, item.ProvinceId);
     }
 
     private void OnPopCountAdd(PopItem item)
@@ -32,7 +39,7 @@ public partial class MapScene : Node2D
 
     private void OnTerrainChanged(TerrainItem newItem, TerrainItem oldItem)
     {
-        if(newItem.Type != oldItem.Type)
+        if (newItem.Type != oldItem.Type)
         {
             var terrainMap = GetNode<TerrainMap>("CanvasLayer/TerrainMap");
             terrainMap.AddOrUpdate(newItem.Index, newItem.Type);
