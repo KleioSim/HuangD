@@ -1,4 +1,6 @@
-﻿namespace HuangD.Sessions.Maps;
+﻿using System.Collections.Generic;
+
+namespace HuangD.Sessions.Maps;
 
 public interface IIndexMethods
 {

@@ -1,5 +1,9 @@
 ﻿
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
 namespace HuangD.Sessions.Maps.Builders;
 
 internal class ProvinceBuilder
@@ -74,6 +78,6 @@ internal class ProvinceBuilder
     {
 
         var directions = new[] { Direction.LeftSide, Direction.RightSide, Direction.TopSide, Direction.BottomSide };
-        return directions.Select(x => Map.IndexMethods.GetNeighborCell(index, x));
+        return directions.Select(x => MapCell.IndexMethods.GetNeighborCell(index, x));
     }
 }

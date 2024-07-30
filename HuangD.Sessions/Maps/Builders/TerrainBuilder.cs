@@ -1,4 +1,7 @@
 ﻿using DynamicData;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace HuangD.Sessions.Maps.Builders;
 
@@ -55,7 +58,7 @@ public static class TerrainBuilder
             var needRemoves = new HashSet<Index>();
             foreach (var index in rslt)
             {
-                var neighorCount = Map.IndexMethods.GetNeighborCells(index).Values.Count(x => rslt.Contains(x));
+                var neighorCount = MapCell.IndexMethods.GetNeighborCells(index).Values.Count(x => rslt.Contains(x));
                 if (random.Next(0, 100) < 2)
                 {
                     needRemoves.Add(index);
@@ -87,7 +90,7 @@ public static class TerrainBuilder
         {
             foreach (var index in hillIndex)
             {
-                var count = Map.IndexMethods.GetNeighborCells(index).Values.Count(x => hillIndex.Contains(x));
+                var count = MapCell.IndexMethods.GetNeighborCells(index).Values.Count(x => hillIndex.Contains(x));
                 if (count < 3)
                 {
                     needRemoved.Add(index);
@@ -96,7 +99,7 @@ public static class TerrainBuilder
 
             foreach (var index in landIndex.Except(hillIndex))
             {
-                var count = Map.IndexMethods.GetNeighborCells(index).Values.Count(x => hillIndex.Contains(x));
+                var count = MapCell.IndexMethods.GetNeighborCells(index).Values.Count(x => hillIndex.Contains(x));
                 if (count > 6)
                 {
                     needAdded.Add(index);
@@ -179,7 +182,7 @@ public static class TerrainBuilder
         while (eraserIndexs.Count < indexs.Count * 0.35)
         {
             var currentIndex = cellQueue.Dequeue();
-            var expends = Map.IndexMethods.Expend(currentIndex, 3);
+            var expends = MapCell.IndexMethods.Expend(currentIndex, 3);
 
             if (random.Next(0, 100) <= expends.Count(e => eraserIndexs.Contains(e)) * 100.0 / expends.Count())
             {
@@ -205,7 +208,7 @@ public static class TerrainBuilder
         while (eraserIndexs.Count < indexs.Count * 0.25)
         {
             var currentIndex = cellQueue.Dequeue();
-            var expends = Map.IndexMethods.Expend(currentIndex, 3);
+            var expends = MapCell.IndexMethods.Expend(currentIndex, 3);
 
             if (random.Next(0, 100) <= expends.Count(e => eraserIndexs.Contains(e)) * 100.0 / expends.Count())
             {
@@ -251,7 +254,7 @@ public static class TerrainBuilder
                 return false;
             }
 
-            var neighbors = Map.IndexMethods.GetNeighborCells(index).Values;
+            var neighbors = MapCell.IndexMethods.GetNeighborCells(index).Values;
             if (neighbors.All(x => indexs.Contains(x)))
             {
                 return false;
@@ -275,14 +278,14 @@ public static class TerrainBuilder
 
                 if (!allowIsland)
                 {
-                    if (Map.IndexMethods.IsConnectNode(index, rslt))
+                    if (MapCell.IndexMethods.IsConnectNode(index, rslt))
                     {
                         edgeFactors.Remove(index);
                         continue;
                     }
                 }
 
-                var factor2 = Map.IndexMethods.GetNeighborCells(index).Values.Where(x => rslt.Contains(x)).Count();
+                var factor2 = MapCell.IndexMethods.GetNeighborCells(index).Values.Where(x => rslt.Contains(x)).Count();
                 if ((!allowIsland && factor2 <= 3) || random.Next(0, 3000) <= 1000 / factor)
                 {
                     edgeFactors.Remove(index);
@@ -304,7 +307,7 @@ public static class TerrainBuilder
 
             foreach (var index in eraserIndexs)
             {
-                var neighbors = Map.IndexMethods.GetNeighborCells(index).Values.Where(x => rslt.Contains(x));
+                var neighbors = MapCell.IndexMethods.GetNeighborCells(index).Values.Where(x => rslt.Contains(x));
                 foreach (var neighbor in neighbors)
                 {
                     edgeFactors.TryAdd(neighbor, 1);

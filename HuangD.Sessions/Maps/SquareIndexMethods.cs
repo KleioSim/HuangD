@@ -1,4 +1,7 @@
-﻿namespace HuangD.Sessions.Maps;
+﻿using System.Collections.Generic;
+using System.Linq;
+
+namespace HuangD.Sessions.Maps;
 
 public class SquareIndexMethods : IIndexMethods
 {

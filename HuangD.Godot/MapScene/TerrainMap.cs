@@ -1,7 +1,6 @@
 ﻿using Godot;
 using HuangD.Sessions.Maps;
 using System.Collections.Generic;
-using static HuangD.Sessions.Maps.Map;
 
 public partial class TerrainMap : TileMap
 {

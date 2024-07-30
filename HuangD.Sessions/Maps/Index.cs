@@ -1,4 +1,6 @@
-﻿namespace HuangD.Sessions.Maps;
+﻿using System;
+
+namespace HuangD.Sessions.Maps;
 
 public class Index
 {

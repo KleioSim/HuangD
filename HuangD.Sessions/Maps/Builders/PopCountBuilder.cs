@@ -1,4 +1,8 @@
-﻿namespace HuangD.Sessions.Maps.Builders;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace HuangD.Sessions.Maps.Builders;
 
 public static class PopCountBuilder
 {
@@ -26,7 +30,7 @@ public static class PopCountBuilder
             }
 
 
-            popCount += Map.IndexMethods.GetNeighborCells(index).Values.Select(neighbor =>
+            popCount += MapCell.IndexMethods.GetNeighborCells(index).Values.Select(neighbor =>
             {
                 if (terrainDict.TryGetValue(neighbor, out TerrainType neighborTerrain))
                 {
@@ -52,7 +56,7 @@ public static class PopCountBuilder
             var currIndex = v.Key;
             var currValue = v.Value;
 
-            var neighorValues = Map.IndexMethods.GetNeighborCells(currIndex).Values
+            var neighorValues = MapCell.IndexMethods.GetNeighborCells(currIndex).Values
                 .Where(neighbor => baseValueDict.ContainsKey(neighbor))
                 .Select(neighbor => baseValueDict[neighbor]);
 
