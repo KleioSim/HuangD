@@ -1,5 +1,7 @@
 ﻿
 
+using shortid;
+using shortid.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +23,11 @@ public static partial class MapBuilder
             while (indexs.Count != 0)
             {
                 var maxPopIndex = indexs.MaxBy(k => popDict[k]);
+                if (maxPopIndex == null)
+                {
+                    throw new Exception();
+                }
+
                 indexs.Remove(maxPopIndex);
 
 
@@ -55,7 +62,9 @@ public static partial class MapBuilder
                     }
                 }
 
-                string currentId = Guid.NewGuid().ToString();
+                var options = new GenerationOptions(length: 8, useSpecialCharacters: false);
+                string currentId = ShortId.Generate(options);
+
                 if (!isFull)
                 {
                     foreach (var index in currentGroup.SelectMany(x => GetNeighborsInDirects(x)))
@@ -74,11 +83,6 @@ public static partial class MapBuilder
             }
 
             return rslt;
-        }
-
-        internal static Dictionary<string, Province>? Build(IEnumerable<MapCell> enumerable)
-        {
-            throw new NotImplementedException();
         }
 
         private static IEnumerable<Index> GetNeighborsInDirects(Index index)

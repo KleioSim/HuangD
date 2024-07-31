@@ -24,6 +24,7 @@ script = ExtResource("1_3h0t5")
 follow_viewport_enabled = true
 
 [node name="TerrainMap" type="TileMap" parent="CanvasLayer"]
+visible = false
 tile_set = SubResource("TileSet_oq2sr")
 format = 2
 layer_0/modulate = Color(0, 0, 1, 1)
@@ -36,16 +37,19 @@ layer_3/tile_data = PackedInt32Array()
 script = ExtResource("2_u0u2q")
 
 [node name="PopCountMap" type="TileMap" parent="CanvasLayer"]
+visible = false
 tile_set = SubResource("TileSet_oq2sr")
 format = 2
 script = ExtResource("4_xv01h")
 
 [node name="ProvinceMap" type="TileMap" parent="CanvasLayer"]
+visible = false
 tile_set = SubResource("TileSet_oq2sr")
 format = 2
 script = ExtResource("5_w852y")
 
 [node name="CountryMap" type="TileMap" parent="CanvasLayer"]
+self_modulate = Color(1, 1, 1, 0.196078)
 tile_set = SubResource("TileSet_oq2sr")
 format = 2
 script = ExtResource("6_imvhe")

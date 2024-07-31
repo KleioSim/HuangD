@@ -30,6 +30,6 @@ public class Index
 
     public int distance(Index other)
     {
-        return  (int)(Math.Pow(other.X - X,2) + Math.Pow(other.Y - Y,2));
+        return (int)(Math.Pow(other.X - X, 2) + Math.Pow(other.Y - Y, 2));
     }
 }
