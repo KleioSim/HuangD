@@ -43,7 +43,6 @@ format = 2
 script = ExtResource("4_xv01h")
 
 [node name="ProvinceMap" type="TileMap" parent="CanvasLayer"]
-visible = false
 tile_set = SubResource("TileSet_oq2sr")
 format = 2
 script = ExtResource("5_w852y")
@@ -55,8 +54,13 @@ format = 2
 script = ExtResource("6_imvhe")
 
 [node name="Camera2D" type="Camera2D" parent="CanvasLayer"]
+visible = false
 zoom = Vector2(0.1, 0.1)
 script = ExtResource("5_1hgk6")
 ZoomMin = 0.1
 ZoomMax = 1.0
 ZoomStep = 0.01
+
+[node name="PoliticalInfo" parent="CanvasLayer" instance_placeholder="res://MapScene/PoliticalInfo.tscn"]
+
+[connection signal="OnZoomed" from="CanvasLayer/Camera2D" to="CanvasLayer/PoliticalInfo" method="OnZoomed"]

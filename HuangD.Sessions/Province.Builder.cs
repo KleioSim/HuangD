@@ -19,7 +19,7 @@ public partial class Province
 
             foreach (var pair in provinceId2Cells)
             {
-                var province = new Province(pair.Key);
+                var province = new Province(pair.Key, pair.Value);
                 rslt.Add(province.Key, province);
             }
 

@@ -40,4 +40,10 @@ public partial class ProvinceMap : TileMap
 
         this.SetCell(layerId, new Vector2I(index.X, index.Y), 0, Vector2I.Zero, 0);
     }
+
+    internal Vector2 GetPawnLocation(string key)
+    {
+        var cells = this.GetUsedCells(dict[key]);
+        return MapToLocal(cells.First());
+    }
 }

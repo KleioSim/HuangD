@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://df0qeobvo5f2h"]
+
+[ext_resource type="Script" path="res://MapScene/PoliticalInfo.cs" id="1_mm6e2"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_mm6e2")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_right = 46.0
+offset_bottom = 23.0
+text = "12345"

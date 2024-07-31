@@ -10,6 +10,9 @@ public partial class MapScene : Node2D
     ProvinceMap ProvinceMap => GetNode<ProvinceMap>("CanvasLayer/ProvinceMap");
     PopCountMap PopCountMap => GetNode<PopCountMap>("CanvasLayer/PopCountMap");
     TerrainMap TerrainMap => GetNode<TerrainMap>("CanvasLayer/TerrainMap");
+    MapCamera2D Camera => GetNode<MapCamera2D>("CanvasLayer/Camera2D");
+    InstancePlaceholder PoliticalInfo => GetNode<InstancePlaceholder>("CanvasLayer/PoliticalInfo");
+
     public override void _Ready()
     {
         var session = this.GetSession();
@@ -24,8 +27,14 @@ public partial class MapScene : Node2D
             }
         }
 
-        var camera = GetNode<Camera2D>("CanvasLayer/Camera2D");
+        foreach(var province in session.Provinces.Values)
+        {
+            var politicalInfo = PoliticalInfo.CreateInstance() as PoliticalInfo;
+            politicalInfo.Position = ProvinceMap.GetPawnLocation(province.Key) ;
+            politicalInfo.OnZoomed(Camera.Zoom);
+        }
+
         var terrainMap = GetNode<TerrainMap>("CanvasLayer/TerrainMap");
-        camera.Position = terrainMap.MapToLocal(terrainMap.GetUsedRect().GetCenter());
+        Camera.Position = terrainMap.MapToLocal(terrainMap.GetUsedRect().GetCenter());
     }
 }
