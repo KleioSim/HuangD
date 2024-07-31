@@ -1,10 +1,9 @@
-﻿using HuangD.Sessions.Maps.Builders;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace HuangD.Sessions.Maps;
+namespace HuangD.Sessions.Maps.Builders;
 
-public static class MapBuilder
+public static partial class MapBuilder
 {
     public static Dictionary<Index, MapCell> Build2(int maxSize, string seed)
     {
