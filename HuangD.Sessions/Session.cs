@@ -17,9 +17,12 @@ public class Session : AbstractSession
 
     public Dictionary<string, Province> Provinces;
 
+    public Dictionary<string, Country> Countries;
+
     public Session()
     {
         MapCells = MapBuilder.Build2(64, "123");
         Provinces = Province.Builder.Build(MapCells.Values);
+        Countries = Country.Builder.Build(Provinces.Values);
     }
 }
