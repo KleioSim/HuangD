@@ -39,6 +39,10 @@ public partial class Country
                     var neighbors = provGroups.SelectMany(x => x.Neighbors)
                         .Where(x => list.Contains(x))
                         .ToArray();
+                    if (neighbors.Length == 0)
+                    {
+                        break;
+                    }
 
                     var newProv = neighbors[random.Next(0, neighbors.Length)];
                     provGroups.Add(newProv);

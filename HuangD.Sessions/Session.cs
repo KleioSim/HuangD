@@ -23,6 +23,6 @@ public class Session : AbstractSession
     {
         MapCells = MapBuilder.Build2(64, "123");
         Provinces = Province.Builder.Build(MapCells.Values);
-        Countries = Country.Builder.Build(Provinces.Values);
+        Countries = Country.Builder.Build(Provinces.Values, Provinces.Values.Max(x => x.PopCount) * 3, Provinces.Count / 5);
     }
 }
