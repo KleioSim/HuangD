@@ -9,8 +9,16 @@ offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("1_mm6e2")
 
-[node name="Label" type="Label" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 0
-offset_right = 46.0
-offset_bottom = 23.0
-text = "12345"
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="CountryName" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "CNT_NAME"
+
+[node name="ProvinceName" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "PRO_NAME
+"

@@ -1,5 +1,6 @@
 ﻿
 
+using HuangD.Sessions.Utilties;
 using shortid;
 using shortid.Configuration;
 using System;
@@ -62,8 +63,7 @@ public static partial class MapBuilder
                     }
                 }
 
-                var options = new GenerationOptions(length: 8, useSpecialCharacters: false);
-                string currentId = ShortId.Generate(options);
+                string currentId = UUID.Generate("PRO");
 
                 if (!isFull)
                 {

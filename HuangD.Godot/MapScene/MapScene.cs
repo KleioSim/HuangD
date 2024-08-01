@@ -31,6 +31,8 @@ public partial class MapScene : Node2D
         {
             var politicalInfo = PoliticalInfoPlaceHolder.CreateInstance() as PoliticalInfo;
             politicalInfo.Position = ProvinceMap.GetPawnLocation(province.Key);
+            politicalInfo.province = province;
+
             politicalInfo.OnZoomed(Camera.Zoom);
 
             Camera.Connect(MapCamera2D.SignalName.OnZoomed, new Callable(politicalInfo, PoliticalInfo.MethodName.OnZoomed));
