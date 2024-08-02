@@ -19,6 +19,7 @@ config/icon="res://MapScene/icon.svg"
 [autoload]
 
 Chrona_Global="*res://addons/Chrona.Engine.Godot/Global.cs"
+CommandConsole="*res://addons/csharpConsole/CommandConsole.cs"
 
 [dotnet]
 
@@ -26,4 +27,4 @@ project/assembly_name="HuangD.Godot"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/Chrona.Engine.Godot/plugin.cfg")
+enabled=PackedStringArray("res://addons/Chrona.Engine.Godot/plugin.cfg", "res://addons/csharpConsole/plugin.cfg")

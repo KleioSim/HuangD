@@ -5,6 +5,8 @@ public partial class Test : Control
 {
     public override void _Ready()
     {
+        CommandConsole.IsVaild = true;
+
         var button = GetNode<Button>("Button");
         button.Connect(Button.SignalName.Pressed, new Callable(this, MethodName.OnTest), (uint)Godot.GodotObject.ConnectFlags.ReferenceCounted);
         button.Connect(Button.SignalName.Pressed, new Callable(this, MethodName.OnTest1), (uint)Godot.GodotObject.ConnectFlags.ReferenceCounted);
