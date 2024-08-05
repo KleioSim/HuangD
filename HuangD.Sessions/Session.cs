@@ -2,6 +2,7 @@
 using Chrona.Engine.Core.Sessions;
 using HuangD.Sessions.Maps;
 using HuangD.Sessions.Maps.Builders;
+using HuangD.Sessions.Messages;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -24,5 +25,14 @@ public class Session : AbstractSession
         MapCells = MapBuilder.Build2(64, "123");
         Provinces = Province.Builder.Build(MapCells.Values);
         Countries = Country.Builder.Build(Provinces.Values, Provinces.Values.Max(x => x.PopCount) * 3, Provinces.Count / 5);
+    }
+
+    [MessageProcess]
+    private void On_Command_ChangeProvinceOwner(Command_ChangeProvinceOwner cmd)
+    {
+        var province = Provinces[cmd.provinceId];
+        var country = Countries[cmd.countryId];
+
+        province.Owner = country;
     }
 }
