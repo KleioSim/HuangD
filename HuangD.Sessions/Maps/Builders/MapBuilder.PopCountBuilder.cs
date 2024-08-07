@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HuangD.Sessions.Utilties;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,7 +11,7 @@ public static partial class MapBuilder
     {
         public static Dictionary<Index, int> Build(Dictionary<Index, TerrainType> terrainDict, string seed)
         {
-            var random = new Random();
+            var random = RandomBuilder.Build(seed);
             var baseValueDict = terrainDict.Where(x => x.Value != TerrainType.Water).ToDictionary(k => k.Key, v =>
             {
                 int popCount = 0;

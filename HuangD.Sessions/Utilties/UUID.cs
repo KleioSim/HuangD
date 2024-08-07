@@ -25,4 +25,9 @@ internal class UUID
 
         return key + string.Format("{0:X4}", dictCount[key]);
     }
+
+    internal static void Restart()
+    {
+        dictCount.Clear();
+    }
 }

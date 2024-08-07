@@ -1,8 +1,6 @@
 ﻿
 
 using HuangD.Sessions.Utilties;
-using shortid;
-using shortid.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,8 +17,8 @@ public static partial class MapBuilder
 
             var rslt = new Dictionary<Index, string>();
 
+            var random = RandomBuilder.Build(seed);
 
-            var random = new Random();
             while (indexs.Count != 0)
             {
                 var maxPopIndex = indexs.MaxBy(k => popDict[k]);

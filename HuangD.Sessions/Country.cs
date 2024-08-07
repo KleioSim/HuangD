@@ -1,6 +1,9 @@
-﻿using System;
+﻿using HuangD.Sessions.Utilties;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace HuangD.Sessions;
 
@@ -8,9 +11,9 @@ public partial class Country
 {
     public static class Builder
     {
-        public static Dictionary<string, Country> Build(IEnumerable<Province> provinces, int maxPopCount, int maxProvCount)
+        public static Dictionary<string, Country> Build(IEnumerable<Province> provinces, int maxPopCount, int maxProvCount, string seed)
         {
-            var random = new Random();
+            var random = RandomBuilder.Build(seed);
 
             var rslt = new Dictionary<string, Country>();
 

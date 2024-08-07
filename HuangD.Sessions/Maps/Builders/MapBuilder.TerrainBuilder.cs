@@ -1,7 +1,10 @@
 ﻿using DynamicData;
+using HuangD.Sessions.Utilties;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace HuangD.Sessions.Maps.Builders;
 
@@ -51,9 +54,9 @@ public static partial class MapBuilder
         private static HashSet<Index> BuildMountion(Index startPoint, HashSet<Index> hillIndexs, string seed)
         {
 
-            var random = new Random();
-
             var rslt = FlushLandEdge(hillIndexs, startPoint, seed, 0.65, false);
+
+            var random = RandomBuilder.Build(seed);
 
             for (int i = 0; i < 10; i++)
             {
@@ -76,15 +79,16 @@ public static partial class MapBuilder
 
         private static HashSet<Index> BuildHill(Index startPoint, HashSet<Index> landIndexs, string seed)
         {
-            var baseHills = AddBaseHill(landIndexs, startPoint, 1);
+            var baseHills = AddBaseHill(landIndexs, startPoint, 1, seed);
 
-            var rslt = FlushWithAutoCell(baseHills, landIndexs);
+            var rslt = FlushWithAutoCell(baseHills, landIndexs, seed);
             return rslt;
         }
 
-        private static HashSet<Index> FlushWithAutoCell(HashSet<Index> hillIndex, HashSet<Index> landIndex)
+        private static HashSet<Index> FlushWithAutoCell(HashSet<Index> hillIndex, HashSet<Index> landIndex, string seed)
         {
-            var random = new Random();
+            var random = RandomBuilder.Build(seed);
+
             var needRemoved = new HashSet<Index>();
             var needAdded = new HashSet<Index>();
 
@@ -116,9 +120,9 @@ public static partial class MapBuilder
 
         }
 
-        private static HashSet<Index> AddBaseHill(HashSet<Index> landIndexs, Index startPoint, double percent)
+        private static HashSet<Index> AddBaseHill(HashSet<Index> landIndexs, Index startPoint, double percent, string seed)
         {
-            var random = new Random();
+            var random = RandomBuilder.Build(seed);
             var dict = landIndexs.ToDictionary(k => k, v =>
             {
                 var xdisct = Math.Abs(v.X - startPoint.X);
@@ -174,56 +178,56 @@ public static partial class MapBuilder
             //return rslt;
         }
 
-        private static HashSet<Index> AddIsolateHill(HashSet<Index> indexs, Index startPoint, string seed, double percent)
-        {
-            var random = new Random();
+        //private static HashSet<Index> AddIsolateHill(HashSet<Index> indexs, Index startPoint, string seed, double percent)
+        //{
+        //    var random = new Random();
 
-            var cellQueue = new Queue<Index>(indexs.OrderBy(_ => random.Next()));
+        //    var cellQueue = new Queue<Index>(indexs.OrderBy(_ => random.Next()));
 
-            var eraserIndexs = new HashSet<Index>();
-            while (eraserIndexs.Count < indexs.Count * 0.35)
-            {
-                var currentIndex = cellQueue.Dequeue();
-                var expends = MapCell.IndexMethods.Expend(currentIndex, 3);
+        //    var eraserIndexs = new HashSet<Index>();
+        //    while (eraserIndexs.Count < indexs.Count * 0.35)
+        //    {
+        //        var currentIndex = cellQueue.Dequeue();
+        //        var expends = MapCell.IndexMethods.Expend(currentIndex, 3);
 
-                if (random.Next(0, 100) <= expends.Count(e => eraserIndexs.Contains(e)) * 100.0 / expends.Count())
-                {
-                    eraserIndexs.Add(currentIndex);
-                }
-                else
-                {
-                    cellQueue.Enqueue(currentIndex);
-                }
-            }
+        //        if (random.Next(0, 100) <= expends.Count(e => eraserIndexs.Contains(e)) * 100.0 / expends.Count())
+        //        {
+        //            eraserIndexs.Add(currentIndex);
+        //        }
+        //        else
+        //        {
+        //            cellQueue.Enqueue(currentIndex);
+        //        }
+        //    }
 
-            return eraserIndexs;
-        }
+        //    return eraserIndexs;
+        //}
 
-        private static HashSet<Index> AddIsolatePlains(HashSet<Index> indexs, Index startPoint, string seed, double percent)
-        {
+        //private static HashSet<Index> AddIsolatePlains(HashSet<Index> indexs, Index startPoint, string seed, double percent)
+        //{
 
-            var random = new Random();
+        //    var random = new Random();
 
-            var cellQueue = new Queue<Index>(indexs.OrderBy(_ => random.Next()));
+        //    var cellQueue = new Queue<Index>(indexs.OrderBy(_ => random.Next()));
 
-            var eraserIndexs = new HashSet<Index>();
-            while (eraserIndexs.Count < indexs.Count * 0.25)
-            {
-                var currentIndex = cellQueue.Dequeue();
-                var expends = MapCell.IndexMethods.Expend(currentIndex, 3);
+        //    var eraserIndexs = new HashSet<Index>();
+        //    while (eraserIndexs.Count < indexs.Count * 0.25)
+        //    {
+        //        var currentIndex = cellQueue.Dequeue();
+        //        var expends = MapCell.IndexMethods.Expend(currentIndex, 3);
 
-                if (random.Next(0, 100) <= expends.Count(e => eraserIndexs.Contains(e)) * 100.0 / expends.Count())
-                {
-                    eraserIndexs.Add(currentIndex);
-                }
-                else
-                {
-                    cellQueue.Enqueue(currentIndex);
-                }
-            }
+        //        if (random.Next(0, 100) <= expends.Count(e => eraserIndexs.Contains(e)) * 100.0 / expends.Count())
+        //        {
+        //            eraserIndexs.Add(currentIndex);
+        //        }
+        //        else
+        //        {
+        //            cellQueue.Enqueue(currentIndex);
+        //        }
+        //    }
 
-            return eraserIndexs;
-        }
+        //    return eraserIndexs;
+        //}
 
         private static HashSet<Index> BuildSea(int maxSize)
         {
@@ -248,7 +252,7 @@ public static partial class MapBuilder
 
         private static HashSet<Index> FlushLandEdge(HashSet<Index> indexs, Index startPoint, string seed, double percent, bool allowIsland)
         {
-            var random = new Random();
+            var random = RandomBuilder.Build(seed);
             Dictionary<Index, int> edgeFactors = indexs.Where(index =>
             {
                 if (startPoint.X == index.X || startPoint.Y == index.Y)
