@@ -46,4 +46,19 @@ public partial class ProvinceMap : TileMap
         var cells = this.GetUsedCells(dict[key]);
         return MapToLocal(cells.First());
     }
+
+    internal string LocalToProvince(Vector2 vector2)
+    {
+        var cellVector = LocalToMap(vector2);
+
+        foreach(var pair in dict)
+        {
+            if(GetCellSourceId(pair.Value, cellVector) != -1)
+            {
+                return pair.Key;
+            }
+        }
+
+        return null;
+    }
 }

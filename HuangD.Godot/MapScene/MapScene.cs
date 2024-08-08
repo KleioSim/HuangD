@@ -13,6 +13,9 @@ public partial class MapScene : Node2D
     MapCamera2D Camera => GetNode<MapCamera2D>("CanvasLayer/Camera2D");
     InstancePlaceholder PoliticalInfoPlaceHolder => GetNode<InstancePlaceholder>("CanvasLayer/PoliticalInfo");
 
+    [Signal]
+    public delegate void ClickProvinceEventHandler(string id);
+
     public override void _Ready()
     {
         var session = this.GetSession();
@@ -40,5 +43,26 @@ public partial class MapScene : Node2D
 
         var terrainMap = GetNode<TerrainMap>("CanvasLayer/TerrainMap");
         Camera.Position = terrainMap.MapToLocal(terrainMap.GetUsedRect().GetCenter());
+    }
+
+    public override void _UnhandledInput(InputEvent @event)
+    {
+        if (@event is InputEventMouseButton eventKey)
+        {
+            if (eventKey.Pressed)
+            {
+                if (eventKey.ButtonIndex == MouseButton.Left)
+                {
+                    var provinceId = ProvinceMap.LocalToProvince(GetGlobalMousePosition());
+
+                    if (provinceId != null)
+                    {
+                        EmitSignal(SignalName.ClickProvince, provinceId);
+                        GD.Print(provinceId);
+                    }
+                }
+            }
+            return;
+        }
     }
 }
