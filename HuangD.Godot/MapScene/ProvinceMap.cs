@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using HuangD.Sessions.Maps;
+using Index = HuangD.Sessions.Maps.Index;
 
 public partial class ProvinceMap : TileMap
 {
@@ -44,7 +46,28 @@ public partial class ProvinceMap : TileMap
     internal Vector2 GetPawnLocation(string key)
     {
         var cells = this.GetUsedCells(dict[key]);
-        return MapToLocal(cells.First());
+
+
+        var edges = cells.Where(c =>
+        {
+            var neighbors = MapCell.IndexMethods.GetNeighborCells(new Index(c.X, c.Y)).Values
+                .Select(n => new Vector2I(n.X, n.Y));
+            return neighbors.Any(n => GetCellSourceId(dict[key], n) == -1);
+        });
+
+        var centerCell = cells.First();
+        var distance = int.MinValue;
+        foreach (var cell in cells)
+        {
+            var minDist = (int)edges.Select(e => (e - cell).Length()).Min();
+            if (minDist > distance)
+            {
+                distance = minDist;
+                centerCell = cell;
+            }
+        }
+
+        return MapToLocal(centerCell);
     }
 
     internal string LocalToProvince(Vector2 vector2)
