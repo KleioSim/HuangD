@@ -7,6 +7,8 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 91.0
 offset_bottom = 54.0
+pivot_offset = Vector2(45, 25)
+size_flags_horizontal = 0
 mouse_filter = 1
 script = ExtResource("1_mm6e2")
 

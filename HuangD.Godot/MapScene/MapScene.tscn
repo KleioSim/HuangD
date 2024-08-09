@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bnjubmq3phi3w"]
+[gd_scene load_steps=11 format=3 uid="uid://bnjubmq3phi3w"]
 
 [ext_resource type="Script" path="res://MapScene/MapScene.cs" id="1_3h0t5"]
 [ext_resource type="Texture2D" uid="uid://d3o4sb567jy4j" path="res://MapScene/whrite128.png" id="2_6ips8"]
@@ -16,6 +16,9 @@ texture_region_size = Vector2i(128, 128)
 [sub_resource type="TileSet" id="TileSet_oq2sr"]
 tile_size = Vector2i(128, 128)
 sources/0 = SubResource("TileSetAtlasSource_aqlwh")
+
+[sub_resource type="TileSet" id="TileSet_583qe"]
+tile_size = Vector2i(64, 64)
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_3h0t5")
@@ -46,6 +49,10 @@ script = ExtResource("4_xv01h")
 tile_set = SubResource("TileSet_oq2sr")
 format = 2
 script = ExtResource("5_w852y")
+
+[node name="PoliticalMap" type="TileMap" parent="CanvasLayer/ProvinceMap"]
+tile_set = SubResource("TileSet_583qe")
+format = 2
 
 [node name="CountryMap" type="TileMap" parent="CanvasLayer"]
 visible = false
