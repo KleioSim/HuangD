@@ -22,6 +22,14 @@ public partial class TerrainMap : TileMap
         //{ TerrainType.Steppe, new Color(){ R = 0, G = 0, B = 1, A = 1} },
     };
 
+    private Dictionary<TerrainType, int> sourceIds = new Dictionary<TerrainType, int>()
+    {
+        { TerrainType.Water, 0 },
+        { TerrainType.Land, 1 },
+        { TerrainType.Hill, 2 },
+        { TerrainType.Mount, 3 },
+    };
+
     public override void _Ready()
     {
 
@@ -29,11 +37,15 @@ public partial class TerrainMap : TileMap
 
     public void AddOrUpdate(Index index, TerrainType type)
     {
-        foreach(var id in layerIds.Values)
-        {
-            this.EraseCell(id, new Vector2I(index.X, index.Y));
-        };
+        //foreach(var id in layerIds.Values)
+        //{
+        //    this.EraseCell(id, new Vector2I(index.X, index.Y));
+        //};
 
-        this.SetCell(layerIds[type], new Vector2I(index.X, index.Y), 0, Vector2I.Zero, 0);
+        //this.SetCell(layerIds[type], new Vector2I(index.X, index.Y), 0, Vector2I.Zero, 0);
+
+
+        this.EraseCell(0, new Vector2I(index.X, index.Y));
+        this.SetCell(0, new Vector2I(index.X, index.Y), sourceIds[type], Vector2I.Zero, 0);
     }
 }

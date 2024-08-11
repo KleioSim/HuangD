@@ -1,24 +1,49 @@
-[gd_scene load_steps=11 format=3 uid="uid://bnjubmq3phi3w"]
+[gd_scene load_steps=17 format=3 uid="uid://bnjubmq3phi3w"]
 
 [ext_resource type="Script" path="res://MapScene/MapScene.cs" id="1_3h0t5"]
-[ext_resource type="Texture2D" uid="uid://d3o4sb567jy4j" path="res://MapScene/whrite128.png" id="2_6ips8"]
+[ext_resource type="Texture2D" uid="uid://b775coxb2f1bn" path="res://MapScene/png/ocean00.png" id="2_474ij"]
 [ext_resource type="Script" path="res://MapScene/TerrainMap.cs" id="2_u0u2q"]
+[ext_resource type="Texture2D" uid="uid://cghhdgrbo3nly" path="res://MapScene/png/plains00.png" id="3_0cv01"]
+[ext_resource type="Texture2D" uid="uid://cq5pyligqfjnv" path="res://MapScene/png/highlands00.png" id="4_qoksh"]
 [ext_resource type="Script" path="res://MapScene/PopCountMap.cs" id="4_xv01h"]
 [ext_resource type="Script" path="res://MapScene/MapCamera2D.cs" id="5_1hgk6"]
+[ext_resource type="Texture2D" uid="uid://nco2ho0w2wgv" path="res://MapScene/png/mountain00.png" id="5_r0bwt"]
 [ext_resource type="Script" path="res://MapScene/ProvinceMap.cs" id="5_w852y"]
 [ext_resource type="Script" path="res://MapScene/CountryMap.cs" id="6_imvhe"]
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_aqlwh"]
-texture = ExtResource("2_6ips8")
-texture_region_size = Vector2i(128, 128)
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_f1sk7"]
+texture = ExtResource("2_474ij")
+texture_region_size = Vector2i(256, 384)
 0:0/0 = 0
+0:0/0/texture_origin = Vector2i(0, 65)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0auvt"]
+texture = ExtResource("3_0cv01")
+texture_region_size = Vector2i(256, 384)
+0:0/0 = 0
+0:0/0/texture_origin = Vector2i(0, 65)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_is5o2"]
+texture = ExtResource("4_qoksh")
+texture_region_size = Vector2i(256, 384)
+0:0/0 = 0
+0:0/0/texture_origin = Vector2i(0, 65)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8irw6"]
+texture = ExtResource("5_r0bwt")
+texture_region_size = Vector2i(256, 384)
+0:0/0 = 0
+0:0/0/texture_origin = Vector2i(0, 65)
 
 [sub_resource type="TileSet" id="TileSet_oq2sr"]
-tile_size = Vector2i(128, 128)
-sources/0 = SubResource("TileSetAtlasSource_aqlwh")
+tile_size = Vector2i(256, 256)
+sources/0 = SubResource("TileSetAtlasSource_f1sk7")
+sources/1 = SubResource("TileSetAtlasSource_0auvt")
+sources/2 = SubResource("TileSetAtlasSource_is5o2")
+sources/3 = SubResource("TileSetAtlasSource_8irw6")
 
 [sub_resource type="TileSet" id="TileSet_583qe"]
-tile_size = Vector2i(64, 64)
+tile_size = Vector2i(128, 128)
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_3h0t5")
@@ -27,10 +52,8 @@ script = ExtResource("1_3h0t5")
 follow_viewport_enabled = true
 
 [node name="TerrainMap" type="TileMap" parent="CanvasLayer"]
-visible = false
 tile_set = SubResource("TileSet_oq2sr")
 format = 2
-layer_0/modulate = Color(0, 0, 1, 1)
 layer_1/modulate = Color(0, 1, 0, 1)
 layer_1/tile_data = PackedInt32Array()
 layer_2/modulate = Color(0.960784, 0.690196, 0.254902, 1)
@@ -46,11 +69,13 @@ format = 2
 script = ExtResource("4_xv01h")
 
 [node name="ProvinceMap" type="TileMap" parent="CanvasLayer"]
+visible = false
 tile_set = SubResource("TileSet_oq2sr")
 format = 2
 script = ExtResource("5_w852y")
 
 [node name="PoliticalMap" type="TileMap" parent="CanvasLayer/ProvinceMap"]
+visible = false
 tile_set = SubResource("TileSet_583qe")
 format = 2
 
