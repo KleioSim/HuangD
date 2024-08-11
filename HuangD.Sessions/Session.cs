@@ -21,6 +21,8 @@ public class Session : AbstractSession
 
     public Dictionary<string, Country> Countries;
 
+    public Country PlayerCountry;
+
     public Session(string seed)
     {
         UUID.Restart();
