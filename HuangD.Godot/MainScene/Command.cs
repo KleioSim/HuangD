@@ -11,9 +11,6 @@ public partial class Command : ViewControl
     {
         CommandConsole.IsVaild = true;
 
-        var session = this.GetSession();
-        ViewControl.OnMessage = session.OnMessage;
-
         CommandConsole.AddCommand("ChangeCounrtryOwner".ToLower(), ChangeProvinceOwner);
     }
 
