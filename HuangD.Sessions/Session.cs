@@ -15,13 +15,13 @@ public class Session : AbstractSession
 
     public override IEnumerable<IEntity> Entities => throw new System.NotImplementedException();
 
-    public Dictionary<Index, MapCell> MapCells;
+    public Dictionary<Index, MapCell> MapCells { get; }
 
-    public Dictionary<string, Province> Provinces;
+    public Dictionary<string, Province> Provinces { get; }
 
-    public Dictionary<string, Country> Countries;
+    public Dictionary<string, Country> Countries { get; }
 
-    public Country PlayerCountry;
+    public Country PlayerCountry { get; private set; }
 
     public Session(string seed)
     {
@@ -39,5 +39,11 @@ public class Session : AbstractSession
         var country = Countries[cmd.countryId];
 
         province.Owner = country;
+    }
+
+    [MessageProcess]
+    private void On_Command_ChangePlayerCountry(Command_ChangePlayerCountry cmd)
+    {
+        PlayerCountry = Countries[cmd.countryId];
     }
 }

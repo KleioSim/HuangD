@@ -13,6 +13,8 @@ public partial class Country
     {
         public static Dictionary<string, Country> Build(IEnumerable<Province> provinces, int maxPopCount, int maxProvCount, string seed)
         {
+            Country.GetProvinces = (coutry) => provinces.Where(x => x.Owner == coutry);
+
             var random = RandomBuilder.Build(seed);
 
             var rslt = new Dictionary<string, Country>();

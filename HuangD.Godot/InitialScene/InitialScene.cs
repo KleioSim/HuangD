@@ -3,6 +3,7 @@ using Chrona.Engine.Godot;
 using Godot;
 using HuangD.Godot.Utilties;
 using HuangD.Sessions;
+using HuangD.Sessions.Messages;
 using System;
 
 public partial class InitialScene : ViewControl
@@ -31,25 +32,24 @@ public partial class InitialScene : ViewControl
     public void OnSelectProvince(string provinceId)
     {
         var province = this.GetSession().Provinces[provinceId];
-        this.GetSession().PlayerCountry = province.Owner;
 
-        SendCommand(new Message_UIRefresh());
+        SendCommand(new Command_ChangePlayerCountry(province.Owner.Key));
     }
 
     protected override void Initialize()
     {
-        
+
     }
 
     protected override void Update()
     {
-        if(this.GetSession() == null)
+        if (this.GetSession() == null)
         {
             return;
         }
 
         var playerCountry = this.GetSession().PlayerCountry;
-        if(playerCountry != null)
+        if (playerCountry != null)
         {
             CountryName.Text = playerCountry.Key;
             ConfirmButton.Disabled = false;
