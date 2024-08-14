@@ -23,10 +23,16 @@ public partial class InitialScene : ViewControl
     {
         this.SetSession(new Session(TextEdit.Text));
 
+        CommandConsole.IsVaild = true;
+        var commandControl = new CommandControl();
+        GetTree().Root.AddChild(commandControl, true);
+
         var mapScene = ResourceLoader.Load<PackedScene>("res://MapScene/MapScene.tscn").Instantiate() as MapScene;
         GetTree().Root.AddChild(mapScene);
 
         mapScene.Connect(MapScene.SignalName.ClickProvince, new Callable(this, MethodName.OnSelectProvince));
+
+        //CommandConsole.AddCommand("TestInt", TestInt);
     }
 
     public void OnSelectProvince(string provinceId)
@@ -38,7 +44,6 @@ public partial class InitialScene : ViewControl
 
     protected override void Initialize()
     {
-
     }
 
     protected override void Update()
@@ -59,5 +64,10 @@ public partial class InitialScene : ViewControl
             CountryName.Text = "";
             ConfirmButton.Disabled = true;
         }
+    }
+
+    void TestInt(int id)
+    {
+        GD.Print(id + 1);
     }
 }

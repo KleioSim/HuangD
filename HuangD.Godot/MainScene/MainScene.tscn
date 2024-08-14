@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://c746kt5iwp6xo"]
+[gd_scene load_steps=2 format=3 uid="uid://c746kt5iwp6xo"]
 
 [ext_resource type="Script" path="res://MainScene/MainScene.cs" id="1_02pok"]
-[ext_resource type="Script" path="res://MainScene/Command.cs" id="2_p40pa"]
 
 [node name="MainScene" type="Control"]
 layout_mode = 3
@@ -294,8 +293,3 @@ layout_mode = 2
 text = "NextTurn"
 
 [node name="Timer" type="Timer" parent="."]
-
-[node name="CommandNode" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-script = ExtResource("2_p40pa")

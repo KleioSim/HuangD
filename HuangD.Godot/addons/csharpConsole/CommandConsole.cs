@@ -1,6 +1,7 @@
 ﻿using Godot;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -18,12 +19,12 @@ public partial class CommandConsole : Node
     class Command
     {
         public bool base_command = false;
-        public Callable function;
+        public Delegate function;
         public int param_count;
         public Dictionary<string, string> Params = new Dictionary<string, string>();
         public string Description = "Description Not Definned";
 
-        public Command(Callable in_function, int in_param_count)
+        public Command(Delegate in_function, int in_param_count)
         {
             this.function = in_function;
             this.param_count = in_param_count;
@@ -136,54 +137,56 @@ public partial class CommandConsole : Node
         AddInputHistory(text);
         PrintLine(text);
 
-		//string[] splitText = text.Split(' ');
-		string[] splitText = SplitConsideringQuotes(text);
-		
-		if (splitText.Length > 0 )
-		{
-			string commandString = splitText[0].ToLower();
-			
-			if (Commands.ContainsKey(commandString))
-			{
-				Command commandEntry = Commands[commandString];
-				
-				switch (commandEntry.param_count)
-				{
-					case 0:
-						commandEntry.function.Call();
-						break;
-					case > 0:
-						List<Variant> InGameparams_ = new List<Variant>();
+        //string[] splitText = text.Split(' ');
+        string[] splitText = SplitConsideringQuotes(text);
 
-						for (int i = 1; i < splitText.Length; i++)
-						{
-                            InGameparams_.Add(splitText[i]);
-						}
+        if (splitText.Length > 0)
+        {
+            string commandString = splitText[0];
 
-						//verify the ammount of params
-						if(InGameparams_.Count < commandEntry.Params.Count)
-						{
+            if (Commands.ContainsKey(commandString))
+            {
+                Command commandEntry = Commands[commandString];
+
+                switch (commandEntry.param_count)
+                {
+                    case 0:
+                        commandEntry.function.DynamicInvoke();
+                        break;
+                    case > 0:
+                        List<object> InGameparams_ = new List<object>();
+
+                        var paramTypes = commandEntry.function.Method.GetParameters().Select(p => p.ParameterType).ToArray();
+
+                        for (int i = 1; i < splitText.Length; i++)
+                        {
+                            InGameparams_.Add(Convert.ChangeType(splitText[i], paramTypes[i - 1]));
+                        }
+
+                        //verify the ammount of params
+                        if (InGameparams_.Count < commandEntry.Params.Count)
+                        {
                             PrintLine("Not enough parameters.");
                             break;
                         }
-						if(InGameparams_.Count > commandEntry.Params.Count)
-						{
+                        if (InGameparams_.Count > commandEntry.Params.Count)
+                        {
                             PrintLine("too much parameters.");
                             break;
                         }
 
-						commandEntry.function.Call(InGameparams_.ToArray());
-						break;
-				}
-			}
-			else
-			{
-				console_unknown_command?.Invoke();
-				PrintLine("Command not found.");
+                        commandEntry.function.DynamicInvoke(InGameparams_.ToArray());
+                        break;
+                }
+            }
+            else
+            {
+                console_unknown_command?.Invoke();
+                PrintLine("Command not found.");
 
-			}
-		}
-	}
+            }
+        }
+    }
 
     string[] SplitConsideringQuotes(string input)
     {
@@ -421,17 +424,17 @@ public partial class CommandConsole : Node
         syntaxLabel.AppendText(_params);
     }
 
-	void PrintLine(string text)
-	{
-		if (rich_label == null)
-		{
-			CallDeferred("PrintLine", text);
-		}
-		else
-		{
-			rich_label.AddText(text + "\n");
-		}
-	}
+    void PrintLine(string text)
+    {
+        if (rich_label == null)
+        {
+            CallDeferred("PrintLine", text);
+        }
+        else
+        {
+            rich_label.AddText(text + "\n");
+        }
+    }
 
     void AddInputHistory(string text)
     {
@@ -503,10 +506,10 @@ public partial class CommandConsole : Node
     {
         try
         {
-			
-			instance.Commands.Add(CommandName, new Command(new Callable((GodotObject)function.Target, function.Method.Name), function.Method.GetParameters().Length));
-			
-			foreach (var param in function.Method.GetParameters())
+
+            instance.Commands.Add(CommandName, new Command(function, function.Method.GetParameters().Length));
+
+            foreach (var param in function.Method.GetParameters())
             {
                 instance.Commands[CommandName].Params.Add(param.Name, null);
             }
