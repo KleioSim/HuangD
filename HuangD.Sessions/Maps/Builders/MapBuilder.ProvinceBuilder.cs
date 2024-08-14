@@ -21,7 +21,9 @@ public static partial class MapBuilder
 
             while (indexs.Count != 0)
             {
-                var maxPopIndex = indexs.MaxBy(k => popDict[k]);
+                var maxPopIndex = indexs.OrderBy(k => popDict[k])
+                    .FirstOrDefault(x=> MapCell.IndexMethods.GetNeighborCells(x).Values.Intersect(indexs).All(neighbor=> indexs.Contains(neighbor)));
+
                 if (maxPopIndex == null)
                 {
                     throw new Exception();

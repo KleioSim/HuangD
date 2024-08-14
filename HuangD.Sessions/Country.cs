@@ -13,6 +13,20 @@ public partial class Country
     {
         public static Dictionary<string, Country> Build(IEnumerable<Province> provinces, int maxPopCount, int maxProvCount, string seed)
         {
+            var array = new float[] { 0.2f, 0.4f, 0.6f, 0.8f };
+
+            var colors = new List<(float, float, float)>();
+            for(int i=0; i<4; i++)
+            {
+                for (int j=0; j<4; j++)
+                {
+                    for(int  k=0; k<4; k++)
+                    {
+                        colors.Add((array[i], array[j], array[k]));
+                    }
+                }
+            }
+
             Country.GetProvinces = (coutry) => provinces.Where(x => x.Owner == coutry);
 
             var random = RandomBuilder.Build(seed);
@@ -54,7 +68,7 @@ public partial class Country
                     list.Remove(newProv);
                 }
 
-                var country = new Country();
+                var country = new Country(UUID.Generate("CNT"), colors[rslt.Count]);
                 rslt.Add(country.Key, country);
 
                 foreach (var province in provGroups)

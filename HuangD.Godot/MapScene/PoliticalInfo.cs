@@ -5,8 +5,8 @@ using System;
 
 public partial class PoliticalInfo : ViewControl
 {
-    public Label ProvinceName => GetNode<Label>("VBoxContainer/ProvinceName");
-    public Label CountryName => GetNode<Label>("VBoxContainer/CountryName");
+    public Label ProvinceName => GetNode<Label>("VBoxContainer/Province/Name");
+    public Label CountryName => GetNode<Label>("VBoxContainer/Country/Name");
 
     public Province province
     {
@@ -37,5 +37,7 @@ public partial class PoliticalInfo : ViewControl
     {
         ProvinceName.Text = _province.Key;
         CountryName.Text = _province.Owner.Key;
+
+        var styleBox = GetThemeStylebox("panel");
     }
 }
