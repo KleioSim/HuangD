@@ -5,14 +5,12 @@ using HuangD.Godot.Utilties;
 using HuangD.Sessions;
 using HuangD.Sessions.Messages;
 using System;
+using System.Linq;
 
 public partial class InitialScene : ViewControl
 {
     public TextEdit TextEdit => GetNode<TextEdit>("CanvasLayer/VBoxContainer/BuildMapPanel/VBoxContainer/SeedEditor");
-
-    public Label CountryName => GetNode<Label>("CanvasLayer/VBoxContainer/SelectCountryPanel/MarginContainer/VBoxContainer/CountryName");
-
-    public Button ConfirmButton => GetNode<Button>("CanvasLayer/VBoxContainer/SelectCountryPanel/MarginContainer/VBoxContainer/ConfirmButton");
+    public SelectCountryPanel SelectCountryPanel => GetNode<SelectCountryPanel>("CanvasLayer/VBoxContainer/SelectCountryPanel");
 
     public void Start()
     {
@@ -44,25 +42,18 @@ public partial class InitialScene : ViewControl
 
     protected override void Initialize()
     {
+
     }
 
     protected override void Update()
     {
-        if (this.GetSession() == null)
+        SelectCountryPanel.Visible = this.GetSession() != null;
+        if (SelectCountryPanel.Visible)
         {
-            return;
-        }
-
-        var playerCountry = this.GetSession().PlayerCountry;
-        if (playerCountry != null)
-        {
-            CountryName.Text = playerCountry.Key;
-            ConfirmButton.Disabled = false;
-        }
-        else
-        {
-            CountryName.Text = "";
-            ConfirmButton.Disabled = true;
+            var playerCountry = this.GetSession().PlayerCountry;
+            SelectCountryPanel.CountryName.Text = playerCountry.Key;
+            SelectCountryPanel.ProvinceCount.Text = playerCountry.Provinces.Count().ToString();
+            SelectCountryPanel.PopCount.Text = playerCountry.PopCount.ToString();
         }
     }
 

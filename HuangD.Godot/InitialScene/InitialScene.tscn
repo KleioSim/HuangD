@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://7n7c1uabcp0x"]
+[gd_scene load_steps=3 format=3 uid="uid://7n7c1uabcp0x"]
 
 [ext_resource type="Script" path="res://InitialScene/InitialScene.cs" id="1_jajna"]
+[ext_resource type="Script" path="res://InitialScene/SelectCountryPanel.cs" id="2_pfxmp"]
 
 [node name="InitialScene" type="Control"]
 layout_mode = 3
@@ -17,10 +18,11 @@ layer = 99
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer"]
 custom_minimum_size = Vector2(200, 0)
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 40.0
 grow_vertical = 2
+alignment = 1
 
 [node name="BuildMapPanel" type="Panel" parent="CanvasLayer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 120)
@@ -50,6 +52,7 @@ text = "Confirm"
 
 [node name="SelectCountryPanel" type="PanelContainer" parent="CanvasLayer/VBoxContainer"]
 layout_mode = 2
+script = ExtResource("2_pfxmp")
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/VBoxContainer/SelectCountryPanel"]
 layout_mode = 2
@@ -78,7 +81,6 @@ custom_minimum_size = Vector2(60, 30)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-disabled = true
 text = "Confirm"
 
 [connection signal="pressed" from="CanvasLayer/VBoxContainer/BuildMapPanel/VBoxContainer/Button" to="." method="Load"]
