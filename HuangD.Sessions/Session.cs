@@ -15,6 +15,9 @@ public class Session : AbstractSession
 
     public override IEnumerable<IEntity> Entities => throw new System.NotImplementedException();
 
+
+    public Date Date { get; }
+
     public Dictionary<Index, MapCell> MapCells { get; }
 
     public Dictionary<string, Province> Provinces { get; }
@@ -27,6 +30,7 @@ public class Session : AbstractSession
     {
         UUID.Restart();
 
+        Date = new Date();
         MapCells = MapBuilder.Build2(64, seed);
         Provinces = Province.Builder.Build(MapCells.Values);
         Countries = Country.Builder.Build(Provinces.Values, Provinces.Values.Max(x => x.PopCount) * 3, Provinces.Count / 5, seed);
@@ -45,5 +49,11 @@ public class Session : AbstractSession
     private void On_Command_ChangePlayerCountry(Command_ChangePlayerCountry cmd)
     {
         PlayerCountry = Countries[cmd.countryId];
+    }
+
+    [MessageProcess]
+    private void On_Command_NextTurn(Command_NextTurn cmd)
+    {
+        Date.DaysInc(10);
     }
 }
