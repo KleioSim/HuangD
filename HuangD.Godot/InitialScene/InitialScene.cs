@@ -21,9 +21,12 @@ public partial class InitialScene : ViewControl
     {
         this.SetSession(new Session(TextEdit.Text));
 
-        CommandConsole.IsVaild = true;
-        var commandControl = new CommandControl();
-        GetTree().Root.AddChild(commandControl, true);
+        ViewControl.OnMessage = this.GetSession().OnMessage;
+
+        var commandRegister = new CommandRegister();
+        commandRegister.SendCommand = ViewControl.SendCommand;
+
+        GetTree().Root.AddChild(commandRegister, true);
 
         var mapScene = ResourceLoader.Load<PackedScene>("res://MapScene/MapScene.tscn").Instantiate() as MapScene;
         GetTree().Root.AddChild(mapScene);
@@ -47,10 +50,11 @@ public partial class InitialScene : ViewControl
 
     protected override void Update()
     {
-        SelectCountryPanel.Visible = this.GetSession() != null;
+        var playerCountry = this.GetSession()?.PlayerCountry;
+
+        SelectCountryPanel.Visible = playerCountry != null;
         if (SelectCountryPanel.Visible)
         {
-            var playerCountry = this.GetSession().PlayerCountry;
             SelectCountryPanel.CountryName.Text = playerCountry.Key;
             SelectCountryPanel.ProvinceCount.Text = playerCountry.Provinces.Count().ToString();
             SelectCountryPanel.PopCount.Text = playerCountry.PopCount.ToString();

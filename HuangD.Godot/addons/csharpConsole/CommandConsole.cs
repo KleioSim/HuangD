@@ -23,11 +23,13 @@ public partial class CommandConsole : Node
         public int param_count;
         public Dictionary<string, string> Params = new Dictionary<string, string>();
         public string Description = "Description Not Definned";
+        public Dictionary<string, Type> param_types;
 
-        public Command(Delegate in_function, int in_param_count)
+        public Command(Delegate in_function, int in_param_count, Dictionary<string, Type> param_types)
         {
             this.function = in_function;
             this.param_count = in_param_count;
+            this.param_types = param_types;
         }
     }
 
@@ -156,7 +158,7 @@ public partial class CommandConsole : Node
                     case > 0:
                         List<object> InGameparams_ = new List<object>();
 
-                        var paramTypes = commandEntry.function.Method.GetParameters().Select(p => p.ParameterType).ToArray();
+                        var paramTypes = commandEntry.param_types.Values.ToArray();
 
                         for (int i = 1; i < splitText.Length; i++)
                         {
@@ -504,14 +506,25 @@ public partial class CommandConsole : Node
     /// <param name="function">reference to the method</param>
     public static void AddCommand(string CommandName, Delegate function)
     {
+        var paramTypes = function.GetMethodInfo().GetParameters().ToDictionary(x => x.Name, y => y.ParameterType);
+
+        AddCommand(CommandName, function, paramTypes);
+    }
+
+    public static void AddCommand(string CommandName, Action<object[]> function, Dictionary<string, Type> paramTypes)
+    {
+        AddCommand(CommandName, (Delegate)function, paramTypes);
+    }
+
+    private static void AddCommand(string CommandName, Delegate function, Dictionary<string, Type> paramTypes)
+    {
         try
         {
+            instance.Commands.Add(CommandName, new Command(function, paramTypes.Count, paramTypes));
 
-            instance.Commands.Add(CommandName, new Command(function, function.Method.GetParameters().Length));
-
-            foreach (var param in function.Method.GetParameters())
+            foreach (var paramName in paramTypes.Keys)
             {
-                instance.Commands[CommandName].Params.Add(param.Name, null);
+                instance.Commands[CommandName].Params.Add(paramName, null);
             }
         }
         catch (Exception e)
@@ -519,6 +532,7 @@ public partial class CommandConsole : Node
             GD.PrintErr(e);
         }
     }
+
 
     /// <summary>
 	/// work in progress
