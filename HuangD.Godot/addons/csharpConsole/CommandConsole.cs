@@ -177,14 +177,22 @@ public partial class CommandConsole : Node
                             break;
                         }
 
-                        if (commandEntry.function is Action<object[]>)
+                        try
                         {
-                            commandEntry.function.DynamicInvoke(new object[] { InGameparams_.ToArray() });
+                            if (commandEntry.function is Action<object[]>)
+                            {
+                                commandEntry.function.DynamicInvoke(new object[] { InGameparams_.ToArray() });
+                            }
+                            else
+                            {
+                                commandEntry.function.DynamicInvoke(InGameparams_.ToArray());
+                            }
                         }
-                        else
+                        catch (Exception e)
                         {
-                            commandEntry.function.DynamicInvoke(InGameparams_.ToArray());
+                            PrintLine(e.ToString());
                         }
+
 
                         break;
                 }
