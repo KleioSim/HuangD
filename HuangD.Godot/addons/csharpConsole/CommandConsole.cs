@@ -177,7 +177,15 @@ public partial class CommandConsole : Node
                             break;
                         }
 
-                        commandEntry.function.DynamicInvoke(InGameparams_.ToArray());
+                        if (commandEntry.function is Action<object[]>)
+                        {
+                            commandEntry.function.DynamicInvoke(new object[] { InGameparams_.ToArray() });
+                        }
+                        else
+                        {
+                            commandEntry.function.DynamicInvoke(InGameparams_.ToArray());
+                        }
+
                         break;
                 }
             }
