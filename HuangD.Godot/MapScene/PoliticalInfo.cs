@@ -1,4 +1,4 @@
-using Chrona.Engine.Godot;
+﻿using Chrona.Engine.Godot;
 using Godot;
 using HuangD.Sessions;
 using System;
@@ -7,6 +7,7 @@ public partial class PoliticalInfo : ViewControl
 {
     public Label ProvinceName => GetNode<Label>("VBoxContainer/Province/Name");
     public Label CountryName => GetNode<Label>("VBoxContainer/Country/Name");
+    public TextureRect CountryTexture => GetNode<TextureRect>("VBoxContainer/Country");
 
     public Province province
     {
@@ -38,6 +39,6 @@ public partial class PoliticalInfo : ViewControl
         ProvinceName.Text = _province.Key;
         CountryName.Text = _province.Owner.Key;
 
-        var styleBox = GetThemeStylebox("panel");
+        CountryTexture.SelfModulate = Color.FromHsv(_province.Owner.Color.h, _province.Owner.Color.s, _province.Owner.Color.v);
     }
 }

@@ -12,7 +12,7 @@ public partial class Country
 {
     private static Func<Country, IEnumerable<Province>> GetProvinces;
 
-    public (float r, float g, float b) Color { get; set; }
+    public (float h, float s, float v) Color { get; }
 
     public string Key { get; }
 
@@ -24,7 +24,7 @@ public partial class Country
 
     private List<CentralArmy> centralArmies;
 
-    public Country(string key, (float, float, float) color)
+    public Country(string key, (float h, float s, float v) color)
     {
         Key = key;
         Color = color;

@@ -1,9 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://df0qeobvo5f2h"]
 
 [ext_resource type="Script" path="res://MapScene/PoliticalInfo.cs" id="1_mm6e2"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_13r0e"]
-bg_color = Color(1, 1, 1, 1)
+[ext_resource type="Texture2D" uid="uid://d3o4sb567jy4j" path="res://MapScene/whrite128.png" id="2_jx0hg"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_7c6r4"]
 font_color = Color(0, 0, 0, 1)
@@ -32,10 +30,11 @@ layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="Country" type="Panel" parent="VBoxContainer"]
+[node name="Country" type="TextureRect" parent="VBoxContainer"]
 custom_minimum_size = Vector2(60, 40)
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_13r0e")
+texture = ExtResource("2_jx0hg")
+expand_mode = 1
 
 [node name="Name" type="Label" parent="VBoxContainer/Country"]
 layout_mode = 1
