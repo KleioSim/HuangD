@@ -27,15 +27,14 @@ script = ExtResource("1_3h0t5")
 follow_viewport_enabled = true
 
 [node name="TerrainMap" type="TileMap" parent="CanvasLayer"]
-visible = false
 tile_set = SubResource("TileSet_oq2sr")
 format = 2
-layer_0/modulate = Color(0, 0, 1, 1)
-layer_1/modulate = Color(0, 1, 0, 1)
+layer_0/modulate = Color(0, 0, 0.4, 1)
+layer_1/modulate = Color(0, 0.4, 0, 1)
 layer_1/tile_data = PackedInt32Array()
-layer_2/modulate = Color(0.960784, 0.690196, 0.254902, 1)
+layer_2/modulate = Color(0.4, 0.288067, 0.108, 1)
 layer_2/tile_data = PackedInt32Array()
-layer_3/modulate = Color(0.556863, 0.266667, 0.678431, 1)
+layer_3/modulate = Color(0.3268, 0.156, 0.4, 1)
 layer_3/tile_data = PackedInt32Array()
 script = ExtResource("2_u0u2q")
 
