@@ -26,14 +26,18 @@ public class Session : AbstractSession
 
     public Country PlayerCountry { get; private set; }
 
+    public Dictionary<string, CentralArmy> centralArmies { get; }
+
     public Session(string seed)
     {
         UUID.Restart();
 
         Date = new Date();
         MapCells = MapBuilder.Build2(64, seed);
-        Provinces = Province.Builder.Build(MapCells.Values);
+        Provinces = Province.Builder.Build(MapCells.Values, (prov) => centralArmies.Values.Where(x => x.Position == prov));
         Countries = Country.Builder.Build(Provinces.Values, Provinces.Values.Max(x => x.PopCount) * 3, Provinces.Count / 5, seed);
+
+        centralArmies = Countries.Values.Select(x => new CentralArmy(1000, 1000, x)).ToDictionary(x => x.Key, y => y);
     }
 
     [MessageProcess]

@@ -9,7 +9,7 @@ public partial class Province
 {
     internal static class Builder
     {
-        internal static Dictionary<string, Province> Build(IEnumerable<MapCell> mapCells)
+        internal static Dictionary<string, Province> Build(IEnumerable<MapCell> mapCells, Func<Province, IEnumerable<CentralArmy>> armyFinder)
         {
             var rslt = new Dictionary<string, Province>();
 
@@ -19,7 +19,7 @@ public partial class Province
 
             foreach (var pair in provinceId2Cells)
             {
-                var province = new Province(pair.Key, pair.Value);
+                var province = new Province(pair.Key, pair.Value, armyFinder);
                 rslt.Add(province.Key, province);
             }
 

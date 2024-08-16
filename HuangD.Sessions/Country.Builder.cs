@@ -18,17 +18,31 @@ public partial class Country
 
     public IEnumerable<Province> Provinces => GetProvinces(this);
 
+    public Province CapitalProvince
+    {
+        get => capitalProvince;
+        set
+        {
+            if (!Provinces.Contains(value))
+            {
+                throw new Exception();
+            }
+
+            CapitalProvince = value;
+        }
+    }
+
     public int PopCount => Provinces.Sum(x => x.PopCount);
 
     public IEnumerable<CentralArmy> CenterArmies => centralArmies;
 
     private List<CentralArmy> centralArmies;
 
+    private Province capitalProvince;
+
     public Country(string key, (float h, float s, float v) color)
     {
         Key = key;
         Color = color;
-
-        centralArmies = new List<CentralArmy> { new CentralArmy(1000, 1000) };
     }
 }

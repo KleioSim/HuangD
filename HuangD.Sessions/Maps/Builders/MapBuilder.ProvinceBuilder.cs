@@ -22,7 +22,7 @@ public static partial class MapBuilder
             while (indexs.Count != 0)
             {
                 var maxPopIndex = indexs.OrderBy(k => popDict[k])
-                    .FirstOrDefault(x=> MapCell.IndexMethods.GetNeighborCells(x).Values.Intersect(indexs).All(neighbor=> indexs.Contains(neighbor)));
+                    .FirstOrDefault(x => MapCell.IndexMethods.GetNeighborCells(x).Values.Intersect(indexs).All(neighbor => indexs.Contains(neighbor)));
 
                 if (maxPopIndex == null)
                 {
@@ -63,7 +63,7 @@ public static partial class MapBuilder
                     }
                 }
 
-                string currentId = UUID.Generate("PRO");
+                string currentId = UUID.Generate("PROV");
 
                 if (!isFull)
                 {

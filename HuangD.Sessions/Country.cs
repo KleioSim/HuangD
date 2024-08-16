@@ -59,13 +59,15 @@ public partial class Country
                 }
 
                 var color = (colors[rslt.Count % colors.Length], ((rslt.Count % 3) + 1) * 0.33f, 1f);
-                var country = new Country(UUID.Generate("CNT"), color);
+                var country = new Country(UUID.Generate("CNTY"), color);
                 rslt.Add(country.Key, country);
 
                 foreach (var province in provGroups)
                 {
                     province.Owner = country;
                 }
+
+                country.CapitalProvince = provGroups.First();
             }
 
             return rslt;
