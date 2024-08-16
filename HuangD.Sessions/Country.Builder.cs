@@ -1,48 +1,77 @@
-﻿using DynamicData;
-using HuangD.Sessions.Utilties;
+﻿using HuangD.Sessions.Utilties;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
-using System.Numerics;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace HuangD.Sessions;
 
 public partial class Country
 {
-    private static Func<Country, IEnumerable<Province>> GetProvinces;
-
-    public (float h, float s, float v) Color { get; }
-
-    public string Key { get; }
-
-    public IEnumerable<Province> Provinces => GetProvinces(this);
-
-    public Province CapitalProvince
+    public static class Builder
     {
-        get => capitalProvince;
-        set
+        public static Dictionary<string, Country> Build(IEnumerable<Province> provinces, int maxPopCount, int maxProvCount, string seed)
         {
-            if (!Provinces.Contains(value))
+
+            var random = RandomBuilder.Build(seed);
+
+            var colors = Enumerable.Range(0, 33).Select(x => x * 0.03f).OrderBy(_ => random.Next(0, 100)).ToArray();
+
+            Country.GetProvinces = (coutry) => provinces.Where(x => x.Owner == coutry);
+
+
+            var rslt = new Dictionary<string, Country>();
+
+            var list = provinces.OrderBy(x => x.PopCount).ToList();
+            while (list.Count != 0)
             {
-                throw new Exception();
+                var firstProv = list[0];
+                list.Remove(firstProv);
+
+                var provGroups = new List<Province>() { firstProv };
+                while (true)
+                {
+                    if (list.Count == 0)
+                    {
+                        break;
+                    }
+                    if (provGroups.Count >= maxProvCount)
+                    {
+                        break;
+                    }
+                    if (provGroups.Sum(x => x.PopCount) >= maxPopCount)
+                    {
+                        break;
+                    }
+
+                    var neighbors = provGroups.SelectMany(x => x.Neighbors)
+                        .Where(x => list.Contains(x))
+                        .ToArray();
+                    if (neighbors.Length == 0)
+                    {
+                        break;
+                    }
+
+                    var newProv = neighbors[random.Next(0, neighbors.Length)];
+                    provGroups.Add(newProv);
+                    list.Remove(newProv);
+                }
+
+                var color = (colors[rslt.Count % colors.Length], ((rslt.Count % 3) + 1) * 0.33f, 1f);
+                var country = new Country(UUID.Generate("CNTY"), color);
+                rslt.Add(country.Key, country);
+
+                foreach (var province in provGroups)
+                {
+                    province.Owner = country;
+                }
+
+                country.CapitalProvince = provGroups.First();
             }
 
-            CapitalProvince = value;
+            return rslt;
         }
     }
 
-    public int PopCount => Provinces.Sum(x => x.PopCount);
-
-    public IEnumerable<CentralArmy> CenterArmies => centralArmies;
-
-    private List<CentralArmy> centralArmies;
-
-    private Province capitalProvince;
-
-    public Country(string key, (float h, float s, float v) color)
-    {
-        Key = key;
-        Color = color;
-    }
 }
