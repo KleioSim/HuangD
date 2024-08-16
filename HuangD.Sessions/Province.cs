@@ -11,6 +11,8 @@ public partial class Province
 
     public Country Owner { get; set; }
 
+    public PopTax PopTax { get; }
+
     public IEnumerable<CentralArmy> centralArmies => FindArmies();
 
     public IEnumerable<Province> Neighbors { get; private set; } = new Province[] { };
@@ -26,5 +28,19 @@ public partial class Province
         Key = key;
         MapCells = mapCells;
         FindArmies = () => armyFinder(this);
+        PopTax = new PopTax(this);
     }
+}
+
+public class PopTax
+{
+    public float Current => Province.PopCount / 10000;
+
+    public Province Province { get; }
+
+    public PopTax(Province province)
+    {
+        Province = province;
+    }
+
 }

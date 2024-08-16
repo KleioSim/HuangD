@@ -1,4 +1,5 @@
 ﻿using HuangD.Sessions.Utilties;
+using System;
 
 namespace HuangD.Sessions;
 
@@ -7,7 +8,7 @@ public class CentralArmy
     public string Key { get; }
     public int Count { get; internal set; }
     public int ExpectCount { get; internal set; }
-    public float Cost => ExpectCount / 1000;
+    public float Cost => Math.Max(ExpectCount, Count) / 1000;
 
     public Country Owner { get; internal set; }
     public Province Position { get; internal set; }

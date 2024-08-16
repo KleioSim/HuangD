@@ -18,6 +18,8 @@ public partial class Country
 
     public IEnumerable<Province> Provinces => GetProvinces(this);
 
+    public Economy Economy { get; }
+
     public Province CapitalProvince
     {
         get => capitalProvince;
@@ -44,5 +46,6 @@ public partial class Country
     {
         Key = key;
         Color = color;
+        Economy = new Economy(this);
     }
 }
