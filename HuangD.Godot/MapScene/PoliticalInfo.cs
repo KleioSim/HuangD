@@ -6,9 +6,9 @@ using System.Linq;
 
 public partial class PoliticalInfo : ViewControl
 {
-    public Label ProvinceName => GetNode<Label>("HBoxContainer/VBoxContainer/Province/Name");
+    public Label ProvinceName => GetNode<Label>("HBoxContainer/VBoxContainer/Province/Panel/Name");
     public Label CountryName => GetNode<Label>("HBoxContainer/VBoxContainer/Country/Name");
-    public TextureRect CountryFlag => GetNode<TextureRect>("HBoxContainer/VBoxContainer/Country");
+    public Control CurrentOwner => GetNode<Control>("HBoxContainer");
 
     public ArmyInfo ArmyInfo => GetNode<ArmyInfo>("HBoxContainer/Army");
     public ArmyInfo EnemyInfo => GetNode<ArmyInfo>("VBoxContainer/Army");
@@ -43,7 +43,7 @@ public partial class PoliticalInfo : ViewControl
         ProvinceName.Text = _province.Key;
         CountryName.Text = _province.Owner.Key;
 
-        CountryFlag.SelfModulate = Color.FromHsv(_province.Owner.Color.h, _province.Owner.Color.s, _province.Owner.Color.v);
+        CurrentOwner.Modulate = Color.FromHsv(_province.Owner.Color.h, _province.Owner.Color.s, _province.Owner.Color.v);
 
         ArmyInfo.Update(_province.centralArmies.Where(x => x.Owner == _province.Owner));
         //EnemyInfo.Update(_province.centralArmies.Where(x => x.Owner != _province.Owner));
