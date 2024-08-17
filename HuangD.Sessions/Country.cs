@@ -30,7 +30,7 @@ public partial class Country
                 throw new Exception();
             }
 
-            CapitalProvince = value;
+            capitalProvince = value;
         }
     }
 

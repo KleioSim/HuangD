@@ -6,11 +6,11 @@ using System.Linq;
 
 public partial class PoliticalInfo : ViewControl
 {
-    public Label ProvinceName => GetNode<Label>("VBoxContainer/Province/Name");
-    public Label CountryName => GetNode<Label>("VBoxContainer/Country/Name");
-    public TextureRect CountryFlag => GetNode<TextureRect>("VBoxContainer/Country");
+    public Label ProvinceName => GetNode<Label>("HBoxContainer/VBoxContainer/Province/Name");
+    public Label CountryName => GetNode<Label>("HBoxContainer/VBoxContainer/Country/Name");
+    public TextureRect CountryFlag => GetNode<TextureRect>("HBoxContainer/VBoxContainer/Country");
 
-    public ArmyInfo ArmyInfo => GetNode<ArmyInfo>("VBoxContainer/Army");
+    public ArmyInfo ArmyInfo => GetNode<ArmyInfo>("HBoxContainer/Army");
     public ArmyInfo EnemyInfo => GetNode<ArmyInfo>("VBoxContainer/Army");
 
     public Province province
@@ -46,6 +46,6 @@ public partial class PoliticalInfo : ViewControl
         CountryFlag.SelfModulate = Color.FromHsv(_province.Owner.Color.h, _province.Owner.Color.s, _province.Owner.Color.v);
 
         ArmyInfo.Update(_province.centralArmies.Where(x => x.Owner == _province.Owner));
-        EnemyInfo.Update(_province.centralArmies.Where(x => x.Owner != _province.Owner));
+        //EnemyInfo.Update(_province.centralArmies.Where(x => x.Owner != _province.Owner));
     }
 }
