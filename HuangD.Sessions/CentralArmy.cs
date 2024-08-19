@@ -23,9 +23,20 @@ public class CentralArmy
         Owner = owner;
         Position = owner.CapitalProvince;
     }
+
+    public void OnMove(Province province)
+    {
+        MoveTo = new MoveTo(province);
+    }
 }
 
 public class MoveTo
 {
     public Province Target { get; }
+
+    public MoveTo(Province target)
+    {
+        Target = target;
+    }
+
 }

@@ -26,7 +26,7 @@ public class Session : AbstractSession
 
     public Country PlayerCountry { get; private set; }
 
-    public Dictionary<string, CentralArmy> centralArmies { get; }
+    public Dictionary<string, CentralArmy> CentralArmies { get; }
 
     public Session(string seed)
     {
@@ -34,10 +34,10 @@ public class Session : AbstractSession
 
         Date = new Date();
         MapCells = MapBuilder.Build2(64, seed);
-        Provinces = Province.Builder.Build(MapCells.Values, (prov) => centralArmies.Values.Where(x => x.Position == prov));
+        Provinces = Province.Builder.Build(MapCells.Values, (prov) => CentralArmies.Values.Where(x => x.Position == prov));
         Countries = Country.Builder.Build(Provinces.Values, Provinces.Values.Max(x => x.PopCount) * 3, Provinces.Count / 5, seed);
 
-        centralArmies = Countries.Values.Select(x => new CentralArmy(1000, 1000, x)).ToDictionary(x => x.Key, y => y);
+        CentralArmies = Countries.Values.Select(x => new CentralArmy(1000, 1000, x)).ToDictionary(x => x.Key, y => y);
     }
 
     [MessageProcess]
@@ -59,5 +59,14 @@ public class Session : AbstractSession
     private void On_Command_NextTurn(Command_NextTurn cmd)
     {
         Date.DaysInc(10);
+    }
+
+    [MessageProcess]
+    private void On_Command_ArmyMove(Command_ArmyMove cmd)
+    {
+        var army = CentralArmies[cmd.armyId];
+        var province = Provinces[cmd.provinceId];
+
+        army.OnMove(province);
     }
 }
