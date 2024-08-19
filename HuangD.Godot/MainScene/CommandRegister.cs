@@ -16,12 +16,15 @@ public partial class CommandRegister : Node
     {
         CommandConsole.IsVaild = true;
 
+        var ass = AppDomain.CurrentDomain.GetAssemblies()
+            .Where(x => x.FullName.Contains("HuangD")).ToArray();
+        var def = ass.SelectMany(x => x.DefinedTypes).ToList();
 
-        var types = Assembly.GetExecutingAssembly()
-            .GetTypes()
+        var types = AppDomain.CurrentDomain.GetAssemblies()
+            .Where(x => x.FullName.Contains("HuangD"))
+            .SelectMany(x => x.DefinedTypes)
             .Where(x => x.GetCustomAttribute<RegistCommandAttribute>() != null && x.IsAssignableTo(typeof(IMessage)))
             .ToArray();
-        ;
 
         foreach (var type in types)
         {
