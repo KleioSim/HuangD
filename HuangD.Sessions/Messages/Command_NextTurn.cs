@@ -2,6 +2,7 @@
 
 namespace HuangD.Sessions.Messages;
 
+[RegistCommand]
 public class Command_NextTurn : IMessage
 {
     public object Target { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }

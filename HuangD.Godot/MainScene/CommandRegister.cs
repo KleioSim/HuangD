@@ -6,6 +6,7 @@ using HuangD.Sessions;
 using HuangD.Sessions.Messages;
 using System;
 using System.Linq;
+using System.Reflection;
 
 public partial class CommandRegister : Node
 {
@@ -16,27 +17,24 @@ public partial class CommandRegister : Node
         CommandConsole.IsVaild = true;
 
 
+        var types = Assembly.GetExecutingAssembly()
+            .GetTypes()
+            .Where(x => x.GetCustomAttribute<RegistCommandAttribute>() != null && x.IsAssignableTo(typeof(IMessage)))
+            .ToArray();
+        ;
 
-        //CommandConsole.AddCommand("ChangeCounrtryOwner".ToLower(), ChangeProvinceOwner);
+        foreach (var type in types)
+        {
+            var constructor = type.GetConstructors().SingleOrDefault();
 
+            CommandConsole.AddCommand(type.Name,
+                (object[] parameters) =>
+                {
+                    var obj = constructor.Invoke(parameters) as IMessage;
 
-        Type type = typeof(Command_ChangeProvinceOwner);
-        var constructor = type.GetConstructors().FirstOrDefault();
-
-        CommandConsole.AddCommand(type.Name,
-            (object[] parameters) =>
-            {
-                var obj = constructor.Invoke(parameters) as IMessage;
-
-                SendCommand(obj);
-            },
-            constructor.GetParameters().ToDictionary(k => k.Name, v => v.ParameterType));
+                    SendCommand(obj);
+                },
+                constructor.GetParameters().ToDictionary(k => k.Name, v => v.ParameterType));
+        }
     }
-
-
-    //void ChangeProvinceOwner(string provinceId, string countryId)
-    //{
-    //    var message = new Command_ChangeProvinceOwner(provinceId, countryId);
-    //    ViewControl.SendCommand(message);
-    //}
 }

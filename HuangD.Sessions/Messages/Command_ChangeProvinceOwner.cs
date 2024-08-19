@@ -2,6 +2,7 @@
 
 namespace HuangD.Sessions.Messages;
 
+[RegistCommand]
 public class Command_ChangeProvinceOwner : IMessage
 {
     public readonly string provinceId;
