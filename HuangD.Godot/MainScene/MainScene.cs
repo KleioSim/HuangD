@@ -43,6 +43,8 @@ public partial class MainScene : ViewControl
         if (this.GetSession().Entities[detailPanel.EntityId] is CentralArmy centralArmy)
         {
             SendCommand(new Command_ArmyMove(detailPanel.EntityId, provinceId));
+
+            MapScene.UpdateMoveArrow(detailPanel.EntityId);
         }
     }
 }

@@ -29,11 +29,20 @@ public class CentralArmy : IEntity
     {
         MoveTo = new MoveTo(province);
     }
+
+    public void OnCancelMove()
+    {
+        MoveTo = null;
+    }
 }
 
 public class MoveTo
 {
     public Province Target { get; }
+
+    public float speed { get; }
+
+    public float percent { get; }
 
     public MoveTo(Province target)
     {

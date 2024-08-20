@@ -90,6 +90,14 @@ public class Session : AbstractSession
 
         army.OnMove(province);
     }
+
+    [MessageProcess]
+    private void On_Command_Cancel_ArmyMove(Command_Cancel_ArmyMove cmd)
+    {
+        var army = CentralArmies[cmd.armyId];
+
+        army.OnCancelMove();
+    }
 }
 
 public class EntityDictionary : IReadOnlyDictionary<string, IEntity>

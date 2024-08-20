@@ -83,7 +83,7 @@ public partial class MapScene : Node2D
         EmitSignal(SignalName.ClickEnity, id);
     }
 
-    private void UpdateMoveArrow(string id)
+    public void UpdateMoveArrow(string id)
     {
         CentralArmy army = this.GetSession().Entities[id] as CentralArmy;
 
@@ -92,6 +92,12 @@ public partial class MapScene : Node2D
         foreach (var arrow in amryMoveArrows.Where(x => x != currArmyArrow))
         {
             arrow.QueueFree();
+        }
+
+        if (army.MoveTo == null)
+        {
+            currArmyArrow?.QueueFree();
+            return;
         }
 
         currArmyArrow ??= AmryMoveArrowPlaceHolder.CreateInstance() as AmryMoveArrow;
