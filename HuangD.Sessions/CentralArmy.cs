@@ -27,6 +27,17 @@ public class CentralArmy : IEntity
 
     public void OnMove(Province province)
     {
+        if (MoveTo != null && MoveTo.Target == province)
+        {
+            return;
+        }
+
+        MoveTo = null;
+        if (Position == province)
+        {
+            return;
+        }
+
         MoveTo = new MoveTo(province);
     }
 
@@ -34,19 +45,31 @@ public class CentralArmy : IEntity
     {
         MoveTo = null;
     }
+
+    internal void OnNextTurn()
+    {
+        if (MoveTo != null)
+        {
+            MoveTo.percent += MoveTo.speed;
+            if (MoveTo.percent >= 100)
+            {
+                Position = MoveTo.Target;
+                MoveTo = null;
+            }
+        }
+    }
 }
 
 public class MoveTo
 {
     public Province Target { get; }
 
-    public float speed { get; }
+    public float speed { get; } = 30;
 
-    public float percent { get; }
+    public float percent { get; internal set; }
 
     public MoveTo(Province target)
     {
         Target = target;
     }
-
 }

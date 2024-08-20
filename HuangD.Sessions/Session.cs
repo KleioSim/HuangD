@@ -80,6 +80,11 @@ public class Session : AbstractSession
     private void On_Command_NextTurn(Command_NextTurn cmd)
     {
         Date.DaysInc(10);
+
+        foreach (var army in CentralArmies.Values)
+        {
+            army.OnNextTurn();
+        }
     }
 
     [MessageProcess]
