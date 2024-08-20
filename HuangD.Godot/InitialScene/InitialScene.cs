@@ -31,16 +31,18 @@ public partial class InitialScene : ViewControl
         var mapScene = ResourceLoader.Load<PackedScene>("res://MapScene/MapScene.tscn").Instantiate() as MapScene;
         GetTree().Root.AddChild(mapScene);
 
-        mapScene.Connect(MapScene.SignalName.ClickProvince, new Callable(this, MethodName.OnSelectProvince));
+        mapScene.Connect(MapScene.SignalName.ClickEnity, new Callable(this, MethodName.OnSelectProvince));
 
         //CommandConsole.AddCommand("TestInt", TestInt);
     }
 
-    public void OnSelectProvince(string provinceId)
+    public void OnSelectProvince(string id)
     {
-        var province = this.GetSession().Provinces[provinceId];
-
-        SendCommand(new Command_ChangePlayerCountry(province.Owner.Id));
+        var province = this.GetSession().Entities[id] as Province;
+        if (province != null)
+        {
+            SendCommand(new Command_ChangePlayerCountry(province.Owner.Id));
+        }
     }
 
     protected override void Initialize()

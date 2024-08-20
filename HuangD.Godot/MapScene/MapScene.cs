@@ -15,6 +15,7 @@ public partial class MapScene : Node2D
     TerrainMap TerrainMap => GetNode<TerrainMap>("CanvasLayer/TerrainMap");
     MapCamera2D Camera => GetNode<MapCamera2D>("CanvasLayer/Camera2D");
     InstancePlaceholder PoliticalInfoPlaceHolder => GetNode<InstancePlaceholder>("CanvasLayer/PoliticalInfo");
+    InstancePlaceholder AmryMoveArrowPlaceHolder => GetNode<InstancePlaceholder>("");
 
     [Signal]
     public delegate void ClickEnityEventHandler(string id);
@@ -77,8 +78,24 @@ public partial class MapScene : Node2D
     private void OnClickEntity(string id)
     {
         UpdateMoveTarget(id);
+        UpdateMoveArrow(id);
 
         EmitSignal(SignalName.ClickEnity, id);
+    }
+
+    private void UpdateMoveArrow(string id)
+    {
+        CentralArmy army = this.GetSession().Entities[id] as CentralArmy;
+
+        var amryMoveArrows = AmryMoveArrowPlaceHolder.GetParent().GetChildren().OfType<AmryMoveArrow>().ToArray();
+        var currArmyArrow = amryMoveArrows.SingleOrDefault(x => x.ArmyId == army.Id);
+        foreach (var arrow in amryMoveArrows.Where(x => x != currArmyArrow))
+        {
+            arrow.QueueFree();
+        }
+
+        currArmyArrow ??= AmryMoveArrowPlaceHolder.CreateInstance() as AmryMoveArrow;
+        currArmyArrow.ArmyId = army.Id;
     }
 
     private void UpdateMoveTarget(string id)
