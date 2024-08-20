@@ -17,10 +17,7 @@ public partial class MapScene : Node2D
     InstancePlaceholder PoliticalInfoPlaceHolder => GetNode<InstancePlaceholder>("CanvasLayer/PoliticalInfo");
 
     [Signal]
-    public delegate void ClickProvinceEventHandler(string id);
-
-    [Signal]
-    public delegate void ClickArmyEventHandler(string id);
+    public delegate void ClickEnityEventHandler(string id);
 
     [Signal]
     public delegate void ClickArmyMoveTargetEventHandler(string id);
@@ -44,7 +41,7 @@ public partial class MapScene : Node2D
             var politicalInfo = PoliticalInfoPlaceHolder.CreateInstance() as PoliticalInfo;
             politicalInfo.Position = ProvinceMap.GetPawnLocation(province.Id);
             politicalInfo.province = province;
-            politicalInfo.ArmyInfo.Connect(ArmyInfo.SignalName.ClickArmy, Callable.From((string id) => EmitSignal(SignalName.ClickArmy, id)));
+            politicalInfo.ArmyInfo.Connect(ArmyInfo.SignalName.ClickArmy, new Callable(this, MethodName.OnClickEntity));
             politicalInfo.MoveTarget.Connect(Button.SignalName.Pressed, Callable.From(() => EmitSignal(SignalName.ClickArmyMoveTarget, province.Id)));
 
             politicalInfo.OnZoomed(Camera.Zoom);
@@ -68,7 +65,7 @@ public partial class MapScene : Node2D
 
                     if (provinceId != null)
                     {
-                        EmitSignal(SignalName.ClickProvince, provinceId);
+                        OnClickEntity(provinceId);
                         GD.Print(provinceId);
                     }
                 }
@@ -77,29 +74,25 @@ public partial class MapScene : Node2D
         }
     }
 
-    public void CleanMoveTargets()
+    private void OnClickEntity(string id)
     {
+        UpdateMoveTarget(id);
+
+        EmitSignal(SignalName.ClickEnity, id);
+    }
+
+    private void UpdateMoveTarget(string id)
+    {
+        var targetProvince = Enumerable.Empty<Province>();
+        if (this.GetSession().Entities[id] is CentralArmy centralArmy)
+        {
+            targetProvince = centralArmy.Position.Neighbors;
+        }
+
         var politicalInfos = PoliticalInfoPlaceHolder.GetParent().GetChildren().OfType<PoliticalInfo>().ToArray();
         foreach (var politicalInfo in politicalInfos)
         {
-            politicalInfo.MoveTarget.Visible = false;
+            politicalInfo.MoveTarget.Visible = targetProvince.Contains(politicalInfo.province);
         }
-    }
-
-    public void ShowMoveTargets(IEnumerable<Province> provinces)
-    {
-        var politicalInfos = PoliticalInfoPlaceHolder.GetParent().GetChildren().OfType<PoliticalInfo>()
-            .Where(x => provinces.Contains(x.province))
-            .ToArray();
-
-        foreach (var politicalInfo in politicalInfos)
-        {
-            politicalInfo.MoveTarget.Visible = true;
-        }
-    }
-
-    private void OnCentralArmyMove()
-    {
-
     }
 }

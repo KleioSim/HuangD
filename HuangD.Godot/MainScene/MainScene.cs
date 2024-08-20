@@ -10,15 +10,13 @@ public partial class MainScene : ViewControl
 {
     Button NextTurn => GetNode<Button>("");
     MapScene MapScene => GetNode<MapScene>("/root/MapScene");
-    InstancePlaceholder HolderDetailPanel => GetNode<InstancePlaceholder>("");
+    InstancePlaceholder DetailPanelPlaceHolder => GetNode<InstancePlaceholder>("CanvasLayer/DetailPanel");
 
     protected override void Initialize()
     {
         NextTurn.Connect(Button.SignalName.Pressed, new Callable(this, MethodName.OnNextTurn));
 
-
-        MapScene.Connect(MapScene.SignalName.ClickProvince, new Callable(this, MethodName.OnSelectEntity));
-        MapScene.Connect(MapScene.SignalName.ClickArmy, new Callable(this, MethodName.OnSelectEntity));
+        MapScene.Connect(MapScene.SignalName.ClickEnity, new Callable(this, MethodName.OnSelectEntity));
         MapScene.Connect(MapScene.SignalName.ClickArmyMoveTarget, new Callable(this, MethodName.OnStartArmyMove));
     }
 
@@ -34,19 +32,13 @@ public partial class MainScene : ViewControl
 
     private void OnSelectEntity(string id)
     {
-        var detailPanel = HolderDetailPanel.CreateInstance() as DetailPanel;
+        var detailPanel = DetailPanelPlaceHolder.CreateInstance() as DetailPanel;
         detailPanel.EntityId = id;
-
-        MapScene.CleanMoveTargets();
-        if (this.GetSession().Entities[id] is CentralArmy centralArmy)
-        {
-            MapScene.ShowMoveTargets(centralArmy.Position.Neighbors);
-        }
     }
 
     private void OnStartArmyMove(string provinceId)
     {
-        var detailPanel = HolderDetailPanel.GetParent().GetChildren().OfType<DetailPanel>().SingleOrDefault();
+        var detailPanel = DetailPanelPlaceHolder.GetParent().GetChildren().OfType<DetailPanel>().SingleOrDefault();
 
         if (this.GetSession().Entities[detailPanel.EntityId] is CentralArmy centralArmy)
         {
