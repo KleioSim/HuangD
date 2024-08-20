@@ -1,13 +1,14 @@
-﻿using HuangD.Sessions.Maps;
+﻿using Chrona.Engine.Core.Interfaces;
+using HuangD.Sessions.Maps;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace HuangD.Sessions;
 
-public partial class Province
+public partial class Province : IEntity
 {
-    public string Key { get; }
+    public string Id { get; }
 
     public Country Owner { get; set; }
 
@@ -22,10 +23,13 @@ public partial class Province
     public int PopCount => MapCells.Sum(x => x.PopCount);
 
     private Func<IEnumerable<CentralArmy>> FindArmies { get; set; }
+    public bool IsInteractionDateOut { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+    public IEnumerable<IInteraction> Interactions => throw new NotImplementedException();
 
     public Province(string key, IEnumerable<MapCell> mapCells, Func<Province, IEnumerable<CentralArmy>> armyFinder)
     {
-        Key = key;
+        Id = key;
         MapCells = mapCells;
         FindArmies = () => armyFinder(this);
         PopTax = new PopTax(this);

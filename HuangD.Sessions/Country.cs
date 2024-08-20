@@ -1,4 +1,5 @@
-﻿using DynamicData;
+﻿using Chrona.Engine.Core.Interfaces;
+using DynamicData;
 using HuangD.Sessions.Utilties;
 using System;
 using System.Collections.Generic;
@@ -8,13 +9,13 @@ using System.Numerics;
 
 namespace HuangD.Sessions;
 
-public partial class Country
+public partial class Country : IEntity
 {
     private static Func<Country, IEnumerable<Province>> GetProvinces;
 
     public (float h, float s, float v) Color { get; }
 
-    public string Key { get; }
+    public string Id { get; }
 
     public IEnumerable<Province> Provinces => GetProvinces(this);
 
@@ -44,7 +45,7 @@ public partial class Country
 
     public Country(string key, (float h, float s, float v) color)
     {
-        Key = key;
+        Id = key;
         Color = color;
         Economy = new Economy(this);
     }

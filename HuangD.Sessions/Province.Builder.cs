@@ -20,7 +20,7 @@ public partial class Province
             foreach (var pair in provinceId2Cells)
             {
                 var province = new Province(pair.Key, pair.Value, armyFinder);
-                rslt.Add(province.Key, province);
+                rslt.Add(province.Id, province);
             }
 
             BuilderNeighbors(rslt.Values, provinceId2Cells);
@@ -34,7 +34,7 @@ public partial class Province
             while (provinceQueue.Count > 0)
             {
                 var current = provinceQueue.Dequeue();
-                var neighbors = provinceQueue.Where(other => IsNeighbor(provinceId2Cells[current.Key], provinceId2Cells[other.Key])).ToArray();
+                var neighbors = provinceQueue.Where(other => IsNeighbor(provinceId2Cells[current.Id], provinceId2Cells[other.Id])).ToArray();
 
                 current.Neighbors = current.Neighbors.Union(neighbors).ToArray();
                 foreach (var neighbor in neighbors)

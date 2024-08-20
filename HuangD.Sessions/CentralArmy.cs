@@ -1,11 +1,12 @@
-﻿using HuangD.Sessions.Utilties;
+﻿using Chrona.Engine.Core.Interfaces;
+using HuangD.Sessions.Utilties;
 using System;
 
 namespace HuangD.Sessions;
 
-public class CentralArmy
+public class CentralArmy : IEntity
 {
-    public string Key { get; }
+    public string Id { get; }
     public int Count { get; internal set; }
     public int ExpectCount { get; internal set; }
     public float Cost => Math.Max(ExpectCount, Count) / 1000;
@@ -16,7 +17,7 @@ public class CentralArmy
 
     public CentralArmy(int count, int expectCount, Country owner)
     {
-        Key = UUID.Generate("ARMY");
+        Id = UUID.Generate("ARMY");
 
         Count = count;
         ExpectCount = expectCount;

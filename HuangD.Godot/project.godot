@@ -21,10 +21,6 @@ config/icon="res://MapScene/icon.svg"
 Chrona_Global="*res://addons/Chrona.Engine.Godot/Global.cs"
 CommandConsole="*res://addons/csharpConsole/CommandConsole.cs"
 
-[display]
-
-window/size/mode=4
-
 [dotnet]
 
 project/assembly_name="HuangD.Godot"

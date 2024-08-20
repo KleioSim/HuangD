@@ -60,7 +60,7 @@ public partial class Country
 
                 var color = (colors[rslt.Count % colors.Length], ((rslt.Count % 3) + 1) * 0.33f, 1f);
                 var country = new Country(UUID.Generate("CNTY"), color);
-                rslt.Add(country.Key, country);
+                rslt.Add(country.Id, country);
 
                 foreach (var province in provGroups)
                 {

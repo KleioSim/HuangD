@@ -13,6 +13,8 @@ public partial class PoliticalInfo : ViewControl
     public ArmyInfo ArmyInfo => GetNode<ArmyInfo>("HBoxContainer/Army");
     public ArmyInfo EnemyInfo => GetNode<ArmyInfo>("VBoxContainer/Army");
 
+    public MoveTarget MoveTarget => GetNode<MoveTarget>("");
+
     public Province province
     {
         get
@@ -22,8 +24,8 @@ public partial class PoliticalInfo : ViewControl
         set
         {
             _province = value;
-            ProvinceName.Text = _province.Key;
-            CountryName.Text = _province.Owner.Key;
+            ProvinceName.Text = _province.Id;
+            CountryName.Text = _province.Owner.Id;
         }
     }
 
@@ -40,8 +42,8 @@ public partial class PoliticalInfo : ViewControl
 
     protected override void Update()
     {
-        ProvinceName.Text = _province.Key;
-        CountryName.Text = _province.Owner.Key;
+        ProvinceName.Text = _province.Id;
+        CountryName.Text = _province.Owner.Id;
 
         CurrentOwner.Modulate = Color.FromHsv(_province.Owner.Color.h, _province.Owner.Color.s, _province.Owner.Color.v);
 

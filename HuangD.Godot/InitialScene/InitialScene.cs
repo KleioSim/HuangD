@@ -40,7 +40,7 @@ public partial class InitialScene : ViewControl
     {
         var province = this.GetSession().Provinces[provinceId];
 
-        SendCommand(new Command_ChangePlayerCountry(province.Owner.Key));
+        SendCommand(new Command_ChangePlayerCountry(province.Owner.Id));
     }
 
     protected override void Initialize()
@@ -55,7 +55,7 @@ public partial class InitialScene : ViewControl
         SelectCountryPanel.Visible = playerCountry != null;
         if (SelectCountryPanel.Visible)
         {
-            SelectCountryPanel.CountryName.Text = playerCountry.Key;
+            SelectCountryPanel.CountryName.Text = playerCountry.Id;
             SelectCountryPanel.ProvinceCount.Text = playerCountry.Provinces.Count().ToString();
             SelectCountryPanel.PopCount.Text = playerCountry.PopCount.ToString();
         }

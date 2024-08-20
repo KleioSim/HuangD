@@ -1,8 +1,11 @@
 ﻿using DynamicData;
 using Godot;
 using HuangD.Godot.Utilties;
+using HuangD.Sessions;
 using HuangD.Sessions.Maps;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reactive.Linq;
 
 public partial class MapScene : Node2D
@@ -15,6 +18,12 @@ public partial class MapScene : Node2D
 
     [Signal]
     public delegate void ClickProvinceEventHandler(string id);
+
+    [Signal]
+    public delegate void ClickArmyEventHandler(string id);
+
+    [Signal]
+    public delegate void ClickArmyMoveTargetEventHandler(string id);
 
     public override void _Ready()
     {
@@ -33,8 +42,10 @@ public partial class MapScene : Node2D
         foreach (var province in session.Provinces.Values)
         {
             var politicalInfo = PoliticalInfoPlaceHolder.CreateInstance() as PoliticalInfo;
-            politicalInfo.Position = ProvinceMap.GetPawnLocation(province.Key);
+            politicalInfo.Position = ProvinceMap.GetPawnLocation(province.Id);
             politicalInfo.province = province;
+            politicalInfo.ArmyInfo.Connect(ArmyInfo.SignalName.ClickArmy, Callable.From((string id) => EmitSignal(SignalName.ClickArmy, id)));
+            politicalInfo.MoveTarget.Connect(Button.SignalName.Pressed, Callable.From(() => EmitSignal(SignalName.ClickArmyMoveTarget, province.Id)));
 
             politicalInfo.OnZoomed(Camera.Zoom);
 
@@ -64,5 +75,31 @@ public partial class MapScene : Node2D
             }
             return;
         }
+    }
+
+    public void CleanMoveTargets()
+    {
+        var politicalInfos = PoliticalInfoPlaceHolder.GetParent().GetChildren().OfType<PoliticalInfo>().ToArray();
+        foreach (var politicalInfo in politicalInfos)
+        {
+            politicalInfo.MoveTarget.Visible = false;
+        }
+    }
+
+    public void ShowMoveTargets(IEnumerable<Province> provinces)
+    {
+        var politicalInfos = PoliticalInfoPlaceHolder.GetParent().GetChildren().OfType<PoliticalInfo>()
+            .Where(x => provinces.Contains(x.province))
+            .ToArray();
+
+        foreach (var politicalInfo in politicalInfos)
+        {
+            politicalInfo.MoveTarget.Visible = true;
+        }
+    }
+
+    private void OnCentralArmyMove()
+    {
+
     }
 }

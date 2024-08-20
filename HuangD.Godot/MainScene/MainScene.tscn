@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://c746kt5iwp6xo"]
+[gd_scene load_steps=3 format=3 uid="uid://c746kt5iwp6xo"]
 
 [ext_resource type="Script" path="res://MainScene/MainScene.cs" id="1_02pok"]
+[ext_resource type="Script" path="res://MainScene/DetailPanel.cs" id="2_06liw"]
 
 [node name="MainScene" type="Control"]
 layout_mode = 3
@@ -292,4 +293,37 @@ custom_minimum_size = Vector2(120, 60)
 layout_mode = 2
 text = "NextTurn"
 
+[node name="DetailPanel" type="Panel" parent="CanvasLayer"]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -20.0
+offset_right = 194.0
+offset_bottom = 86.0
+grow_vertical = 2
+script = ExtResource("2_06liw")
+
+[node name="Label" type="Label" parent="CanvasLayer/DetailPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "--"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="CanvasLayer/DetailPanel"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -8.0
+offset_bottom = 8.0
+grow_horizontal = 0
+text = "X"
+
 [node name="Timer" type="Timer" parent="."]
+
+[connection signal="pressed" from="CanvasLayer/DetailPanel/Button" to="CanvasLayer/DetailPanel" method="queue_free"]
