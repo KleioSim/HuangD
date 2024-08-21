@@ -13,7 +13,7 @@ public partial class PoliticalInfo : ViewControl
     public ArmyInfo ArmyInfo => GetNode<ArmyInfo>("HBoxContainer/Army");
     public ArmyInfo EnemyInfo => GetNode<ArmyInfo>("VBoxContainer/Army");
 
-    public MoveTarget MoveTarget => GetNode<MoveTarget>("");
+    public MoveTarget MoveTarget => GetNode<MoveTarget>("HBoxContainer/VBoxContainer/Province/MoveTarget");
 
     public Province province
     {

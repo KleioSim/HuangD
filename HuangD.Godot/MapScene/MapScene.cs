@@ -37,13 +37,14 @@ public partial class MapScene : Node2D
             }
         }
 
-        foreach (var province in session.Provinces.Values)
+        foreach (var province in session.Entities.Values.OfType<Province>())
         {
             var politicalInfo = PoliticalInfoPlaceHolder.CreateInstance() as PoliticalInfo;
             politicalInfo.Position = ProvinceMap.GetPawnLocation(province.Id);
             politicalInfo.province = province;
             politicalInfo.ArmyInfo.Connect(ArmyInfo.SignalName.ClickArmy, new Callable(this, MethodName.OnClickEntity));
             politicalInfo.MoveTarget.Connect(Button.SignalName.Pressed, Callable.From(() => EmitSignal(SignalName.ClickArmyMoveTarget, province.Id)));
+            politicalInfo.MoveTarget.Visible = false;
 
             politicalInfo.OnZoomed(Camera.Zoom);
 
@@ -78,7 +79,7 @@ public partial class MapScene : Node2D
     private void OnClickEntity(string id)
     {
         UpdateMoveTarget(id);
-        UpdateMoveArrow(id);
+        //UpdateMoveArrow(id);
 
         EmitSignal(SignalName.ClickEnity, id);
     }

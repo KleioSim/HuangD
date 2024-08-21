@@ -31,7 +31,7 @@ public partial class AmryMoveArrow : ViewControl
 
     protected override void Update()
     {
-        var army = this.GetSession().CentralArmies[armyId];
+        var army = this.GetSession().Entities[armyId] as CentralArmy;
         if (army == null || army.MoveTo == null)
         {
             QueueFree();

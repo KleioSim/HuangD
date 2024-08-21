@@ -27,6 +27,7 @@ script = ExtResource("1_3h0t5")
 follow_viewport_enabled = true
 
 [node name="TerrainMap" type="TileMap" parent="CanvasLayer"]
+visible = false
 tile_set = SubResource("TileSet_oq2sr")
 format = 2
 layer_0/modulate = Color(0, 0, 0.4, 1)
@@ -62,7 +63,7 @@ format = 2
 script = ExtResource("6_imvhe")
 
 [node name="Camera2D" type="Camera2D" parent="CanvasLayer"]
-zoom = Vector2(0.5, 0.5)
+zoom = Vector2(0.1, 0.1)
 script = ExtResource("5_1hgk6")
 ZoomMin = 0.1
 ZoomMax = 1.0

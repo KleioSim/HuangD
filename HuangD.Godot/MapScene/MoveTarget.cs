@@ -1,6 +1,6 @@
 ﻿using Godot;
 
-public partial class MoveTarget : Control
+public partial class MoveTarget : Button
 {
-    public Button Button => GetNode<Button>("");
+    public Button Button => this;
 }

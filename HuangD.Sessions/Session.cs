@@ -16,23 +16,16 @@ public class Session : AbstractSession
 {
     public override IEntity Player { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
-    public override IReadOnlyDictionary<string, IEntity> Entities => entityDict;
+    public override IReadOnlyDictionary<string, IEntity> Entities => entities;
 
 
     public Date Date { get; }
 
     public Dictionary<Index, MapCell> MapCells { get; }
 
-    public Dictionary<string, Province> Provinces { get; }
-
-    public Dictionary<string, Country> Countries { get; }
-
     public Country PlayerCountry { get; private set; }
 
-    public Dictionary<string, CentralArmy> CentralArmies { get; }
-
-    private EntityDictionary entityDict = new EntityDictionary();
-
+    private Dictionary<string, IEntity> entities = new Dictionary<string, IEntity>();
 
     public Session(string seed)
     {
@@ -40,32 +33,32 @@ public class Session : AbstractSession
 
         Date = new Date();
         MapCells = MapBuilder.Build2(64, seed);
-        Provinces = Province.Builder.Build(MapCells.Values, (prov) => CentralArmies.Values.Where(x => x.Position == prov));
-        Countries = Country.Builder.Build(Provinces.Values, Provinces.Values.Max(x => x.PopCount) * 3, Provinces.Count / 5, seed);
 
-        CentralArmies = Countries.Values.Select(x => new CentralArmy(1000, 1000, x)).ToDictionary(x => x.Id, y => y);
+        var provinces = Province.Builder.Build(MapCells.Values, (prov) => entities.Values.OfType<CentralArmy>().Where(x => x.Position == prov));
+        var countries = Country.Builder.Build(provinces.Values, provinces.Values.Max(x => x.PopCount) * 3, provinces.Count / 5, seed);
+        var centralArmies = countries.Values.Select(x => new CentralArmy(1000, 1000, x)).ToDictionary(x => x.Id, y => y);
 
-        foreach (var entity in Provinces.Values)
+        foreach (var entity in provinces.Values)
         {
-            entityDict.Add(entity);
+            entities.Add(entity.Id, entity);
         }
 
-        foreach (var entity in Countries.Values)
+        foreach (var entity in countries.Values)
         {
-            entityDict.Add(entity);
+            entities.Add(entity.Id, entity);
         }
 
-        foreach (var entity in CentralArmies.Values)
+        foreach (var entity in centralArmies.Values)
         {
-            entityDict.Add(entity);
+            entities.Add(entity.Id, entity);
         }
     }
 
     [MessageProcess]
     private void On_Command_ChangeProvinceOwner(Command_ChangeProvinceOwner cmd)
     {
-        var province = Provinces[cmd.provinceId];
-        var country = Countries[cmd.countryId];
+        var province = entities[cmd.provinceId] as Province;
+        var country = entities[cmd.countryId] as Country;
 
         province.Owner = country;
     }
@@ -73,7 +66,7 @@ public class Session : AbstractSession
     [MessageProcess]
     private void On_Command_ChangePlayerCountry(Command_ChangePlayerCountry cmd)
     {
-        PlayerCountry = Countries[cmd.countryId];
+        PlayerCountry = entities[cmd.countryId] as Country;
     }
 
     [MessageProcess]
@@ -81,7 +74,7 @@ public class Session : AbstractSession
     {
         Date.DaysInc(10);
 
-        foreach (var army in CentralArmies.Values)
+        foreach (var army in entities.Values.OfType<CentralArmy>())
         {
             army.OnNextTurn();
         }
@@ -90,8 +83,8 @@ public class Session : AbstractSession
     [MessageProcess]
     private void On_Command_ArmyMove(Command_ArmyMove cmd)
     {
-        var army = CentralArmies[cmd.armyId];
-        var province = Provinces[cmd.provinceId];
+        var army = entities[cmd.armyId] as CentralArmy;
+        var province = entities[cmd.provinceId] as Province;
 
         army.OnMove(province);
     }
@@ -99,48 +92,8 @@ public class Session : AbstractSession
     [MessageProcess]
     private void On_Command_Cancel_ArmyMove(Command_Cancel_ArmyMove cmd)
     {
-        var army = CentralArmies[cmd.armyId];
+        var army = entities[cmd.armyId] as CentralArmy;
 
         army.OnCancelMove();
-    }
-}
-
-public class EntityDictionary : IReadOnlyDictionary<string, IEntity>
-{
-    public IEntity this[string key] => throw new System.NotImplementedException();
-
-    public IEnumerable<string> Keys => entities.Select(x => x.Key);
-
-    public IEnumerable<IEntity> Values => entities.Select(x => x.Value);
-
-    public int Count => entities.Count();
-
-    private ConditionalWeakTable<string, IEntity> entities = new ConditionalWeakTable<string, IEntity>();
-
-
-    public bool ContainsKey(string key)
-    {
-        return entities.TryGetValue(key, out IEntity entity);
-    }
-
-    public bool TryGetValue(string key, [MaybeNullWhen(false)] out IEntity enitity)
-    {
-        enitity = null;
-        return entities.TryGetValue(key, out enitity);
-    }
-
-    public IEnumerator<KeyValuePair<string, IEntity>> GetEnumerator()
-    {
-        return ((IEnumerable<KeyValuePair<string, IEntity>>)entities).GetEnumerator();
-    }
-
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return ((IEnumerable<KeyValuePair<string, IEntity>>)entities).GetEnumerator();
-    }
-
-    internal void Add(IEntity entity)
-    {
-        entities.Add(entity.Id, entity);
     }
 }

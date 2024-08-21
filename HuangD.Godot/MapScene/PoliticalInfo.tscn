@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://df0qeobvo5f2h"]
+[gd_scene load_steps=9 format=3 uid="uid://df0qeobvo5f2h"]
 
 [ext_resource type="Script" path="res://MapScene/PoliticalInfo.cs" id="1_mm6e2"]
 [ext_resource type="Texture2D" uid="uid://d3o4sb567jy4j" path="res://MapScene/whrite128.png" id="2_li8uw"]
 [ext_resource type="Script" path="res://MapScene/ArmyInfo.cs" id="3_0odwj"]
+[ext_resource type="Script" path="res://MapScene/MoveTarget.cs" id="3_fdawu"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_7c6r4"]
 font_color = Color(0, 0, 0, 1)
@@ -91,6 +92,23 @@ text = "PRO_NAME
 label_settings = SubResource("LabelSettings_v8lxk")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="MoveTarget" type="Button" parent="HBoxContainer/VBoxContainer/Province"]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -29.0
+offset_top = 5.0
+offset_right = 31.0
+offset_bottom = 65.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Target"
+script = ExtResource("3_fdawu")
 
 [node name="Army" type="Control" parent="HBoxContainer"]
 custom_minimum_size = Vector2(45, 65)
