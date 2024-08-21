@@ -3,7 +3,7 @@ using System;
 
 public partial class DetailPanel : Panel
 {
-    public Label label => GetNode<Label>("");
+    public Label label => GetNode<Label>("Label");
 
     public string EntityId
     {

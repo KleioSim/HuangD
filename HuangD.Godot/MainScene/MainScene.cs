@@ -8,7 +8,7 @@ using System.Linq;
 
 public partial class MainScene : ViewControl
 {
-    Button NextTurn => GetNode<Button>("");
+    Button NextTurn => GetNode<Button>("CanvasLayer/NextTurn/Button");
     MapScene MapScene => GetNode<MapScene>("/root/MapScene");
     InstancePlaceholder DetailPanelPlaceHolder => GetNode<InstancePlaceholder>("CanvasLayer/DetailPanel");
 
@@ -32,19 +32,24 @@ public partial class MainScene : ViewControl
 
     private void OnSelectEntity(string id)
     {
-        var detailPanel = DetailPanelPlaceHolder.CreateInstance() as DetailPanel;
+        var detailPanel = DetailPanelPlaceHolder.GetParent().GetChildren().OfType<DetailPanel>().SingleOrDefault();
+        if (detailPanel == null)
+        {
+            detailPanel = DetailPanelPlaceHolder.CreateInstance() as DetailPanel;
+        }
+
         detailPanel.EntityId = id;
     }
 
     private void OnStartArmyMove(string provinceId)
     {
-        var detailPanel = DetailPanelPlaceHolder.GetParent().GetChildren().OfType<DetailPanel>().SingleOrDefault();
+        var detailPanel = DetailPanelPlaceHolder.GetParent().GetChildren().OfType<DetailPanel>().Single();
 
         if (this.GetSession().Entities[detailPanel.EntityId] is CentralArmy centralArmy)
         {
             SendCommand(new Command_ArmyMove(detailPanel.EntityId, provinceId));
 
-            MapScene.UpdateMoveArrow(detailPanel.EntityId);
+            MapScene.UpdateMoveInfo(detailPanel.EntityId);
         }
     }
 }

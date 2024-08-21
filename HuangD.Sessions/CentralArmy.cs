@@ -15,7 +15,7 @@ public class CentralArmy : IEntity
     public Province Position { get; internal set; }
     public MoveTo MoveTo { get; internal set; }
 
-    public CentralArmy(int count, int expectCount, Country owner)
+    internal CentralArmy(int count, int expectCount, Country owner)
     {
         Id = UUID.Generate("ARMY");
 
@@ -25,7 +25,7 @@ public class CentralArmy : IEntity
         Position = owner.CapitalProvince;
     }
 
-    public void OnMove(Province province)
+    internal void OnMove(Province province)
     {
         if (MoveTo != null && MoveTo.Target == province)
         {
@@ -41,7 +41,7 @@ public class CentralArmy : IEntity
         MoveTo = new MoveTo(province);
     }
 
-    public void OnCancelMove()
+    internal void OnCancelMove()
     {
         MoveTo = null;
     }
@@ -68,7 +68,7 @@ public class MoveTo
 
     public float percent { get; internal set; }
 
-    public MoveTo(Province target)
+    internal MoveTo(Province target)
     {
         Target = target;
     }

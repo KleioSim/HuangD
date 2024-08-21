@@ -45,7 +45,7 @@ public partial class PoliticalInfo : ViewControl
         ProvinceName.Text = _province.Id;
         CountryName.Text = _province.Owner.Id;
 
-        CurrentOwner.Modulate = Color.FromHsv(_province.Owner.Color.h, _province.Owner.Color.s, _province.Owner.Color.v);
+        //CurrentOwner.Modulate = Color.FromHsv(_province.Owner.Color.h, _province.Owner.Color.s, _province.Owner.Color.v);
 
         ArmyInfo.Update(_province.centralArmies.Where(x => x.Owner == _province.Owner));
         //EnemyInfo.Update(_province.centralArmies.Where(x => x.Owner != _province.Owner));

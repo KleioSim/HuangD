@@ -78,31 +78,36 @@ public partial class MapScene : Node2D
 
     private void OnClickEntity(string id)
     {
-        UpdateMoveTarget(id);
-        //UpdateMoveArrow(id);
+        UpdateMoveInfo(id);
 
         EmitSignal(SignalName.ClickEnity, id);
     }
 
-    public void UpdateMoveArrow(string id)
+    public void UpdateMoveInfo(string id)
     {
-        CentralArmy army = this.GetSession().Entities[id] as CentralArmy;
+        UpdateMoveTarget(id);
+        UpdateMoveArrow(id);
+    }
 
-        var amryMoveArrows = AmryMoveArrowPlaceHolder.GetParent().GetChildren().OfType<AmryMoveArrow>().ToArray();
-        var currArmyArrow = amryMoveArrows.SingleOrDefault(x => x.ArmyId == army.Id);
-        foreach (var arrow in amryMoveArrows.Where(x => x != currArmyArrow))
-        {
-            arrow.QueueFree();
-        }
+    private void UpdateMoveArrow(string id)
+    {
+        //CentralArmy army = this.GetSession().Entities[id] as CentralArmy;
 
-        if (army.MoveTo == null)
-        {
-            currArmyArrow?.QueueFree();
-            return;
-        }
+        //var amryMoveArrows = AmryMoveArrowPlaceHolder.GetParent().GetChildren().OfType<AmryMoveArrow>().ToArray();
+        //var currArmyArrow = amryMoveArrows.SingleOrDefault(x => x.ArmyId == army.Id);
+        //foreach (var arrow in amryMoveArrows.Where(x => x != currArmyArrow))
+        //{
+        //    arrow.QueueFree();
+        //}
 
-        currArmyArrow ??= AmryMoveArrowPlaceHolder.CreateInstance() as AmryMoveArrow;
-        currArmyArrow.ArmyId = army.Id;
+        //if (army.MoveTo == null)
+        //{
+        //    currArmyArrow?.QueueFree();
+        //    return;
+        //}
+
+        //currArmyArrow ??= AmryMoveArrowPlaceHolder.CreateInstance() as AmryMoveArrow;
+        //currArmyArrow.ArmyId = army.Id;
     }
 
     private void UpdateMoveTarget(string id)
@@ -110,7 +115,10 @@ public partial class MapScene : Node2D
         var targetProvince = Enumerable.Empty<Province>();
         if (this.GetSession().Entities[id] is CentralArmy centralArmy)
         {
-            targetProvince = centralArmy.Position.Neighbors;
+            if (centralArmy.MoveTo == null)
+            {
+                targetProvince = centralArmy.Position.Neighbors;
+            }
         }
 
         var politicalInfos = PoliticalInfoPlaceHolder.GetParent().GetChildren().OfType<PoliticalInfo>().ToArray();
