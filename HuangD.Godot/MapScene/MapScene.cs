@@ -38,8 +38,10 @@ public partial class MapScene : Node2D
         var targetPos = ProvinceMap.GetPawnLocation(target.Id);
 
         var position = fromPos += (targetPos - fromPos) / 2;
+        var angle = targetPos.AngleTo(fromPos);
+        var length = fromPos.DistanceTo(targetPos);
 
-        return (position, 0, 30);
+        return (position, angle, length);
     }
 
     private void ShowPoliticalInfos()
