@@ -15,7 +15,7 @@ public partial class MapScene : Node2D
     TerrainMap TerrainMap => GetNode<TerrainMap>("CanvasLayer/TerrainMap");
     MapCamera2D Camera => GetNode<MapCamera2D>("CanvasLayer/Camera2D");
     InstancePlaceholder PoliticalInfoPlaceHolder => GetNode<InstancePlaceholder>("CanvasLayer/PoliticalInfo");
-    InstancePlaceholder AmryMoveArrowPlaceHolder => GetNode<InstancePlaceholder>("");
+    InstancePlaceholder AmryMoveArrowPlaceHolder => GetNode<InstancePlaceholder>("CanvasLayer/ArmyMoveArrow");
 
     [Signal]
     public delegate void ClickEnityEventHandler(string id);
@@ -25,18 +25,26 @@ public partial class MapScene : Node2D
 
     public override void _Ready()
     {
+        ShowMaps();
+        ShowPoliticalInfos();
+
+        Camera.Position = TerrainMap.MapToLocal(TerrainMap.GetUsedRect().GetCenter());
+    }
+
+
+    internal (Vector2 position, float Rotation, float length) CalcPositionAndRotation(Province from, Province target)
+    {
+        var fromPos = ProvinceMap.GetPawnLocation(from.Id);
+        var targetPos = ProvinceMap.GetPawnLocation(target.Id);
+
+        var position = fromPos += (targetPos - fromPos) / 2;
+
+        return (position, 0, 30);
+    }
+
+    private void ShowPoliticalInfos()
+    {
         var session = this.GetSession();
-
-        foreach (var cell in session.MapCells.Values)
-        {
-            TerrainMap.AddOrUpdate(cell.Index, cell.TerrainType);
-            if (cell.TerrainType != TerrainType.Water)
-            {
-                PopCountMap.AddOrUpdate(cell.Index, cell.PopCount);
-                ProvinceMap.AddOrUpdate(cell.Index, cell.ProvinceId);
-            }
-        }
-
         foreach (var province in session.Entities.Values.OfType<Province>())
         {
             var politicalInfo = PoliticalInfoPlaceHolder.CreateInstance() as PoliticalInfo;
@@ -50,9 +58,20 @@ public partial class MapScene : Node2D
 
             Camera.Connect(MapCamera2D.SignalName.OnZoomed, new Callable(politicalInfo, PoliticalInfo.MethodName.OnZoomed));
         }
+    }
 
-        var terrainMap = GetNode<TerrainMap>("CanvasLayer/TerrainMap");
-        Camera.Position = terrainMap.MapToLocal(terrainMap.GetUsedRect().GetCenter());
+    private void ShowMaps()
+    {
+        var session = this.GetSession();
+        foreach (var cell in session.MapCells.Values)
+        {
+            TerrainMap.AddOrUpdate(cell.Index, cell.TerrainType);
+            if (cell.TerrainType != TerrainType.Water)
+            {
+                PopCountMap.AddOrUpdate(cell.Index, cell.PopCount);
+                ProvinceMap.AddOrUpdate(cell.Index, cell.ProvinceId);
+            }
+        }
     }
 
     public override void _UnhandledInput(InputEvent @event)
@@ -91,23 +110,28 @@ public partial class MapScene : Node2D
 
     private void UpdateMoveArrow(string id)
     {
-        //CentralArmy army = this.GetSession().Entities[id] as CentralArmy;
+        var amryMoveArrows = AmryMoveArrowPlaceHolder.GetParent().GetChildren().OfType<AmryMoveArrow>().ToList();
+        var army = this.GetSession().Entities[id] as CentralArmy;
+        foreach (var arrow in amryMoveArrows.ToArray())
+        {
+            if (army == null
+                || army.MoveTo == null
+                || arrow.ArmyId != army.Id)
+            {
+                arrow.QueueFree();
+                amryMoveArrows.Remove(arrow);
+            }
+        }
 
-        //var amryMoveArrows = AmryMoveArrowPlaceHolder.GetParent().GetChildren().OfType<AmryMoveArrow>().ToArray();
-        //var currArmyArrow = amryMoveArrows.SingleOrDefault(x => x.ArmyId == army.Id);
-        //foreach (var arrow in amryMoveArrows.Where(x => x != currArmyArrow))
-        //{
-        //    arrow.QueueFree();
-        //}
+        if (amryMoveArrows.Count == 0
+            && army != null
+            && army.MoveTo != null)
+        {
+            var currArmyArrow = AmryMoveArrowPlaceHolder.CreateInstance() as AmryMoveArrow;
+            currArmyArrow.MapScene = this;
+            currArmyArrow.ArmyId = army.Id;
+        }
 
-        //if (army.MoveTo == null)
-        //{
-        //    currArmyArrow?.QueueFree();
-        //    return;
-        //}
-
-        //currArmyArrow ??= AmryMoveArrowPlaceHolder.CreateInstance() as AmryMoveArrow;
-        //currArmyArrow.ArmyId = army.Id;
     }
 
     private void UpdateMoveTarget(string id)

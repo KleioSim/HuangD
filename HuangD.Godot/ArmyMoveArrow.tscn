@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://cl2gdum4rbkun"]
+
+[ext_resource type="Script" path="res://MapScene/AmryMoveArrow.cs" id="1_u7get"]
+
+[node name="ArmyMoveArrow" type="Panel"]
+custom_minimum_size = Vector2(60, 60)
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_u7get")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+text = "X"

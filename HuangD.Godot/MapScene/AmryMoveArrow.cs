@@ -7,10 +7,9 @@ using System;
 
 public partial class AmryMoveArrow : ViewControl
 {
-    public static Func<Province, Province, (Vector2 position, float Rotation, float length)> CalcPositionAndRotation;
-
-    public Button Cancel => GetNode<Button>("");
+    public Button Cancel => GetNode<Button>("Button");
     public ProgressBar Progress => GetNode<ProgressBar>("");
+    public MapScene MapScene { get; internal set; }
 
     public string ArmyId
     {
@@ -38,16 +37,18 @@ public partial class AmryMoveArrow : ViewControl
             return;
         }
 
-        var result = CalcPositionAndRotation(army.Position, army.MoveTo.Target);
+        var result = MapScene.CalcPositionAndRotation(army.Position, army.MoveTo.Target);
         this.Position = result.position;
-        this.Rotation = result.Rotation;
-        this.Size = new Vector2(result.length, this.Size.Y);
+        //this.Rotation = result.Rotation;
+        //this.Size = new Vector2(result.length, this.Size.Y);
 
-        Progress.Value = army.MoveTo.percent;
+        //Progress.Value = army.MoveTo.percent;
     }
 
     private void OnCancel()
     {
         SendCommand(new Command_Cancel_ArmyMove(armyId));
+
+        MapScene.UpdateMoveInfo(armyId);
     }
 }
