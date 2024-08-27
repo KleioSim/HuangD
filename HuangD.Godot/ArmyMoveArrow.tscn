@@ -3,13 +3,13 @@
 [ext_resource type="Script" path="res://MapScene/AmryMoveArrow.cs" id="1_u7get"]
 
 [node name="ArmyMoveArrow" type="Panel"]
-custom_minimum_size = Vector2(60, 60)
+custom_minimum_size = Vector2(100, 100)
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("1_u7get")
 
 [node name="Button" type="Button" parent="."]
 layout_mode = 0
-offset_right = 8.0
-offset_bottom = 8.0
+offset_right = 100.0
+offset_bottom = 100.0
 text = "X"
