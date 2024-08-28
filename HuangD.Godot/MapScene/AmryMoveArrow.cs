@@ -39,8 +39,8 @@ public partial class AmryMoveArrow : ViewControl
 
         var result = MapScene.CalcPositionAndRotation(army.Position, army.MoveTo.Target);
         this.Position = result.position;
-        this.Rotation = result.Rotation;
-        this.Size = new Vector2(result.length, this.Size.Y);
+        this.RotationDegrees = result.Rotation;
+        this.Size = new Vector2(this.Size.X, result.length);
 
         //Progress.Value = army.MoveTo.percent;
     }

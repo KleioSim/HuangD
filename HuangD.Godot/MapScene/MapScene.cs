@@ -37,10 +37,11 @@ public partial class MapScene : Node2D
         var fromPos = ProvinceMap.GetPawnLocation(from.Id);
         var targetPos = ProvinceMap.GetPawnLocation(target.Id);
 
-        var position = fromPos += (targetPos - fromPos) / 2;
-        var angle = targetPos.AngleTo(fromPos);
+        var position = targetPos;
+        var angle = (float)(Math.Atan2((targetPos.Y - fromPos.Y), (targetPos.X - fromPos.X)) * 180 / Math.PI)+90;
         var length = fromPos.DistanceTo(targetPos);
 
+        GD.Print($"from:{fromPos} target:{targetPos} angle:{angle}");
         return (position, angle, length);
     }
 
