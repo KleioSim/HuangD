@@ -53,7 +53,7 @@ public partial class MapScene : Node2D
             politicalInfo.Position = ProvinceMap.GetPawnLocation(province.Id);
             politicalInfo.province = province;
             politicalInfo.ArmyInfo.Connect(ArmyInfo.SignalName.ClickArmy, new Callable(this, MethodName.OnClickEntity));
-            politicalInfo.MoveTarget.Connect(Button.SignalName.Pressed, Callable.From(() => EmitSignal(SignalName.ClickArmyMoveTarget, province.Id)));
+            politicalInfo.MoveTarget.Connect(Button.SignalName.ButtonDown, Callable.From(() => { LOG.INFO($"MapScene.MoveTarget"); EmitSignal(SignalName.ClickArmyMoveTarget, province.Id); }));
             politicalInfo.MoveTarget.Visible = false;
 
             politicalInfo.OnZoomed(Camera.Zoom);
