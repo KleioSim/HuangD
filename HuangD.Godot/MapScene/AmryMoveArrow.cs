@@ -7,8 +7,8 @@ using System;
 
 public partial class AmryMoveArrow : ViewControl
 {
-    public Button Cancel => GetNode<Button>("Button");
-    public ProgressBar Progress => GetNode<ProgressBar>("ProgressBar");
+    public Button Cancel => GetNode<Button>("HBoxContainer/Button");
+    public ProgressBar Progress => GetNode<ProgressBar>("HBoxContainer/Panel/ProgressBar");
     public MapScene MapScene { get; internal set; }
 
     public string ArmyId
@@ -22,6 +22,11 @@ public partial class AmryMoveArrow : ViewControl
     }
 
     private string armyId;
+
+    public void OnZoom()
+    {
+        Update();
+    }
 
     protected override void Initialize()
     {
@@ -42,7 +47,7 @@ public partial class AmryMoveArrow : ViewControl
         this.RotationDegrees = result.Rotation;
         this.Size = new Vector2(this.Size.X, result.length);
 
-        //Progress.Value = army.MoveTo.percent;
+        Progress.Value = army.MoveTo.percent;
     }
 
     private void OnCancel()

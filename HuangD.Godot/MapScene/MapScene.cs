@@ -31,6 +31,21 @@ public partial class MapScene : Node2D
         politicalInfos = ShowPoliticalInfos().ToDictionary(x => x.province.Id, y => y);
 
         Camera.Position = TerrainMap.MapToLocal(TerrainMap.GetUsedRect().GetCenter());
+
+        Camera.Connect(MapCamera2D.SignalName.OnZoomed, Callable.From<Vector2>((zoom) =>
+        {
+            foreach (var politicalInfo in politicalInfos.Values)
+            {
+                politicalInfo.OnZoomed(zoom);
+            }
+
+            var amryMoveArrows = AmryMoveArrowPlaceHolder.GetParent().GetChildren().OfType<AmryMoveArrow>().ToList();
+            foreach (var arrow in amryMoveArrows)
+            {
+                arrow.OnZoom();
+            }
+
+        }));
     }
 
 
@@ -40,8 +55,8 @@ public partial class MapScene : Node2D
         var fromPolitical = politicalInfos[from.Id];
         var targetPolitical = politicalInfos[target.Id];
 
-        var fromPos = fromPolitical.ArmyInfo.ArmyIcon.GlobalPosition + fromPolitical.ArmyInfo.ArmyIcon.Size / 2;
-        var targetPos = targetPolitical.MoveTarget.GlobalPosition + targetPolitical.MoveTarget.Size / 2;
+        var fromPos = fromPolitical.ArmyInfo.ArmyIcon.GlobalPosition + (fromPolitical.ArmyInfo.ArmyIcon.Size / 2) / Camera.Zoom;
+        var targetPos = targetPolitical.MoveTarget.GlobalPosition + (targetPolitical.MoveTarget.Size / 2) / Camera.Zoom;
 
         var position = targetPos;
         var angle = (float)(Math.Atan2((targetPos.Y - fromPos.Y), (targetPos.X - fromPos.X)) * 180 / Math.PI) + 90;
@@ -66,8 +81,6 @@ public partial class MapScene : Node2D
             politicalInfo.MoveTarget.Visible = false;
 
             politicalInfo.OnZoomed(Camera.Zoom);
-
-            Camera.Connect(MapCamera2D.SignalName.OnZoomed, new Callable(politicalInfo, PoliticalInfo.MethodName.OnZoomed));
         }
 
         return list;

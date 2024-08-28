@@ -15,8 +15,7 @@ script = ExtResource("1_dj71v")
 layer = 99
 
 [node name="Button" type="Button" parent="CanvasLayer"]
-offset_right = 46.0
-offset_bottom = 31.0
+anchors_preset = -1
 text = "Load"
 
 [node name="Button2" type="Button" parent="CanvasLayer"]
