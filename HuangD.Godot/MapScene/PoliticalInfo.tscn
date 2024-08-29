@@ -78,6 +78,7 @@ offset_left = 1.0
 offset_top = 42.0
 offset_right = 81.0
 offset_bottom = 62.0
+mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_c36k0")
 
 [node name="Name" type="Label" parent="HBoxContainer/VBoxContainer/Province/Panel"]
@@ -107,6 +108,7 @@ offset_right = 31.0
 offset_bottom = 65.0
 grow_horizontal = 2
 grow_vertical = 0
+pivot_offset = Vector2(30, 30)
 text = "Target"
 script = ExtResource("3_fdawu")
 
@@ -129,6 +131,7 @@ offset_right = 20.0
 offset_bottom = -5.0
 grow_horizontal = 2
 grow_vertical = 0
+pivot_offset = Vector2(22.5, 25)
 size_flags_horizontal = 4
 size_flags_vertical = 4
 texture = ExtResource("2_li8uw")

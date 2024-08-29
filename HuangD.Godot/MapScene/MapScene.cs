@@ -55,12 +55,14 @@ public partial class MapScene : Node2D
         var fromPolitical = politicalInfos[from.Id];
         var targetPolitical = politicalInfos[target.Id];
 
-        var fromPos = fromPolitical.ArmyInfo.ArmyIcon.GlobalPosition + (fromPolitical.ArmyInfo.ArmyIcon.Size / 2) / Camera.Zoom;
-        var targetPos = targetPolitical.MoveTarget.GlobalPosition + (targetPolitical.MoveTarget.Size / 2) / Camera.Zoom;
+        var fromPos = fromPolitical.ArmyInfo.ArmyIcon.GetGlobalPositionWithPivotOffset();
+        var targetPos = targetPolitical.MoveTarget.GetGlobalPositionWithPivotOffset();
 
         var position = targetPos;
         var angle = (float)(Math.Atan2((targetPos.Y - fromPos.Y), (targetPos.X - fromPos.X)) * 180 / Math.PI) + 90;
         var length = fromPos.DistanceTo(targetPos);
+
+        GD.Print($"targetPolitical.MoveTarget position:{targetPolitical.MoveTarget.GetGlobalPositionWithPivotOffset()}");
 
         return (position, angle, length);
     }
@@ -72,12 +74,20 @@ public partial class MapScene : Node2D
         foreach (var province in session.Entities.Values.OfType<Province>())
         {
             var politicalInfo = PoliticalInfoPlaceHolder.CreateInstance() as PoliticalInfo;
+            politicalInfo.Name = province.Id;
+
             list.Add(politicalInfo);
 
             politicalInfo.Position = ProvinceMap.GetPawnLocation(province.Id);
             politicalInfo.province = province;
             politicalInfo.ArmyInfo.Connect(ArmyInfo.SignalName.ClickArmy, new Callable(this, MethodName.OnClickEntity));
-            politicalInfo.MoveTarget.Connect(Button.SignalName.ButtonDown, Callable.From(() => EmitSignal(SignalName.ClickArmyMoveTarget, province.Id)));
+            politicalInfo.MoveTarget.Connect(Button.SignalName.ButtonDown, Callable.From(() =>
+            {
+                GD.Print($"mouse {GetGlobalMousePosition()}");
+                GD.Print($"politicalInfo.MoveTarget  GlobalPositionPosition:{politicalInfo.MoveTarget.GlobalPosition}");
+                GD.Print($"politicalInfo.MoveTarget  GlobalPositionPositionWithOffset:{politicalInfo.MoveTarget.GetGlobalPositionWithPivotOffset()}");
+                EmitSignal(SignalName.ClickArmyMoveTarget, province.Id);
+            }));
             politicalInfo.MoveTarget.Visible = false;
 
             politicalInfo.OnZoomed(Camera.Zoom);
