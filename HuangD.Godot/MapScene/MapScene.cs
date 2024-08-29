@@ -46,6 +46,13 @@ public partial class MapScene : Node2D
             }
 
         }));
+
+        var testButton = GetNode<Button>("CanvasLayer/Button");
+        testButton.Pressed += () =>
+        {
+            GD.Print($"mouse {GetGlobalMousePosition()}");
+            GD.Print($" testButton : {testButton.GetGlobalPositionWithPivotOffset()}");
+        };
     }
 
 
