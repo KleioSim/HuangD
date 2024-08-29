@@ -15,7 +15,6 @@ script = ExtResource("1_dj71v")
 layer = 99
 
 [node name="Button" type="Button" parent="CanvasLayer"]
-anchors_preset = -1
 text = "Load"
 
 [node name="Button2" type="Button" parent="CanvasLayer"]

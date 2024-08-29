@@ -8,7 +8,7 @@ using System;
 public partial class AmryMoveArrow : ViewControl
 {
     public Button Cancel => GetNode<Button>("HBoxContainer/Button");
-    public ProgressBar Progress => GetNode<ProgressBar>("HBoxContainer/Panel/ProgressBar");
+    public TextureProgressBar Progress => GetNode<TextureProgressBar>("HBoxContainer/TextureProgressBar");
     public MapScene MapScene { get; internal set; }
 
     public string ArmyId

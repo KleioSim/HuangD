@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://c6ypawcknilm0"]
+[gd_scene load_steps=3 format=3 uid="uid://c6ypawcknilm0"]
 
 [ext_resource type="Script" path="res://Test.cs" id="1_upuka"]
+[ext_resource type="Texture2D" uid="uid://cysxa4lny27st" path="res://arrow.png" id="2_dkoyp"]
 
 [node name="Test" type="Control"]
 layout_mode = 3
@@ -26,3 +27,31 @@ text = "123"
 [node name="Camera2D" type="Camera2D" parent="CanvasLayer"]
 offset = Vector2(300, 300)
 zoom = Vector2(0.3, 0.3)
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="CanvasLayer"]
+offset_left = 12.0
+offset_top = 623.0
+offset_right = 525.0
+offset_bottom = 1364.0
+value = 90.0
+fill_mode = 3
+nine_patch_stretch = true
+stretch_margin_top = 200
+texture_under = ExtResource("2_dkoyp")
+texture_progress = ExtResource("2_dkoyp")
+tint_under = Color(0.588235, 0.588235, 0.588235, 1)
+tint_progress = Color(0.2, 0.572549, 0.360784, 1)
+
+[node name="TextureProgressBar2" type="TextureProgressBar" parent="CanvasLayer"]
+offset_left = 12.0
+offset_top = 623.0
+offset_right = 525.0
+offset_bottom = 1364.0
+value = 90.0
+fill_mode = 3
+nine_patch_stretch = true
+stretch_margin_top = 200
+texture_under = ExtResource("2_dkoyp")
+texture_progress = ExtResource("2_dkoyp")
+tint_under = Color(0.588235, 0.588235, 0.588235, 1)
+tint_progress = Color(0.2, 0.572549, 0.360784, 1)
