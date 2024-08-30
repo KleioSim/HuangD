@@ -14,6 +14,8 @@ public partial class Province : IEntity
 
     public PopTax PopTax { get; }
 
+    public LocalArmy LocalArmy { get; }
+
     public IEnumerable<CentralArmy> centralArmies => FindArmies();
 
     public IEnumerable<Province> Neighbors { get; private set; } = new Province[] { };
@@ -22,10 +24,9 @@ public partial class Province : IEntity
 
     public int PopCount => MapCells.Sum(x => x.PopCount);
 
-    private Func<IEnumerable<CentralArmy>> FindArmies { get; set; }
-    public bool IsInteractionDateOut { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+    public Battle Battle { get; private set; }
 
-    public IEnumerable<IInteraction> Interactions => throw new NotImplementedException();
+    private Func<IEnumerable<CentralArmy>> FindArmies { get; set; }
 
     public Province(string key, IEnumerable<MapCell> mapCells, Func<Province, IEnumerable<CentralArmy>> armyFinder)
     {
@@ -33,6 +34,13 @@ public partial class Province : IEntity
         MapCells = mapCells;
         FindArmies = () => armyFinder(this);
         PopTax = new PopTax(this);
+        LocalArmy = new LocalArmy(this);
+    }
+
+    internal void UpdateBattle()
+    {
+        var enemies = centralArmies.Where(x => x.Owner != Owner && x.MoveTo == null).ToArray();
+        Battle = new Battle(this);
     }
 }
 

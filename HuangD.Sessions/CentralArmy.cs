@@ -1,18 +1,14 @@
-﻿using Chrona.Engine.Core.Interfaces;
-using HuangD.Sessions.Utilties;
+﻿using HuangD.Sessions.Utilties;
 using System;
 
 namespace HuangD.Sessions;
 
-public class CentralArmy : IEntity
+public class CentralArmy : Army
 {
-    public string Id { get; }
-    public int Count { get; internal set; }
-    public int ExpectCount { get; internal set; }
-    public float Cost => Math.Max(ExpectCount, Count) / 1000;
+    public override string Id { get; }
+    public override float Cost => Math.Max(ExpectCount, Count) / 1000;
+    public override Country Owner { get; }
 
-    public Country Owner { get; internal set; }
-    public Province Position { get; internal set; }
     public MoveTo MoveTo { get; internal set; }
 
     internal CentralArmy(int count, int expectCount, Country owner)
@@ -39,6 +35,7 @@ public class CentralArmy : IEntity
         }
 
         MoveTo = new MoveTo(province);
+        Position.UpdateBattle();
     }
 
     internal void OnCancelMove()
@@ -55,6 +52,8 @@ public class CentralArmy : IEntity
             {
                 Position = MoveTo.Target;
                 MoveTo = null;
+
+                Position.UpdateBattle();
             }
         }
     }
