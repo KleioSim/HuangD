@@ -11,7 +11,7 @@ public partial class PoliticalInfo : ViewControl
     public Control CurrentOwner => GetNode<Control>("HBoxContainer");
 
     public ArmyInfo ArmyInfo => GetNode<ArmyInfo>("HBoxContainer/Army");
-    public ArmyInfo EnemyInfo => GetNode<ArmyInfo>("VBoxContainer/Army");
+    public EnemyInfo EnemyInfo => GetNode<EnemyInfo>("VBoxContainer/Army");
 
     public MoveTarget MoveTarget => GetNode<MoveTarget>("HBoxContainer/VBoxContainer/Province/MoveTarget");
 
@@ -48,6 +48,6 @@ public partial class PoliticalInfo : ViewControl
         //CurrentOwner.Modulate = Color.FromHsv(_province.Owner.Color.h, _province.Owner.Color.s, _province.Owner.Color.v);
 
         ArmyInfo.Update(_province.centralArmies.Where(x => x.Owner == _province.Owner));
-        //EnemyInfo.Update(_province.centralArmies.Where(x => x.Owner != _province.Owner));
+        EnemyInfo.Update(_province.centralArmies.Where(x => x.Owner != _province.Owner));
     }
 }
