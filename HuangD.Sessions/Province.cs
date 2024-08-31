@@ -40,7 +40,13 @@ public partial class Province : IEntity
     internal void UpdateBattle()
     {
         var enemies = centralArmies.Where(x => x.Owner != Owner && x.MoveTo == null).ToArray();
-        Battle = new Battle(this);
+        if(enemies.Length == 0)
+        {
+            Battle = null;
+            return;
+        }
+        
+        Battle ??= new Battle(this);
     }
 }
 

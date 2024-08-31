@@ -10,9 +10,10 @@ public partial class PoliticalInfo : ViewControl
     public Label CountryName => GetNode<Label>("HBoxContainer/VBoxContainer/Country/Name");
     public Control CurrentOwner => GetNode<Control>("HBoxContainer");
 
-    public ArmyInfo ArmyInfo => GetNode<ArmyInfo>("HBoxContainer/Army");
-    public EnemyInfo EnemyInfo => GetNode<EnemyInfo>("HBoxContainer/Enemy");
+    public ArmyInfo ArmyInfo => GetNode<ArmyInfo>("HBoxContainer/Military/HBoxContainer/Army");
+    public EnemyInfo EnemyInfo => GetNode<EnemyInfo>("HBoxContainer/Military/HBoxContainer/Enemy");
 
+    public BattleInfo BattleInfo => GetNode<BattleInfo>("HBoxContainer/Military/HBoxContainer/Enemy/Battle");
     public MoveTarget MoveTarget => GetNode<MoveTarget>("HBoxContainer/VBoxContainer/Province/MoveTarget");
 
     public Province province
@@ -49,5 +50,6 @@ public partial class PoliticalInfo : ViewControl
 
         ArmyInfo.Update(_province.centralArmies.Where(x => x.Owner == _province.Owner));
         EnemyInfo.Update(_province.centralArmies.Where(x => x.Owner != _province.Owner));
+        BattleInfo.Update(_province.Battle);
     }
 }
