@@ -11,7 +11,7 @@ public partial class PoliticalInfo : ViewControl
     public Control CurrentOwner => GetNode<Control>("HBoxContainer");
 
     public ArmyInfo ArmyInfo => GetNode<ArmyInfo>("HBoxContainer/Army");
-    public EnemyInfo EnemyInfo => GetNode<EnemyInfo>("VBoxContainer/Army");
+    public EnemyInfo EnemyInfo => GetNode<EnemyInfo>("HBoxContainer/Enemy");
 
     public MoveTarget MoveTarget => GetNode<MoveTarget>("HBoxContainer/VBoxContainer/Province/MoveTarget");
 

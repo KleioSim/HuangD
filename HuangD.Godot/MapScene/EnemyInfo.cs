@@ -9,7 +9,7 @@ public partial class EnemyInfo : Control
     public Button Button => GetNode<Button>("TextureRect/Button");
     public TextureRect ArmyIcon => GetNode<TextureRect>("TextureRect");
     public Label ArmyCount => GetNode<Label>("TextureRect/Label");
-    public Label CountryName => GetNode<Label>("HBoxContainer/VBoxContainer/Country/Name");
+    public Label CountryName => GetNode<Label>("TextureRect/Country/Name");
 
     [Signal]
     public delegate void ClickArmyEventHandler(string id);
@@ -36,10 +36,14 @@ public partial class EnemyInfo : Control
 
     internal void Update(IEnumerable<CentralArmy> armies)
     {
-        ArmyIcon.Visible = armies.Count() != 0;
-        ArmyCount.Text = "x" + armies.Count().ToString();
-
         centralArmies = armies.ToArray();
-        CountryName.Text = centralArmies.First().Owner.Id;
+
+        this.Visible = centralArmies.Length != 0;
+        if (this.Visible)
+        {
+            ArmyCount.Text = "x" + armies.Count().ToString();
+            CountryName.Text = centralArmies.FirstOrDefault()?.Owner.Id;
+        }
+
     }
 }

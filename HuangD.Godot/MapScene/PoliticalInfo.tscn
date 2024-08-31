@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://df0qeobvo5f2h"]
+[gd_scene load_steps=11 format=3 uid="uid://df0qeobvo5f2h"]
 
 [ext_resource type="Script" path="res://MapScene/PoliticalInfo.cs" id="1_mm6e2"]
 [ext_resource type="Texture2D" uid="uid://d3o4sb567jy4j" path="res://MapScene/whrite128.png" id="2_li8uw"]
 [ext_resource type="Script" path="res://MapScene/ArmyInfo.cs" id="3_0odwj"]
 [ext_resource type="Script" path="res://MapScene/MoveTarget.cs" id="3_fdawu"]
+[ext_resource type="Script" path="res://MapScene/EnemyInfo.cs" id="5_k3jpg"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_7c6r4"]
 font_color = Color(0, 0, 0, 1)
@@ -23,6 +24,12 @@ outline_color = Color(0.980392, 0.980392, 0.980392, 1)
 font_color = Color(0, 0, 0, 1)
 outline_size = 3
 
+[sub_resource type="LabelSettings" id="LabelSettings_iip0s"]
+font_size = 12
+font_color = Color(0, 0, 0, 1)
+outline_size = 3
+outline_color = Color(0.784314, 0.784314, 0.784314, 0.784314)
+
 [node name="Control" type="Control"]
 layout_mode = 3
 anchors_preset = 0
@@ -34,6 +41,7 @@ script = ExtResource("1_mm6e2")
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
+theme_override_constants/separation = 2
 alignment = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
@@ -124,10 +132,9 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -25.0
-offset_top = -55.0
-offset_right = 20.0
-offset_bottom = -5.0
+offset_left = -22.5
+offset_top = -50.0
+offset_right = 22.5
 grow_horizontal = 2
 grow_vertical = 0
 pivot_offset = Vector2(22.5, 25)
@@ -160,3 +167,80 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="Enemy" type="Control" parent="HBoxContainer"]
+custom_minimum_size = Vector2(45, 65)
+layout_mode = 2
+script = ExtResource("5_k3jpg")
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/Enemy"]
+custom_minimum_size = Vector2(45, 50)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -22.5
+offset_top = -50.0
+offset_right = 22.5
+grow_horizontal = 2
+grow_vertical = 0
+pivot_offset = Vector2(22.5, 25)
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("2_li8uw")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="HBoxContainer/Enemy/TextureRect"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = -9.0
+offset_right = 1.0
+offset_bottom = 14.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "--"
+label_settings = SubResource("LabelSettings_v7ndn")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="HBoxContainer/Enemy/TextureRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Country" type="TextureRect" parent="HBoxContainer/Enemy/TextureRect"]
+custom_minimum_size = Vector2(50, 25)
+layout_mode = 1
+offset_left = -1.0
+offset_top = -26.0
+offset_right = 49.0
+offset_bottom = -1.0
+texture = ExtResource("2_li8uw")
+expand_mode = 1
+
+[node name="Name" type="Label" parent="HBoxContainer/Enemy/TextureRect/Country"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -11.5
+offset_right = 54.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "CNT_NAME"
+label_settings = SubResource("LabelSettings_iip0s")
+horizontal_alignment = 1
+vertical_alignment = 1

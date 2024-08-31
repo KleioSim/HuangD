@@ -34,9 +34,11 @@ public partial class ArmyInfo : Control
 
     internal void Update(IEnumerable<CentralArmy> armies)
     {
-        ArmyIcon.Visible = armies.Count() != 0;
-        ArmyCount.Text = "x" + armies.Count().ToString();
-
         centralArmies = armies.ToArray();
+        this.Visible = centralArmies.Length != 0;
+        if (this.Visible)
+        {
+            ArmyCount.Text = "x" + armies.Count().ToString();
+        }
     }
 }

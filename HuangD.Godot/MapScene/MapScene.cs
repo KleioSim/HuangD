@@ -81,6 +81,7 @@ public partial class MapScene : Node2D
             politicalInfo.Position = ProvinceMap.GetPawnLocation(province.Id);
             politicalInfo.province = province;
             politicalInfo.ArmyInfo.Connect(ArmyInfo.SignalName.ClickArmy, new Callable(this, MethodName.OnClickEntity));
+            politicalInfo.EnemyInfo.Connect(ArmyInfo.SignalName.ClickArmy, new Callable(this, MethodName.OnClickEntity));
             politicalInfo.MoveTarget.Connect(Button.SignalName.ButtonDown, Callable.From(() =>
             {
                 GD.Print($"mouse {GetGlobalMousePosition()}");
