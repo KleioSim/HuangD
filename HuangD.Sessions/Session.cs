@@ -18,14 +18,17 @@ public class Session : AbstractSession
 
     public override IReadOnlyDictionary<string, IEntity> Entities => entities;
 
-
     public Date Date { get; }
 
     public Dictionary<Index, MapCell> MapCells { get; }
 
     public Country PlayerCountry { get; private set; }
 
+    public IEnumerable<string> CurrentReports => currentReports;
+
     private Dictionary<string, IEntity> entities = new Dictionary<string, IEntity>();
+
+    private List<string> currentReports = new List<string>();
 
     public Session(string seed)
     {
@@ -72,11 +75,19 @@ public class Session : AbstractSession
     [MessageProcess]
     private void On_Command_NextTurn(Command_NextTurn cmd)
     {
+        currentReports.Clear();
+
         Date.DaysInc(10);
+
 
         foreach (var army in entities.Values.OfType<CentralArmy>())
         {
             army.OnNextTurn();
+        }
+
+        foreach (var battle in entities.Values.OfType<Province>().Select(x => x.Battle).Where(x => x != null))
+        {
+            currentReports.AddRange(battle.OnNextTurn().Select(x => x.Desc));
         }
     }
 
