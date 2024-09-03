@@ -32,10 +32,10 @@ public partial class MainScene : ViewControl
 
     private void OnSelectEntity(string id)
     {
-        var detailPanel = DetailPanelPlaceHolder.GetParent().GetChildren().OfType<DetailPanel>().SingleOrDefault();
+        var detailPanel = DetailPanelPlaceHolder.GetParent().GetChildren().OfType<DetailPanelContainer>().SingleOrDefault();
         if (detailPanel == null)
         {
-            detailPanel = DetailPanelPlaceHolder.CreateInstance() as DetailPanel;
+            detailPanel = DetailPanelPlaceHolder.CreateInstance() as DetailPanelContainer;
         }
 
         detailPanel.EntityId = id;
