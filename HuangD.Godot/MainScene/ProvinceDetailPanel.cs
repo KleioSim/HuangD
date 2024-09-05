@@ -6,11 +6,14 @@ using System;
 
 public partial class ProvinceDetailPanel : DetailPanel
 {
-    TabContainer TabContainer { get; set; }
+    TabContainer TabContainer => GetNode<TabContainer>("TabContainer");
 
     protected override void Initialize()
     {
-        //TabContainer.Connect(TabContainer.SignalName.TabChanged, new Callable())
+        TabContainer.Connect(TabContainer.SignalName.TabChanged, Callable.From(() =>
+        {
+            Update();
+        }));
     }
 
     protected override void Update()
@@ -22,31 +25,11 @@ public partial class ProvinceDetailPanel : DetailPanel
         switch (control)
         {
             case ProvinceAttributeInfo attributeInfo:
-                UpdateProvinceAttributeInfo(attributeInfo);
+                attributeInfo.Update(province);
                 break;
             case ProvinceBattleInfo battleInfo:
-                UpdateProvinceBattleInfo(battleInfo);
+                battleInfo.Update(province);
                 break;
         }
     }
-
-    private void UpdateProvinceBattleInfo(ProvinceBattleInfo battleInfo)
-    {
-        throw new NotImplementedException();
-    }
-
-    private void UpdateProvinceAttributeInfo(ProvinceAttributeInfo attributeInfo)
-    {
-        throw new NotImplementedException();
-    }
-}
-
-public partial class ProvinceAttributeInfo : Control
-{
-
-}
-
-public partial class ProvinceBattleInfo : Control
-{
-
 }

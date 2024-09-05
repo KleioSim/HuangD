@@ -1,6 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://bxqmwnytq3xcs"]
-
-[ext_resource type="Script" path="res://MainScene/DetailPanel.cs" id="1_n2kov"]
+[gd_scene format=3 uid="uid://d3fd57pdaog6a"]
 
 [node name="DetailPanel" type="Panel"]
 anchors_preset = 4
@@ -10,7 +8,6 @@ offset_top = -20.0
 offset_right = 194.0
 offset_bottom = 86.0
 grow_vertical = 2
-script = ExtResource("1_n2kov")
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 1

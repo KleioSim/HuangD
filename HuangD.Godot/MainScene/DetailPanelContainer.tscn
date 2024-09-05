@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://bxqmwnytq3xcs"]
+[gd_scene load_steps=3 format=3 uid="uid://bxqmwnytq3xcs"]
 
 [ext_resource type="Script" path="res://MainScene/DetailPanelContainer.cs" id="1_y31sj"]
+[ext_resource type="PackedScene" uid="uid://ccxefb6gagvbn" path="res://MainScene/ProvinceDetailPanel.tscn" id="2_6bhf5"]
 
 [node name="DetailPanelContainer" type="Panel"]
 anchors_preset = 4
@@ -34,19 +35,7 @@ vertical_alignment = 1
 layout_mode = 2
 text = "X"
 
-[node name="ProvinceDetailPanel" type="Panel" parent="VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="TabContainer" type="TabContainer" parent="VBoxContainer/ProvinceDetailPanel"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Battle" type="Panel" parent="VBoxContainer/ProvinceDetailPanel/TabContainer"]
+[node name="ProvinceDetailPanel" parent="VBoxContainer" instance=ExtResource("2_6bhf5")]
 layout_mode = 2
 
 [connection signal="pressed" from="VBoxContainer/Title/Button" to="." method="queue_free"]

@@ -8,17 +8,16 @@ using System.Reflection.Emit;
 
 public partial class DetailPanelContainer : Control
 {
-    private IEnumerable<DetailPanel> viewContrls;
 
     public string EntityId
     {
         get
         {
-            return viewContrls.Single(x => x.Visible).EntityId;
+            return FindViewContrls().Single(x => x.Visible).EntityId;
         }
         set
         {
-            foreach (var control in viewContrls)
+            foreach (var control in FindViewContrls())
             {
                 control.Visible = false;
             }
@@ -26,7 +25,7 @@ public partial class DetailPanelContainer : Control
             switch (this.GetSession().Entities[EntityId])
             {
                 case Province:
-                    var provinceDetailPanel = viewContrls.OfType<ProvinceDetailPanel>().Single();
+                    var provinceDetailPanel = FindViewContrls().OfType<ProvinceDetailPanel>().Single();
                     provinceDetailPanel.EntityId = value;
                     provinceDetailPanel.Visible = true;
                     break;
@@ -34,12 +33,15 @@ public partial class DetailPanelContainer : Control
         }
     }
 
+    private IEnumerable<DetailPanel> viewContrls;
 
-    public override void _Ready()
+    private IEnumerable<DetailPanel> FindViewContrls()
     {
-        viewContrls = new DetailPanel[]
+        viewContrls ??= new DetailPanel[]
         {
-            GetNode<ProvinceDetailPanel>(""),
+            GetNode<ProvinceDetailPanel>("VBoxContainer/ProvinceDetailPanel"),
         };
+
+        return viewContrls;
     }
 }

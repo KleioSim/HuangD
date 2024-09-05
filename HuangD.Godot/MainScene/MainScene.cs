@@ -10,7 +10,7 @@ public partial class MainScene : ViewControl
 {
     Button NextTurn => GetNode<Button>("CanvasLayer/NextTurn/Button");
     MapScene MapScene => GetNode<MapScene>("/root/MapScene");
-    InstancePlaceholder DetailPanelPlaceHolder => GetNode<InstancePlaceholder>("CanvasLayer/DetailPanel");
+    InstancePlaceholder DetailPanelPlaceHolder => GetNode<InstancePlaceholder>("CanvasLayer/DetailPanelContainer");
 
     protected override void Initialize()
     {
@@ -30,7 +30,7 @@ public partial class MainScene : ViewControl
         SendCommand(new Command_NextTurn());
     }
 
-    private void OnSelectEntity(string id)
+    private async void OnSelectEntity(string id)
     {
         var detailPanel = DetailPanelPlaceHolder.GetParent().GetChildren().OfType<DetailPanelContainer>().SingleOrDefault();
         if (detailPanel == null)

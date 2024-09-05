@@ -20,7 +20,7 @@ public class Battle
         Province = province;
     }
 
-    public BattleReport[] OnNextTurn()
+    public BattleReport[] OnNextTurn(Date date)
     {
         List<BattleReport> reports = new List<BattleReport>();
 
@@ -34,6 +34,7 @@ public class Battle
                 OffenseArmy = OffenseArmy.ToArray(),
                 DefenseCentralArmy = DefenseCentralArmy.ToArray(),
                 DefenseLocalArmy = DefenseLocalArmy,
+                Date = (date.Year, date.Month, date.Day),
                 Desc = $"Battle, Province:{Province.Id}, Offense:[{string.Join(",", OffenseArmy.Select(x => x.Id))}], Defense[{string.Join(",", DefenseCentralArmy.Select(x => x.Id).Append(DefenseLocalArmy.Id))}], Defense Failed"
             });
         }
@@ -44,6 +45,7 @@ public class Battle
                 OffenseArmy = OffenseArmy.ToArray(),
                 DefenseCentralArmy = DefenseCentralArmy.ToArray(),
                 DefenseLocalArmy = DefenseLocalArmy,
+                Date = (date.Year, date.Month, date.Day),
                 Desc = $"Battle, Province:{Province.Id}, Offense:[{string.Join(",", OffenseArmy.Select(x => x.Id))}], Defense[{string.Join(",", DefenseCentralArmy.Select(x => x.Id).Append(DefenseLocalArmy.Id))}], Defense Success"
             });
         }
@@ -58,6 +60,11 @@ public class BattleReport
     public CentralArmy[] OffenseArmy { get; init; }
     public CentralArmy[] DefenseCentralArmy { get; init; }
     public LocalArmy DefenseLocalArmy { get; init; }
-
+    public (int year, int month, int day) Date { get; init; }
     public string Desc { get; init; }
+
+    public override string ToString()
+    {
+        return Desc;
+    }
 }

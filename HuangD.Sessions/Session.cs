@@ -87,7 +87,7 @@ public class Session : AbstractSession
 
         foreach (var battle in entities.Values.OfType<Province>().Select(x => x.Battle).Where(x => x != null))
         {
-            currentReports.AddRange(battle.OnNextTurn().Select(x => x.Desc));
+            currentReports.AddRange(battle.OnNextTurn(Date).Select(x => x.Desc));
         }
     }
 
