@@ -30,7 +30,7 @@ public partial class MainScene : ViewControl
         SendCommand(new Command_NextTurn());
     }
 
-    private async void OnSelectEntity(string id)
+    private void OnSelectEntity(string id)
     {
         var detailPanel = DetailPanelPlaceHolder.GetParent().GetChildren().OfType<DetailPanelContainer>().SingleOrDefault();
         if (detailPanel == null)
@@ -43,7 +43,7 @@ public partial class MainScene : ViewControl
 
     private void OnStartArmyMove(string provinceId)
     {
-        var detailPanel = DetailPanelPlaceHolder.GetParent().GetChildren().OfType<DetailPanel>().Single();
+        var detailPanel = DetailPanelPlaceHolder.GetParent().GetChildren().OfType<DetailPanelContainer>().Single();
 
         if (this.GetSession().Entities[detailPanel.EntityId] is CentralArmy centralArmy)
         {

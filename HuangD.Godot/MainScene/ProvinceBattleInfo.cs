@@ -3,13 +3,15 @@ using HuangD.Sessions;
 using System;
 using System.Linq;
 
-public partial class ProvinceBattleInfo : Control
+public partial class ProvinceBattleInfo : ProvinceDetailTabControl
 {
-    public RichTextLabel Desc => GetNode<RichTextLabel>("");
+    public RichTextLabel Desc => GetNode<RichTextLabel>("RichTextLabel");
 
-    InstancePlaceholder BattleReportPlaceHoder => GetNode<InstancePlaceholder>("");
+    internal override string TabName => "Battle";
 
-    internal void Update(Province province)
+    // InstancePlaceholder BattleReportPlaceHoder => GetNode<InstancePlaceholder>("");
+
+    internal override void Update(Province province)
     {
         this.Visible = province.Battle != null;
         if (this.Visible)

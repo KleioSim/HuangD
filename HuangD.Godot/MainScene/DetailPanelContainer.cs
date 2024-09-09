@@ -6,14 +6,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
 
-public partial class DetailPanelContainer : Control
+public partial class DetailPanelContainer : PanelContainer
 {
 
     public string EntityId
     {
         get
         {
-            return FindViewContrls().Single(x => x.Visible).EntityId;
+            return entityId;
         }
         set
         {
@@ -22,7 +22,8 @@ public partial class DetailPanelContainer : Control
                 control.Visible = false;
             }
 
-            switch (this.GetSession().Entities[EntityId])
+            entityId = value;
+            switch (this.GetSession().Entities[entityId])
             {
                 case Province:
                     var provinceDetailPanel = FindViewContrls().OfType<ProvinceDetailPanel>().Single();
@@ -33,6 +34,7 @@ public partial class DetailPanelContainer : Control
         }
     }
 
+    private string entityId;
     private IEnumerable<DetailPanel> viewContrls;
 
     private IEnumerable<DetailPanel> FindViewContrls()

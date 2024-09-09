@@ -1,11 +1,12 @@
-﻿using Godot;
-using HuangD.Sessions;
+﻿using HuangD.Sessions;
 using System;
 
-public partial class ProvinceAttributeInfo : Control
+public partial class ProvinceAttributeInfo : ProvinceDetailTabControl
 {
-    internal void Update(Province province)
+    internal override string TabName => "Attribute";
+
+    internal override void Update(Province province)
     {
-        throw new NotImplementedException();
+
     }
 }

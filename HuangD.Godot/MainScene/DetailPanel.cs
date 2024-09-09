@@ -11,5 +11,5 @@ public abstract partial class DetailPanel : ViewControl
 {
     public string EntityId { get; set; }
 
-    public Label Title => GetNode<Label>("../VBoxContainer/Title/Label");
+    public Label Title => GetNode<Label>("../Title/Label");
 }

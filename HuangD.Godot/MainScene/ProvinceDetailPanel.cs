@@ -10,10 +10,21 @@ public partial class ProvinceDetailPanel : DetailPanel
 
     protected override void Initialize()
     {
-        TabContainer.Connect(TabContainer.SignalName.TabChanged, Callable.From(() =>
+        TabContainer.Connect(TabContainer.SignalName.TabChanged, Callable.From((long index) =>
         {
             Update();
         }));
+
+        for (int i = 0; i < TabContainer.GetTabCount(); i++)
+        {
+            var tabControl = TabContainer.GetTabControl(i) as ProvinceDetailTabControl;
+            TabContainer.SetTabTitle(i, tabControl.TabName);
+        }
+    }
+
+    private void TabContainer_TabChanged(long tab)
+    {
+        throw new NotImplementedException();
     }
 
     protected override void Update()
