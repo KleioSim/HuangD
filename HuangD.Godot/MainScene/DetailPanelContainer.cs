@@ -29,6 +29,7 @@ public partial class DetailPanelContainer : PanelContainer
                     var provinceDetailPanel = FindViewContrls().OfType<ProvinceDetailPanel>().Single();
                     provinceDetailPanel.EntityId = value;
                     provinceDetailPanel.Visible = true;
+                    provinceDetailPanel.IsDirty = true;
                     break;
             }
         }

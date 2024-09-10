@@ -27,3 +27,5 @@ text = "X"
 
 [node name="ProvinceDetailPanel" parent="VBoxContainer" instance=ExtResource("2_6bhf5")]
 layout_mode = 2
+
+[connection signal="pressed" from="VBoxContainer/Title/Button" to="." method="queue_free"]
