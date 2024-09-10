@@ -10,7 +10,21 @@ public partial class Province : IEntity
 {
     public string Id { get; }
 
-    public Country Owner { get; set; }
+    public Country Owner
+    {
+        get => owner;
+        set
+        {
+            if (owner == value)
+            {
+                return;
+            }
+
+            owner = value;
+
+            UpdateBattle();
+        }
+    }
 
     public PopTax PopTax { get; }
 
@@ -28,6 +42,8 @@ public partial class Province : IEntity
 
     private Func<IEnumerable<CentralArmy>> FindArmies { get; set; }
 
+    private Country owner;
+
     public Province(string key, IEnumerable<MapCell> mapCells, Func<Province, IEnumerable<CentralArmy>> armyFinder)
     {
         Id = key;
@@ -40,12 +56,12 @@ public partial class Province : IEntity
     internal void UpdateBattle()
     {
         var enemies = centralArmies.Where(x => x.Owner != Owner && x.MoveTo == null).ToArray();
-        if(enemies.Length == 0)
+        if (enemies.Length == 0)
         {
             Battle = null;
             return;
         }
-        
+
         Battle ??= new Battle(this);
     }
 }

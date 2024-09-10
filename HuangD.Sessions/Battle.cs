@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Chrona.Engine.Core.Interfaces;
+using HuangD.Sessions.Messages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -25,9 +27,9 @@ public class Battle
         List<BattleReport> reports = new List<BattleReport>();
 
         var random = new Random();
-        var randomValue = random.Next(1, 10);
+        var randomValue = random.Next(1, 11);
 
-        if (randomValue < 5)
+        if (randomValue <= 5)
         {
             reports.Add(new BattleReport()
             {
@@ -37,6 +39,16 @@ public class Battle
                 Date = (date.Year, date.Month, date.Day),
                 Desc = $"Battle, Province:{Province.Id}, Offense:[{string.Join(",", OffenseArmy.Select(x => x.Id))}], Defense[{string.Join(",", DefenseCentralArmy.Select(x => x.Id).Append(DefenseLocalArmy.Id))}], Defense Failed"
             });
+
+            if (randomValue <= 2)
+            {
+                randomValue = random.Next(1, 11);
+
+                if (randomValue <= 5)
+                {
+                    IEntity.SendMessage(new Command_ChangeProvinceOwner(Province.Id, OffenseArmy.First().Owner.Id));
+                }
+            }
         }
         else
         {
@@ -48,6 +60,10 @@ public class Battle
                 Date = (date.Year, date.Month, date.Day),
                 Desc = $"Battle, Province:{Province.Id}, Offense:[{string.Join(",", OffenseArmy.Select(x => x.Id))}], Defense[{string.Join(",", DefenseCentralArmy.Select(x => x.Id).Append(DefenseLocalArmy.Id))}], Defense Success"
             });
+
+            if (randomValue >= 8)
+            {
+            }
         }
 
         battleReports.AddRange(reports);
