@@ -42,6 +42,8 @@ public partial class AmryMoveArrow : ViewControl
             return;
         }
 
+        Cancel.Visible = !army.IsRetreat;
+
         var result = MapScene.CalcPositionAndRotation(army.Position, army.MoveTo.Target);
         this.SetGlobalPositionWithPivotOffset(result.position);
         this.RotationDegrees = result.Rotation;

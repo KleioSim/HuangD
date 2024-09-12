@@ -63,6 +63,10 @@ public class Battle
 
             if (randomValue >= 8)
             {
+                foreach (var army in OffenseArmy)
+                {
+                    IEntity.SendMessage(new Command_ArmyRetreat(army.Id));
+                }
             }
         }
 

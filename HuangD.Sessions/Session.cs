@@ -104,7 +104,31 @@ public class Session : AbstractSession
     private void On_Command_Cancel_ArmyMove(Command_Cancel_ArmyMove cmd)
     {
         var army = entities[cmd.armyId] as CentralArmy;
+        if (army.IsRetreat)
+        {
+            throw new System.Exception();
+        }
 
         army.OnCancelMove();
+    }
+
+    [MessageProcess]
+    private void On_Commad_ArmyRetreat(Command_ArmyRetreat cmd)
+    {
+        var army = entities[cmd.armyId] as CentralArmy;
+        if (army.MoveTo != null)
+        {
+            throw new System.Exception();
+        }
+
+        army.IsRetreat = true;
+
+        var target = army.Position.Neighbors.FirstOrDefault(x => x.Owner == army.Owner);
+        if (target == null)
+        {
+            target = army.Position.Neighbors.First();
+        }
+
+        army.OnMove(target);
     }
 }

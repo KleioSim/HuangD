@@ -9,6 +9,7 @@ public class CentralArmy : Army
     public override float Cost => Math.Max(ExpectCount, Count) / 1000;
     public override Country Owner { get; }
 
+    public bool IsRetreat { get; internal set; }
     public MoveTo MoveTo { get; internal set; }
 
     internal CentralArmy(int count, int expectCount, Country owner)
@@ -50,12 +51,18 @@ public class CentralArmy : Army
             MoveTo.percent += MoveTo.speed;
             if (MoveTo.percent >= 100)
             {
-                Position = MoveTo.Target;
-                MoveTo = null;
-
-                Position.UpdateBattle();
+                OnMoveFinished();
             }
         }
+    }
+
+    private void OnMoveFinished()
+    {
+        Position = MoveTo.Target;
+        MoveTo = null;
+        IsRetreat = false;
+
+        Position.UpdateBattle();
     }
 }
 
