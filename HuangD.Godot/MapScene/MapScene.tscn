@@ -1,21 +1,14 @@
-[gd_scene load_steps=11 format=3 uid="uid://bnjubmq3phi3w"]
+[gd_scene load_steps=9 format=3 uid="uid://bnjubmq3phi3w"]
 
 [ext_resource type="Script" path="res://MapScene/MapScene.cs" id="1_3h0t5"]
-[ext_resource type="Texture2D" uid="uid://d3o4sb567jy4j" path="res://MapScene/whrite128.png" id="2_6ips8"]
 [ext_resource type="Script" path="res://MapScene/TerrainMap.cs" id="2_u0u2q"]
 [ext_resource type="Script" path="res://MapScene/PopCountMap.cs" id="4_xv01h"]
 [ext_resource type="Script" path="res://MapScene/MapCamera2D.cs" id="5_1hgk6"]
 [ext_resource type="Script" path="res://MapScene/ProvinceMap.cs" id="5_w852y"]
 [ext_resource type="Script" path="res://MapScene/CountryMap.cs" id="6_imvhe"]
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_aqlwh"]
-texture = ExtResource("2_6ips8")
-texture_region_size = Vector2i(128, 128)
-0:0/0 = 0
-
 [sub_resource type="TileSet" id="TileSet_oq2sr"]
 tile_size = Vector2i(128, 128)
-sources/0 = SubResource("TileSetAtlasSource_aqlwh")
 
 [sub_resource type="TileSet" id="TileSet_583qe"]
 tile_size = Vector2i(64, 64)
