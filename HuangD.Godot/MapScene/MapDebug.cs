@@ -63,11 +63,28 @@ public partial class MapDebug : Node2D
         var random = new System.Random();
         var freeIndexes = Enumerable.Range(0, width).SelectMany(x => Enumerable.Range(0, high).Select(y => new Index(x, y))).ToHashSet();
         var usedIndexes = new HashSet<Index>();
-        var deadIndexes = new HashSet<Index>();
+        var deadStartIndexes = new HashSet<Index>();
 
         while (true)
         {
-            var startIndex = freeIndexes.FirstOrDefault(x => IndexMethods.GetNeighborCells4(x).Values.ToHashSet().IsSubsetOf(freeIndexes));
+
+            Index startIndex = null;
+            foreach (var index in freeIndexes)
+            {
+                if (deadStartIndexes.Contains(index))
+                {
+                    continue;
+                }
+
+                if (IndexMethods.GetNeighborCells4(index).Values.ToHashSet().IsSubsetOf(freeIndexes))
+                {
+                    startIndex = index;
+                    break;
+                }
+
+                deadStartIndexes.Add(index);
+            }
+
             if (startIndex == null)
             {
                 break;
