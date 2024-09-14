@@ -76,13 +76,14 @@ public partial class MapDebug : Node2D
                     continue;
                 }
 
-                if (IndexMethods.GetNeighborCells4(index).Values.ToHashSet().IsSubsetOf(freeIndexes))
+                if (IndexMethods.GetNeighborCells4(index).Values.ToHashSet().All(x => freeIndexes.Contains(x)))
                 {
                     startIndex = index;
                     break;
                 }
 
                 deadStartIndexes.Add(index);
+                continue;
             }
 
             if (startIndex == null)
