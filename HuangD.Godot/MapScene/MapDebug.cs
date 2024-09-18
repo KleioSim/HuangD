@@ -33,9 +33,66 @@ public partial class MapDebug : Node2D
 
     private IEnumerable<Block> BuildBlocks(int width, int high)
     {
+        var random = new System.Random();
+
         var list = new List<Block>();
 
-        BuildBlocks(list, 0, 0, width, high);
+        var cellRadius = 4;
+
+        for (int i = cellRadius; i < width; i += cellRadius * 2 + 1)
+        {
+            for (int j = cellRadius; j < high; j += cellRadius * 2 + 1)
+            {
+                var ceneter = new Index(random.Next(i - cellRadius / 2, i + cellRadius / 2 + 1), random.Next(j - cellRadius / 2, j + cellRadius / 2 + 1));
+
+                var block = new Block();
+                block.Edges = IndexMethods.GetNeighborCells(ceneter).Values.ToList();
+                block.Indexes = block.Edges.Append(ceneter).ToList();
+                list.Add(block);
+            }
+        }
+
+        var freeIndexes = Enumerable.Range(0, width).SelectMany(x => Enumerable.Range(0, high).Select(y => new Index(x, y))).ToHashSet();
+        freeIndexes.ExceptWith(list.SelectMany(x => x.Indexes));
+
+
+        var finishedBlocks = new HashSet<Block>();
+
+        while (freeIndexes.Count != 0 && finishedBlocks.Count < list.Count)
+        {
+            foreach (var block in list.Except(finishedBlocks))
+            {
+
+                while (block.Edges.Count != 0)
+                {
+                    var edge = block.Edges.ElementAt(random.Next(0, block.Edges.Count()));
+
+                    var newEdges = IndexMethods.GetNeighborCells4(edge).Values
+                        .Where(x => freeIndexes.Contains(x))
+                        .ToArray();
+                    if (newEdges.Length == 0)
+                    {
+                        block.Edges.Remove(edge);
+                    }
+                    else
+                    {
+                        var newEdge = newEdges.ElementAt(random.Next(0, newEdges.Count()));
+
+                        block.Edges.Add(newEdge);
+                        block.Indexes.Add(newEdge);
+
+                        freeIndexes.Remove(newEdge);
+
+                        break;
+                    }
+                }
+
+                if (block.Edges.Count == 0 || block.Indexes.Count > (cellRadius * 3) * (cellRadius * 2))
+                {
+                    finishedBlocks.Add(block);
+                }
+            }
+        }
 
         return list;
 
@@ -191,5 +248,6 @@ public partial class MapDebug : Node2D
 
 public class Block
 {
+    public List<Index> Edges { get; set; } = new List<Index>();
     public List<Index> Indexes { get; set; } = new List<Index>();
 }

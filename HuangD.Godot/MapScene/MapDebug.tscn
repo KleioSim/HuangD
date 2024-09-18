@@ -14,7 +14,7 @@ sources/0 = SubResource("TileSetAtlasSource_ee8ga")
 script = ExtResource("1_5venp")
 
 [node name="TileMap" type="TileMap" parent="."]
-self_modulate = Color(1, 1, 1, 0.196078)
+self_modulate = Color(1, 1, 1, 0.0588235)
 scale = Vector2(0.7, 0.7)
 tile_set = SubResource("TileSet_4mdm2")
 format = 2
