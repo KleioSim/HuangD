@@ -1,24 +1,22 @@
 [gd_scene load_steps=5 format=3 uid="uid://ct60da5o8e7u8"]
 
 [ext_resource type="Script" path="res://MapScene/MapDebug.cs" id="1_5venp"]
-[ext_resource type="Texture2D" uid="uid://d3o4sb567jy4j" path="res://MapScene/whrite128.png" id="2_bacnw"]
+[ext_resource type="Texture2D" uid="uid://bsgby7tsxt1l7" path="res://MapScene/whrite16.png" id="2_v4edu"]
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_aqlwh"]
-texture = ExtResource("2_bacnw")
-texture_region_size = Vector2i(128, 128)
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ee8ga"]
+texture = ExtResource("2_v4edu")
 0:0/0 = 0
 
-[sub_resource type="TileSet" id="TileSet_clfx8"]
-tile_size = Vector2i(128, 128)
-sources/0 = SubResource("TileSetAtlasSource_aqlwh")
+[sub_resource type="TileSet" id="TileSet_4mdm2"]
+sources/0 = SubResource("TileSetAtlasSource_ee8ga")
 
 [node name="MapDebug" type="Node2D"]
 script = ExtResource("1_5venp")
 
 [node name="TileMap" type="TileMap" parent="."]
 self_modulate = Color(1, 1, 1, 0.196078)
-scale = Vector2(0.1, 0.1)
-tile_set = SubResource("TileSet_clfx8")
+scale = Vector2(0.7, 0.7)
+tile_set = SubResource("TileSet_4mdm2")
 format = 2
 layer_0/modulate = Color(0, 0, 0.4, 1)
 layer_1/modulate = Color(0, 0.4, 0, 1)
