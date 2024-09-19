@@ -43,48 +43,136 @@ public partial class MapDebug : Node2D
     private Dictionary<Block, TerrainType> BuildTerrains(IEnumerable<Block> blocks)
     {
 
+        var random = new System.Random();
+        var startBlocks = blocks.Where(block => block.Edges.Any(e => e.X == 0 || e.Y == 0));
+
+
         var maxX = blocks.SelectMany(block => block.Edges.Select(edge => edge.X)).Max();
         var maxY = blocks.SelectMany(block => block.Edges.Select(edge => edge.Y)).Max();
 
-        var waterBlocks = new List<Block>();
-        foreach (var block in blocks)
-        {
-            if (block.Edges.Any(edge => edge.X == maxX) || block.Edges.Any(edge => edge.Y == maxY))
-            {
-                waterBlocks.Add(block);
-            }
-        }
+        var invalidBlocks = blocks.Where(block=> block.Edges.Any(edge => edge.X == maxX) || block.Edges.Any(edge => edge.Y == maxY))
+            .ToHashSet();
 
-        var random = new System.Random();
-
-        var block2Fator = waterBlocks.SelectMany(x => x.Neighbors).Distinct().ToDictionary(k => k, _ => 1);
-
+        int factor = 0;
+        var dict = startBlocks.ToDictionary(k => k, _ => factor);
+        var currBlocks = startBlocks.ToArray();
         while (true)
         {
-            foreach (var pair in block2Fator.ToArray())
-            {
-                if (random.Next(0, 10) >= System.Math.Min(pair.Value * 3, 9))
-                {
-                    waterBlocks.Add(pair.Key);
-                    if (waterBlocks.Count() > blocks.Count() * 0.8)
-                    {
-                        goto Finish;
-                    }
+            factor++;
+            currBlocks = currBlocks
+                .SelectMany(x => x.Neighbors)
+                .Distinct()
+                .Where(block => !invalidBlocks.Contains(block) && !dict.ContainsKey(block))
+                .ToArray();
 
-                    foreach (var block in pair.Key.Neighbors.Except(waterBlocks))
+            if(currBlocks.Length == 0)
+            {
+                break;
+            }
+
+            foreach (var block in currBlocks)
+            {
+                dict.Add(block, factor);
+            }
+        }
+
+
+        var rslt = new HashSet<Block>(startBlocks);
+        var queue = new Queue<Block>(startBlocks);
+
+        while (queue.Count != 0)
+        {
+            var current = queue.Dequeue();
+
+            while(true)
+            {
+                var next = current.Neighbors.FirstOrDefault(x => dict.ContainsKey(x) &&  dict[x] > dict[current]);
+                if(next == null)
+                {
+                    next = current.Neighbors.FirstOrDefault(x => dict.ContainsKey(x) && dict[x] == dict[current]);
+                    if(next == null)
                     {
-                        block2Fator.TryAdd(pair.Key, 1);
+                        break;
                     }
                 }
-                else
+
+                current = next;
+
+                rslt.Add(current);
+
+                if (rslt.Count > blocks.Count() * 0.8)
                 {
-                    block2Fator[pair.Key]++;
+                    goto Finish;
                 }
             }
         }
 
+    //while (true)
+    //{
+    //    foreach(var block in rslt.Except(invalidBlocks).OrderBy(_=> random.Next()).ToList())
+    //    {
+    //        var newBlock = block.Neighbors.FirstOrDefault(x => !rslt.Contains(x));
+    //        if(newBlock == null)
+    //        {
+    //            invalidBlocks.Add(block);
+    //            continue;
+    //        }
+    //        if(invalidBlocks.Contains(newBlock))
+    //        {
+    //            continue;
+    //        }
+    //        rslt.Add(newBlock);
+    //        if(rslt.Count > blocks.Count() * 0.75)
+    //        {
+    //            goto Finish;
+    //        }
+    //    }
+    //}
     Finish:
-        return waterBlocks.Distinct().ToDictionary(key => key, _ => TerrainType.Water);
+        return rslt.ToDictionary(x => x, _ => TerrainType.Land);
+
+    //    var maxX = blocks.SelectMany(block => block.Edges.Select(edge => edge.X)).Max();
+    //    var maxY = blocks.SelectMany(block => block.Edges.Select(edge => edge.Y)).Max();
+
+        //    var waterBlocks = new List<Block>();
+        //    foreach (var block in blocks)
+        //    {
+        //        if (block.Edges.Any(edge => edge.X == maxX) || block.Edges.Any(edge => edge.Y == maxY))
+        //        {
+        //            waterBlocks.Add(block);
+        //        }
+        //    }
+
+        //    var random = new System.Random();
+
+        //    var block2Fator = waterBlocks.SelectMany(x => x.Neighbors).Distinct().ToDictionary(k => k, _ => 1);
+
+        //    while (true)
+        //    {
+        //        foreach (var pair in block2Fator.ToArray())
+        //        {
+        //            if (random.Next(0, 10) >= System.Math.Min(pair.Value * 3, 9))
+        //            {
+        //                waterBlocks.Add(pair.Key);
+        //                if (waterBlocks.Count() > blocks.Count() * 0.8)
+        //                {
+        //                    goto Finish;
+        //                }
+
+        //                foreach (var block in pair.Key.Neighbors.Except(waterBlocks))
+        //                {
+        //                    block2Fator.TryAdd(pair.Key, 1);
+        //                }
+        //            }
+        //            else
+        //            {
+        //                block2Fator[pair.Key]++;
+        //            }
+        //        }
+        //    }
+
+        //Finish:
+        //    return waterBlocks.Distinct().ToDictionary(key => key, _ => TerrainType.Water);
     }
 
     private IEnumerable<Block> BuildBlocks(int width, int high)

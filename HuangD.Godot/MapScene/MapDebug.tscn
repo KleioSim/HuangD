@@ -22,7 +22,6 @@ sources/0 = SubResource("TileSetAtlasSource_5wvpa")
 script = ExtResource("1_5venp")
 
 [node name="TileMap" type="TileMap" parent="."]
-visible = false
 self_modulate = Color(1, 1, 1, 0.117647)
 scale = Vector2(0.3, 0.3)
 tile_set = SubResource("TileSet_4mdm2")
