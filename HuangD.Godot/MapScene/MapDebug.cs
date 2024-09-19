@@ -116,7 +116,7 @@ public partial class MapDebug : Node2D
         foreach (var core in coreIndexs)
         {
             var block = new Block();
-            block.Edges = IndexMethods.GetNeighborCells(core).Values.ToList();
+            block.Edges = IndexMethods.GetNeighborCells(core).Values.Where(n=>n.X < width && n.Y<high).ToList();
             block.Indexes = block.Edges.Append(core).ToList();
 
             list.Add(block);
