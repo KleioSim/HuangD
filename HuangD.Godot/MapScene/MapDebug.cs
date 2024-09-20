@@ -14,7 +14,7 @@ public partial class MapDebug : Node2D
 
     public override void _Ready()
     {
-        var blocks = BuildBlocks(120, 120);
+        var blocks = BuildBlocks(100, 100);
 
         var random = new System.Random();
 
@@ -42,137 +42,127 @@ public partial class MapDebug : Node2D
 
     private Dictionary<Block, TerrainType> BuildTerrains(IEnumerable<Block> blocks)
     {
+        var dict = blocks.ToDictionary(x => x, _ => TerrainType.Land);
 
-        var random = new System.Random();
-        var startBlocks = blocks.Where(block => block.Edges.Any(e => e.X == 0 || e.Y == 0));
-
-
-        var maxX = blocks.SelectMany(block => block.Edges.Select(edge => edge.X)).Max();
-        var maxY = blocks.SelectMany(block => block.Edges.Select(edge => edge.Y)).Max();
-
-        var invalidBlocks = blocks.Where(block=> block.Edges.Any(edge => edge.X == maxX) || block.Edges.Any(edge => edge.Y == maxY))
-            .ToHashSet();
-
-        int factor = 0;
-        var dict = startBlocks.ToDictionary(k => k, _ => factor);
-        var currBlocks = startBlocks.ToArray();
-        while (true)
+        var waterBlocks = BuildWater(blocks);
+        foreach (var block in waterBlocks)
         {
-            factor++;
-            currBlocks = currBlocks
-                .SelectMany(x => x.Neighbors)
-                .Distinct()
-                .Where(block => !invalidBlocks.Contains(block) && !dict.ContainsKey(block))
-                .ToArray();
-
-            if(currBlocks.Length == 0)
-            {
-                break;
-            }
-
-            foreach (var block in currBlocks)
-            {
-                dict.Add(block, factor);
-            }
+            dict[block] = TerrainType.Water;
         }
 
+        var mountionBlocks = BuildMountion(blocks.Except(waterBlocks));
+        foreach (var block in mountionBlocks)
+        {
+            dict[block] = TerrainType.Mount;
+        }
+
+        var hillBlocks = BuildHill(blocks.Except(waterBlocks), mountionBlocks);
+        foreach (var block in hillBlocks)
+        {
+            dict[block] = TerrainType.Hill;
+        }
+
+        return dict;
+    }
+
+    private IEnumerable<Block> BuildHill(IEnumerable<Block> landBlocks, IEnumerable<Block> mountionBlocks)
+    {
+        return Enumerable.Empty<Block>();
+    }
+
+    private IEnumerable<Block> BuildMountion(IEnumerable<Block> landBlocks)
+    {
+        var startBlocks = landBlocks.Where(block => block.Edges.Any(e => e.X == 0 || e.Y == 0));
+
+        var random = new System.Random();
 
         var rslt = new HashSet<Block>(startBlocks);
-        var queue = new Queue<Block>(startBlocks);
+        var queue = new Queue<Block>(startBlocks.OrderBy(_ => random.Next()));
 
         while (queue.Count != 0)
         {
             var current = queue.Dequeue();
 
-            while(true)
+            while (true)
             {
-                var next = current.Neighbors.FirstOrDefault(x => dict.ContainsKey(x) &&  dict[x] > dict[current]);
-                if(next == null)
+                var next = current.Neighbors.Where(n => !rslt.Contains(n))
+                    .Where(n => landBlocks.Contains(n))
+                    .Where(n => n.coreIndex.X >= current.coreIndex.X && n.coreIndex.Y >= current.coreIndex.Y)
+                    .FirstOrDefault();
+                if (next == null)
                 {
-                    next = current.Neighbors.FirstOrDefault(x => dict.ContainsKey(x) && dict[x] == dict[current]);
-                    if(next == null)
-                    {
-                        break;
-                    }
+                    break;
                 }
 
                 current = next;
 
                 rslt.Add(current);
-
-                if (rslt.Count > blocks.Count() * 0.8)
+                if (rslt.Count > landBlocks.Count() * 0.6)
                 {
                     goto Finish;
                 }
+
             }
         }
-
-    //while (true)
-    //{
-    //    foreach(var block in rslt.Except(invalidBlocks).OrderBy(_=> random.Next()).ToList())
-    //    {
-    //        var newBlock = block.Neighbors.FirstOrDefault(x => !rslt.Contains(x));
-    //        if(newBlock == null)
-    //        {
-    //            invalidBlocks.Add(block);
-    //            continue;
-    //        }
-    //        if(invalidBlocks.Contains(newBlock))
-    //        {
-    //            continue;
-    //        }
-    //        rslt.Add(newBlock);
-    //        if(rslt.Count > blocks.Count() * 0.75)
-    //        {
-    //            goto Finish;
-    //        }
-    //    }
-    //}
     Finish:
-        return rslt.ToDictionary(x => x, _ => TerrainType.Land);
 
-    //    var maxX = blocks.SelectMany(block => block.Edges.Select(edge => edge.X)).Max();
-    //    var maxY = blocks.SelectMany(block => block.Edges.Select(edge => edge.Y)).Max();
+        foreach (var block in rslt.OrderByDescending(n => n.coreIndex.X * n.coreIndex.Y).OrderByDescending(x => x.Neighbors.Intersect(rslt).Count()))
+        {
+            rslt.Remove(block);
+            if (rslt.Count < landBlocks.Count() * 0.3)
+            {
+                break;
+            }
+        }
+        return rslt;
+    }
 
-        //    var waterBlocks = new List<Block>();
-        //    foreach (var block in blocks)
-        //    {
-        //        if (block.Edges.Any(edge => edge.X == maxX) || block.Edges.Any(edge => edge.Y == maxY))
-        //        {
-        //            waterBlocks.Add(block);
-        //        }
-        //    }
+    private IEnumerable<Block> BuildWater(IEnumerable<Block> blocks)
+    {
+        var invalidBlocks = blocks.Where(block => block.Edges.Any(edge => edge.X == 0 || edge.Y == 0))
+                    .ToHashSet();
 
-        //    var random = new System.Random();
+        var maxX = blocks.SelectMany(block => block.Edges.Select(edge => edge.X)).Max();
+        var maxY = blocks.SelectMany(block => block.Edges.Select(edge => edge.Y)).Max();
 
-        //    var block2Fator = waterBlocks.SelectMany(x => x.Neighbors).Distinct().ToDictionary(k => k, _ => 1);
+        var random = new System.Random();
+        var startBlocks = blocks.Where(block => block.Edges.Any(e => e.X == maxX || e.Y == maxY))
+            .Except(invalidBlocks);
 
-        //    while (true)
-        //    {
-        //        foreach (var pair in block2Fator.ToArray())
-        //        {
-        //            if (random.Next(0, 10) >= System.Math.Min(pair.Value * 3, 9))
-        //            {
-        //                waterBlocks.Add(pair.Key);
-        //                if (waterBlocks.Count() > blocks.Count() * 0.8)
-        //                {
-        //                    goto Finish;
-        //                }
+        var rslt = new HashSet<Block>(startBlocks);
+        var queue = new Queue<Block>(startBlocks.OrderBy(_ => random.Next()));
 
-        //                foreach (var block in pair.Key.Neighbors.Except(waterBlocks))
-        //                {
-        //                    block2Fator.TryAdd(pair.Key, 1);
-        //                }
-        //            }
-        //            else
-        //            {
-        //                block2Fator[pair.Key]++;
-        //            }
-        //        }
-        //    }
+        while (queue.Count != 0)
+        {
+            var current = queue.Dequeue();
+            int count = random.Next(1, 3);
+            while (true)
+            {
+                var next = current.Neighbors.Where(n => !rslt.Contains(n) && n.coreIndex.X <= current.coreIndex.X && n.coreIndex.Y <= current.coreIndex.Y)
+                    .FirstOrDefault();
+                if (next == null)
+                {
+                    break;
+                }
 
-        //Finish:
-        //    return waterBlocks.Distinct().ToDictionary(key => key, _ => TerrainType.Water);
+                current = next;
+
+                rslt.Add(current);
+                if (rslt.Count > blocks.Count() * 0.2)
+                {
+                    goto Finish;
+                }
+
+                count--;
+                if (count == 0)
+                {
+                    break;
+                }
+
+            }
+        }
+    Finish:
+        return rslt;
     }
 
     private IEnumerable<Block> BuildBlocks(int width, int high)
@@ -204,7 +194,8 @@ public partial class MapDebug : Node2D
         foreach (var core in coreIndexs)
         {
             var block = new Block();
-            block.Edges = IndexMethods.GetNeighborCells(core).Values.Where(n=>n.X < width && n.Y<high).ToList();
+            block.coreIndex = core;
+            block.Edges = IndexMethods.GetNeighborCells(core).Values.Where(n => n.X < width && n.Y < high).ToList();
             block.Indexes = block.Edges.Append(core).ToList();
 
             list.Add(block);
@@ -279,129 +270,6 @@ public partial class MapDebug : Node2D
 
         return dict.Values.Distinct();
 
-
-        //var random = new System.Random();
-        //var range = (X: random.Next(7, width - 7), Y: random.Next(7, high - 7));
-
-        //var list = new List<Block>() { new Block(), new Block(), new Block(), new Block() };
-        //for(int i=0; i<width; i++)
-        //{
-        //    for(int j=0; j<high; j++)
-        //    {
-        //        if(i<=range.X && j <= range.Y)
-        //        {
-        //            list[0].Indexes.Add(new Index(i, j));
-        //        }
-        //        else if (i > range.X && j <= range.Y)
-        //        {
-        //            list[1].Indexes.Add(new Index(i, j));
-        //        }
-        //        else if (i <= range.X && j > range.Y)
-        //        {
-        //            list[2].Indexes.Add(new Index(i, j));
-        //        }
-        //        if (i > range.X && j > range.Y)
-        //        {
-        //            list[3].Indexes.Add(new Index(i, j));
-        //        }
-        //    }
-        //}
-
-        //return list;
-
-        //var a = new HashSet<Index>() { new Index(0, 0) };
-        //var b = new HashSet<Index>() { new Index(0, 0), new Index(0, 1) };
-
-        //if (a.IsSubsetOf(b))
-        //{
-        //    GD.Print();
-        //}
-
-        //if (b.IsSubsetOf(a))
-        //{
-        //    GD.Print();
-        //}
-
-        //var list = new List<Block>();
-
-        //var random = new System.Random();
-        //var freeIndexes = Enumerable.Range(0, width).SelectMany(x => Enumerable.Range(0, high).Select(y => new Index(x, y))).ToHashSet();
-        //var usedIndexes = new HashSet<Index>();
-        //var deadStartIndexes = new HashSet<Index>();
-
-        //while (true)
-        //{
-
-        //    Index startIndex = null;
-        //    foreach (var index in freeIndexes)
-        //    {
-        //        if (deadStartIndexes.Contains(index))
-        //        {
-        //            continue;
-        //        }
-
-        //        if (IndexMethods.GetNeighborCells4(index).Values.ToHashSet().All(x => freeIndexes.Contains(x)))
-        //        {
-        //            startIndex = index;
-        //            break;
-        //        }
-
-        //        deadStartIndexes.Add(index);
-        //        continue;
-        //    }
-
-        //    if (startIndex == null)
-        //    {
-        //        break;
-        //    }
-
-
-        //    var edgeIndexes = IndexMethods.GetNeighborCells4(startIndex).Values.ToHashSet();
-        //    var blockIndexes = edgeIndexes.Prepend(startIndex).ToHashSet();
-
-        //    usedIndexes.UnionWith(blockIndexes);
-        //    freeIndexes.ExceptWith(blockIndexes);
-
-        //    while (blockIndexes.Count() < 32)
-        //    {
-        //        IEnumerable<Index> newEdgeIndexs = null;
-        //        foreach (var index in edgeIndexes.OrderBy(_ => random.Next()))
-        //        {
-        //            var neighbors = IndexMethods.GetNeighborCells4(index).Values
-        //                .Intersect(freeIndexes).ToArray();
-
-        //            newEdgeIndexs = neighbors.OrderBy(_ => random.Next()).Take(System.Math.Min(3, neighbors.Length));
-        //            if (!newEdgeIndexs.Any())
-        //            {
-        //                continue;
-        //            }
-
-        //            edgeIndexes.UnionWith(newEdgeIndexs);
-        //            blockIndexes.UnionWith(newEdgeIndexs);
-
-        //            usedIndexes.UnionWith(newEdgeIndexs);
-        //            freeIndexes.ExceptWith(newEdgeIndexs);
-
-        //            if (neighbors.Length == 1)
-        //            {
-        //                edgeIndexes.Remove(index);
-        //            }
-
-        //            break;
-        //        }
-
-        //        if (newEdgeIndexs == null || !newEdgeIndexs.Any())
-        //        {
-        //            break;
-        //        }
-        //    }
-
-        //    var block = new Block() { Indexes = blockIndexes };
-        //    list.Add(block);
-        //}
-
-        //return list;
-
     }
 
     private IEnumerable<Block> GetNeighborBlock(Index newEdge, Dictionary<Index, Block> dict)
@@ -416,34 +284,11 @@ public partial class MapDebug : Node2D
         }
         return rslt;
     }
-
-    private void BuildBlocks(List<Block> list, int startX, int startY, int endX, int endY)
-    {
-        //list.Add(new Block() { Indexes = Enumerable.Range(startX, endX).SelectMany(x => Enumerable.Range(startY, endY).Select(y => new Index(x, y))).ToList() });
-
-        if (endX - startX < 6 || endY - startY < 6)
-        {
-            return;
-        }
-
-        var random = new System.Random();
-        var range = (X: random.Next(startX + 3, endX - 3), Y: random.Next(startY + 3, endY - 3));
-
-        //var range = (X:startX + (endX - startX)/2, Y:startY + (endY - startY)/2);
-
-        var block = new Block() { Indexes = new List<Index>() { new Index(range.X, range.Y) } };
-
-        list.Add(block);
-
-        BuildBlocks(list, startX, startY, range.X, range.Y);
-        BuildBlocks(list, startX, range.Y, range.X, endY);
-        BuildBlocks(list, range.X, startY, endX, range.Y);
-        BuildBlocks(list, range.X, range.Y, endX, endY);
-    }
 }
 
 public class Block
 {
+    public Index coreIndex { get; set; }
     public List<Index> Edges { get; set; } = new List<Index>();
     public List<Index> InvaildEdges { get; set; } = new List<Index>();
     public List<Index> Indexes { get; set; } = new List<Index>();
