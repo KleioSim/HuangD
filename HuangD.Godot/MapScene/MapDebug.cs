@@ -14,7 +14,7 @@ public partial class MapDebug : Node2D
 
     public override void _Ready()
     {
-        var blocks = BuildBlocks(100, 100);
+        var blocks = BuildBlocks(120, 120);
 
         var random = new System.Random();
 
@@ -56,7 +56,7 @@ public partial class MapDebug : Node2D
             dict[block] = TerrainType.Mount;
         }
 
-        var hillBlocks = BuildHill(blocks.Except(waterBlocks), mountionBlocks);
+        var hillBlocks = BuildHill(blocks.Except(waterBlocks).Except(mountionBlocks), mountionBlocks);
         foreach (var block in hillBlocks)
         {
             dict[block] = TerrainType.Hill;
@@ -67,54 +67,70 @@ public partial class MapDebug : Node2D
 
     private IEnumerable<Block> BuildHill(IEnumerable<Block> landBlocks, IEnumerable<Block> mountionBlocks)
     {
-        return Enumerable.Empty<Block>();
+        var random = new System.Random();
+        var queue = new Queue<Block>(landBlocks.OrderByDescending(block => block.coreIndex.Y));
+
+        var maxNeighborMountCount = landBlocks.Select(x => x.Neighbors.Intersect(mountionBlocks).Count()).Max();
+        var maxX = queue.Select(x => x.coreIndex.X).Max();
+
+        while (queue.Count >= landBlocks.Count() * 0.4)
+        {
+            var maxNeighborCount = queue.Select(x => x.Neighbors.Intersect(queue).Count()).Max();
+
+            var curr = queue.Dequeue();
+
+            var factor1 = random.Next(0, 300);
+            //var factor2 = 0;
+            var factor2 = curr.coreIndex.X * 400.0 / maxX;
+            //var factor3 = 0;
+            var factor3 = (maxNeighborMountCount - curr.Neighbors.Intersect(mountionBlocks).Count()) * 300 / maxNeighborMountCount;
+
+            if (random.Next(0, 1001) < factor1 + factor2 + factor3)
+            {
+                continue;
+            }
+
+            queue.Enqueue(curr);
+
+        }
+
+        return queue;
     }
 
     private IEnumerable<Block> BuildMountion(IEnumerable<Block> landBlocks)
     {
-        var startBlocks = landBlocks.Where(block => block.Edges.Any(e => e.X == 0 || e.Y == 0));
-
         var random = new System.Random();
+        var queue = new Queue<Block>(landBlocks.OrderByDescending(block => block.coreIndex.X));
 
-        var rslt = new HashSet<Block>(startBlocks);
-        var queue = new Queue<Block>(startBlocks.OrderBy(_ => random.Next()));
+        var maxX = queue.Select(x => x.coreIndex.X).Max();
+        var midY = queue.Select(x => x.coreIndex.Y).Average();
 
-        while (queue.Count != 0)
+        while (queue.Count >= landBlocks.Count() * 0.3)
         {
-            var current = queue.Dequeue();
+            var maxNeighborCount = queue.Select(x => x.Neighbors.Intersect(queue).Count()).Max();
 
-            while (true)
+            var curr = queue.Dequeue();
+
+            //var factor1 = 0;
+            var factor1 = curr.Neighbors.Intersect(queue).Count() * 300.0 / maxNeighborCount;
+
+            //var factor2 = 700;
+            var factor2 = curr.coreIndex.X * 700.0 / maxX;
+
+            //var factor3 = int.MaxValue;
+            var factor3 = (midY - System.Math.Abs(curr.coreIndex.Y - midY)) * 700.0 / midY;
+
+            var factor = (factor1 + System.Math.Min(factor2, factor3));
+            if (random.Next(0, 1001) < factor)
             {
-                var next = current.Neighbors.Where(n => !rslt.Contains(n))
-                    .Where(n => landBlocks.Contains(n))
-                    .Where(n => n.coreIndex.X >= current.coreIndex.X && n.coreIndex.Y >= current.coreIndex.Y)
-                    .FirstOrDefault();
-                if (next == null)
-                {
-                    break;
-                }
-
-                current = next;
-
-                rslt.Add(current);
-                if (rslt.Count > landBlocks.Count() * 0.6)
-                {
-                    goto Finish;
-                }
-
+                continue;
             }
-        }
-    Finish:
 
-        foreach (var block in rslt.OrderByDescending(n => n.coreIndex.X * n.coreIndex.Y).OrderByDescending(x => x.Neighbors.Intersect(rslt).Count()))
-        {
-            rslt.Remove(block);
-            if (rslt.Count < landBlocks.Count() * 0.3)
-            {
-                break;
-            }
+            queue.Enqueue(curr);
+
         }
-        return rslt;
+
+        return queue;
     }
 
     private IEnumerable<Block> BuildWater(IEnumerable<Block> blocks)
