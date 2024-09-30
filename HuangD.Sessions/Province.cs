@@ -26,29 +26,52 @@ public partial class Province : IEntity
         }
     }
 
+    public TerrainType Terrain { get; init; }
+    public IEnumerable<Maps.Index> Indexes { get; init; }
+    public Maps.Index CoreIndex { get; init; }
+
     public PopTax PopTax { get; }
 
     public LocalArmy LocalArmy { get; }
 
-    public IEnumerable<CentralArmy> centralArmies => FindArmies();
+    public IEnumerable<CentralArmy> centralArmies => FindArmies(this);
 
     public IEnumerable<Province> Neighbors { get; private set; } = new Province[] { };
 
     public IEnumerable<MapCell> MapCells { get; private set; }
 
-    public int PopCount => MapCells.Sum(x => x.PopCount);
+    public int PopCount { get; set; }
 
     public Battle Battle { get; private set; }
 
-    private Func<IEnumerable<CentralArmy>> FindArmies { get; set; }
+    public static Func<Province, IEnumerable<CentralArmy>> FindArmies { get; set; }
 
     private Country owner;
+
+    private Province(string id)
+    {
+        Id = id;
+
+        PopTax = new PopTax(this);
+        LocalArmy = new LocalArmy(this);
+    }
+
+    public Province(string id, IEnumerable<Maps.Index> indexes, Maps.Index coreIndex, TerrainType terrain, int popCount)
+    {
+        Id = id;
+        Indexes = indexes;
+        CoreIndex = coreIndex;
+        PopCount = popCount;
+        Terrain = terrain;
+
+        PopTax = new PopTax(this);
+        LocalArmy = new LocalArmy(this);
+    }
 
     public Province(string key, IEnumerable<MapCell> mapCells, Func<Province, IEnumerable<CentralArmy>> armyFinder)
     {
         Id = key;
         MapCells = mapCells;
-        FindArmies = () => armyFinder(this);
         PopTax = new PopTax(this);
         LocalArmy = new LocalArmy(this);
     }

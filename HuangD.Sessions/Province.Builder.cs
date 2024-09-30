@@ -1,7 +1,9 @@
 ﻿using HuangD.Sessions.Maps;
+using HuangD.Sessions.Utilties;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using static HuangD.Sessions.Maps.Builders.MapBuilder;
 
 namespace HuangD.Sessions;
 
@@ -9,6 +11,32 @@ public partial class Province
 {
     internal static class Builder
     {
+        internal static Dictionary<string, Province> Build(Dictionary<Block, TerrainType> terrains, Dictionary<Block, int> pops, string seed)
+        {
+            var provinces = terrains.Where(pair => pair.Value != TerrainType.Water)
+                .Select(pair =>
+                {
+                    var province = new Province(UUID.Generate("PROV"))
+                    {
+                        Indexes = pair.Key.Indexes,
+                        CoreIndex = pair.Key.coreIndex,
+                        Terrain = pair.Value,
+                        PopCount = pops[pair.Key]
+                    };
+                    return province;
+                });
+
+            foreach (var province in provinces)
+            {
+                province.Neighbors = terrains.Keys.Single(x => x.coreIndex == province.CoreIndex)
+                    .Neighbors.Where(x => terrains[x] != TerrainType.Water)
+                    .Select(x => provinces.Single(x => x.CoreIndex == x.CoreIndex))
+                    .ToArray();
+            }
+
+            return provinces.ToDictionary(p => p.Id, p => p);
+        }
+
         internal static Dictionary<string, Province> Build(IEnumerable<MapCell> mapCells, Func<Province, IEnumerable<CentralArmy>> armyFinder)
         {
             var rslt = new Dictionary<string, Province>();
@@ -26,6 +54,13 @@ public partial class Province
             BuilderNeighbors(rslt.Values, provinceId2Cells);
 
             return rslt;
+        }
+
+        internal static IEnumerable<Province> Build(int high, int width, string seed)
+        {
+            var blocks = BlockBuilder.Build(high, width, seed);
+            var terrains = TerrainBuilder.Build(blocks, seed);
+            var pops = PopCountBuilder.Build(terrains, seed);
         }
 
         private static void BuilderNeighbors(IEnumerable<Province> provinces, Dictionary<string, IEnumerable<MapCell>> provinceId2Cells)

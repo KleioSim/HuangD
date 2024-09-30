@@ -9,6 +9,39 @@ public static partial class MapBuilder
 {
     public static class PopCountBuilder
     {
+        private static readonly Dictionary<TerrainType, (int min, int max)> basePopDict = new Dictionary<TerrainType, (int min, int max)>()
+        {
+            { TerrainType.Land, (200000,500000)},
+            { TerrainType.Hill, (50000,100000)},
+            { TerrainType.Mount, (20000,50000)},
+        };
+
+        private static readonly Dictionary<TerrainType, (int min, int max)> incPopDict = new Dictionary<TerrainType, (int min, int max)>()
+        {
+            { TerrainType.Land, (20000,50000)},
+            { TerrainType.Hill, (5000,10000)},
+            { TerrainType.Mount, (2000,5000)},
+        };
+
+        public static Dictionary<Block, int> Build(Dictionary<Block, TerrainType> terrains, string seed)
+        {
+            var random = RandomBuilder.Build(seed);
+
+            var rslt = terrains.Where(pair => pair.Value != TerrainType.Water)
+                .ToDictionary(pair => pair.Key, pair =>
+                {
+                    var rangeBase = basePopDict[pair.Value];
+                    var rangeIncs = pair.Key.Neighbors.Select(x => terrains[x])
+                        .Where(x => x != TerrainType.Water)
+                        .Select(x => incPopDict[x])
+                        .ToArray();
+
+                    return random.Next(rangeBase.min + rangeIncs.Sum(x => x.min), rangeBase.max + rangeIncs.Sum(x => x.max));
+                });
+            return rslt;
+        }
+
+
         public static Dictionary<Index, int> Build(Dictionary<Index, TerrainType> terrainDict, string seed)
         {
             var random = RandomBuilder.Build(seed);

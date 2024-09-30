@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using static HuangD.Sessions.Maps.Builders.MapBuilder;
 
 namespace HuangD.Sessions;
 
@@ -20,7 +21,7 @@ public class Session : AbstractSession
 
     public Date Date { get; }
 
-    public Dictionary<Index, MapCell> MapCells { get; }
+    //public Dictionary<Index, MapCell> MapCells { get; }
 
     public Country PlayerCountry { get; private set; }
 
@@ -34,10 +35,16 @@ public class Session : AbstractSession
     {
         UUID.Restart();
 
+        Province.FindArmies = (prov) => entities.Values.OfType<CentralArmy>().Where(x => x.Position == prov);
         Date = new Date();
-        MapCells = MapBuilder.Build2(64, seed);
+        //MapCells = MapBuilder.Build2(64, seed);
 
-        var provinces = Province.Builder.Build(MapCells.Values, (prov) => entities.Values.OfType<CentralArmy>().Where(x => x.Position == prov));
+        var blocks = BlockBuilder.Build(120, 120, seed);
+        var terrains = TerrainBuilder.Build(blocks, seed);
+        var pops = PopCountBuilder.Build(terrains, seed);
+
+        var provinces = Province.Builder.Build(terrains, pops, seed);
+        //var provinces = Province.Builder.Build(MapCells.Values, (prov) => entities.Values.OfType<CentralArmy>().Where(x => x.Position == prov));
         var countries = Country.Builder.Build(provinces.Values, provinces.Values.Max(x => x.PopCount) * 3, provinces.Count / 5, seed);
         var centralArmies = countries.Values.Select(x => new CentralArmy(1000, 1000, x)).ToDictionary(x => x.Id, y => y);
 
