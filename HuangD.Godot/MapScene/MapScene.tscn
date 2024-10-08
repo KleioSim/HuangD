@@ -1,11 +1,19 @@
-[gd_scene load_steps=9 format=3 uid="uid://bnjubmq3phi3w"]
+[gd_scene load_steps=12 format=3 uid="uid://bnjubmq3phi3w"]
 
 [ext_resource type="Script" path="res://MapScene/MapScene.cs" id="1_3h0t5"]
 [ext_resource type="Script" path="res://MapScene/TerrainMap.cs" id="2_u0u2q"]
+[ext_resource type="Texture2D" uid="uid://bsgby7tsxt1l7" path="res://MapScene/whrite16.png" id="2_x2ka0"]
 [ext_resource type="Script" path="res://MapScene/PopCountMap.cs" id="4_xv01h"]
 [ext_resource type="Script" path="res://MapScene/MapCamera2D.cs" id="5_1hgk6"]
 [ext_resource type="Script" path="res://MapScene/ProvinceMap.cs" id="5_w852y"]
 [ext_resource type="Script" path="res://MapScene/CountryMap.cs" id="6_imvhe"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5wvpa"]
+texture = ExtResource("2_x2ka0")
+0:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_uiqf5"]
+sources/0 = SubResource("TileSetAtlasSource_5wvpa")
 
 [sub_resource type="TileSet" id="TileSet_oq2sr"]
 tile_size = Vector2i(128, 128)
@@ -20,8 +28,7 @@ script = ExtResource("1_3h0t5")
 follow_viewport_enabled = true
 
 [node name="TerrainMap" type="TileMap" parent="CanvasLayer"]
-visible = false
-tile_set = SubResource("TileSet_oq2sr")
+tile_set = SubResource("TileSet_uiqf5")
 format = 2
 layer_0/modulate = Color(0, 0, 0.4, 1)
 layer_1/modulate = Color(0, 0.4, 0, 1)
@@ -56,12 +63,14 @@ format = 2
 script = ExtResource("6_imvhe")
 
 [node name="Camera2D" type="Camera2D" parent="CanvasLayer"]
-zoom = Vector2(0.3, 0.3)
+visible = false
 script = ExtResource("5_1hgk6")
 ZoomMin = 0.1
 ZoomMax = 1.0
 ZoomStep = 0.01
 
 [node name="PoliticalInfo" parent="CanvasLayer" instance_placeholder="res://MapScene/PoliticalInfo.tscn"]
+visible = false
 
 [node name="ArmyMoveArrow" parent="CanvasLayer" instance_placeholder="res://ArmyMoveArrow.tscn"]
+visible = false

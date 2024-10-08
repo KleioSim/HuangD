@@ -8,7 +8,7 @@ public static partial class MapBuilder
 {
     public static class BlockBuilder
     {
-        internal static IEnumerable<Block> Build(int high, int width, string seed)
+        public static IEnumerable<Block> Build(int high, int width, string seed)
         {
             var random = RandomBuilder.Build(seed);
 

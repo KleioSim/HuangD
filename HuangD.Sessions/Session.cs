@@ -31,6 +31,8 @@ public class Session : AbstractSession
 
     private List<string> currentReports = new List<string>();
 
+    public IEnumerable<Province> Provinces { get; set; } 
+
     public Session(string seed)
     {
         UUID.Restart();
@@ -47,6 +49,8 @@ public class Session : AbstractSession
         //var provinces = Province.Builder.Build(MapCells.Values, (prov) => entities.Values.OfType<CentralArmy>().Where(x => x.Position == prov));
         var countries = Country.Builder.Build(provinces.Values, provinces.Values.Max(x => x.PopCount) * 3, provinces.Count / 5, seed);
         var centralArmies = countries.Values.Select(x => new CentralArmy(1000, 1000, x)).ToDictionary(x => x.Id, y => y);
+
+        Provinces = provinces.Values;
 
         foreach (var entity in provinces.Values)
         {

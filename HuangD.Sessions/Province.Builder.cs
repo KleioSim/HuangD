@@ -9,9 +9,9 @@ namespace HuangD.Sessions;
 
 public partial class Province
 {
-    internal static class Builder
+    public static class Builder
     {
-        internal static Dictionary<string, Province> Build(Dictionary<Block, TerrainType> terrains, Dictionary<Block, int> pops, string seed)
+        public static Dictionary<string, Province> Build(Dictionary<Block, TerrainType> terrains, Dictionary<Block, int> pops, string seed)
         {
             var provinces = terrains.Where(pair => pair.Value != TerrainType.Water)
                 .Select(pair =>
@@ -24,13 +24,14 @@ public partial class Province
                         PopCount = pops[pair.Key]
                     };
                     return province;
-                });
+                })
+                .ToArray();
 
             foreach (var province in provinces)
             {
                 province.Neighbors = terrains.Keys.Single(x => x.coreIndex == province.CoreIndex)
                     .Neighbors.Where(x => terrains[x] != TerrainType.Water)
-                    .Select(x => provinces.Single(x => x.CoreIndex == x.CoreIndex))
+                    .Select(x => provinces.Single(p => p.CoreIndex == x.coreIndex))
                     .ToArray();
             }
 
@@ -56,12 +57,12 @@ public partial class Province
             return rslt;
         }
 
-        internal static IEnumerable<Province> Build(int high, int width, string seed)
-        {
-            var blocks = BlockBuilder.Build(high, width, seed);
-            var terrains = TerrainBuilder.Build(blocks, seed);
-            var pops = PopCountBuilder.Build(terrains, seed);
-        }
+        //internal static IEnumerable<Province> Build(int high, int width, string seed)
+        //{
+        //    var blocks = BlockBuilder.Build(high, width, seed);
+        //    var terrains = TerrainBuilder.Build(blocks, seed);
+        //    var pops = PopCountBuilder.Build(terrains, seed);
+        //}
 
         private static void BuilderNeighbors(IEnumerable<Province> provinces, Dictionary<string, IEnumerable<MapCell>> provinceId2Cells)
         {

@@ -28,24 +28,24 @@ public partial class MapScene : Node2D
     public override void _Ready()
     {
         ShowMaps();
-        politicalInfos = ShowPoliticalInfos().ToDictionary(x => x.province.Id, y => y);
+        //politicalInfos = ShowPoliticalInfos().ToDictionary(x => x.province.Id, y => y);
 
-        Camera.Position = TerrainMap.MapToLocal(TerrainMap.GetUsedRect().GetCenter());
+        //Camera.Position = TerrainMap.MapToLocal(TerrainMap.GetUsedRect().GetCenter());
 
-        Camera.Connect(MapCamera2D.SignalName.OnZoomed, Callable.From<Vector2>((zoom) =>
-        {
-            foreach (var politicalInfo in politicalInfos.Values)
-            {
-                politicalInfo.OnZoomed(zoom);
-            }
+        //Camera.Connect(MapCamera2D.SignalName.OnZoomed, Callable.From<Vector2>((zoom) =>
+        //{
+        //    foreach (var politicalInfo in politicalInfos.Values)
+        //    {
+        //        politicalInfo.OnZoomed(zoom);
+        //    }
 
-            var amryMoveArrows = AmryMoveArrowPlaceHolder.GetParent().GetChildren().OfType<AmryMoveArrow>().ToList();
-            foreach (var arrow in amryMoveArrows)
-            {
-                arrow.OnZoom();
-            }
+        //    var amryMoveArrows = AmryMoveArrowPlaceHolder.GetParent().GetChildren().OfType<AmryMoveArrow>().ToList();
+        //    foreach (var arrow in amryMoveArrows)
+        //    {
+        //        arrow.OnZoom();
+        //    }
 
-        }));
+        //}));
     }
 
 
@@ -100,13 +100,11 @@ public partial class MapScene : Node2D
     private void ShowMaps()
     {
         var session = this.GetSession();
-        foreach (var cell in session.MapCells.Values)
+        foreach (var Province in session.Provinces)
         {
-            TerrainMap.AddOrUpdate(cell.Index, cell.TerrainType);
-            if (cell.TerrainType != TerrainType.Water)
+            foreach (var index in Province.Indexes)
             {
-                PopCountMap.AddOrUpdate(cell.Index, cell.PopCount);
-                ProvinceMap.AddOrUpdate(cell.Index, cell.ProvinceId);
+                TerrainMap.AddOrUpdate(index, Province.Terrain);
             }
         }
     }

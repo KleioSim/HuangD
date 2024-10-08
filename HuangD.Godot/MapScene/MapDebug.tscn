@@ -1,8 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://ct60da5o8e7u8"]
+[gd_scene load_steps=10 format=3 uid="uid://ct60da5o8e7u8"]
 
 [ext_resource type="Script" path="res://MapScene/MapDebug.cs" id="1_5venp"]
 [ext_resource type="Texture2D" uid="uid://bsgby7tsxt1l7" path="res://MapScene/whrite16.png" id="2_v4edu"]
 [ext_resource type="Script" path="res://MapScene/TerrainMap.cs" id="3_00lop"]
+[ext_resource type="Script" path="res://MapScene/BlockMap.cs" id="3_vukqv"]
+[ext_resource type="Script" path="res://MapScene/PopMap.cs" id="5_4mpop"]
+[ext_resource type="Script" path="res://MapScene/ProvinceMap.cs" id="6_dmk0d"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ee8ga"]
 texture = ExtResource("2_v4edu")
@@ -11,17 +14,12 @@ texture = ExtResource("2_v4edu")
 [sub_resource type="TileSet" id="TileSet_4mdm2"]
 sources/0 = SubResource("TileSetAtlasSource_ee8ga")
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5wvpa"]
-texture = ExtResource("2_v4edu")
-0:0/0 = 0
-
 [sub_resource type="TileSet" id="TileSet_p5pks"]
-sources/0 = SubResource("TileSetAtlasSource_5wvpa")
 
 [node name="MapDebug" type="Node2D"]
 script = ExtResource("1_5venp")
 
-[node name="TileMap" type="TileMap" parent="."]
+[node name="BlockMap" type="TileMap" parent="."]
 self_modulate = Color(1, 1, 1, 0.117647)
 scale = Vector2(0.3, 0.3)
 tile_set = SubResource("TileSet_4mdm2")
@@ -33,6 +31,7 @@ layer_2/modulate = Color(0.4, 0.288067, 0.108, 1)
 layer_2/tile_data = PackedInt32Array()
 layer_3/modulate = Color(0.3268, 0.156, 0.4, 1)
 layer_3/tile_data = PackedInt32Array()
+script = ExtResource("3_vukqv")
 
 [node name="TerrainMap" type="TileMap" parent="."]
 scale = Vector2(0.3, 0.3)
@@ -46,3 +45,29 @@ layer_2/tile_data = PackedInt32Array()
 layer_3/modulate = Color(0.3268, 0.156, 0.4, 1)
 layer_3/tile_data = PackedInt32Array()
 script = ExtResource("3_00lop")
+
+[node name="PopMap" type="TileMap" parent="."]
+scale = Vector2(0.3, 0.3)
+tile_set = SubResource("TileSet_p5pks")
+format = 2
+layer_0/modulate = Color(0, 0, 0.4, 1)
+layer_1/modulate = Color(0, 0.4, 0, 1)
+layer_1/tile_data = PackedInt32Array()
+layer_2/modulate = Color(0.4, 0.288067, 0.108, 1)
+layer_2/tile_data = PackedInt32Array()
+layer_3/modulate = Color(0.3268, 0.156, 0.4, 1)
+layer_3/tile_data = PackedInt32Array()
+script = ExtResource("5_4mpop")
+
+[node name="ProvinceMap" type="TileMap" parent="."]
+scale = Vector2(0.3, 0.3)
+tile_set = SubResource("TileSet_p5pks")
+format = 2
+layer_0/modulate = Color(0, 0, 0.4, 1)
+layer_1/modulate = Color(0, 0.4, 0, 1)
+layer_1/tile_data = PackedInt32Array()
+layer_2/modulate = Color(0.4, 0.288067, 0.108, 1)
+layer_2/tile_data = PackedInt32Array()
+layer_3/modulate = Color(0.3268, 0.156, 0.4, 1)
+layer_3/tile_data = PackedInt32Array()
+script = ExtResource("6_dmk0d")
