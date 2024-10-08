@@ -1,25 +1,8 @@
-[gd_scene load_steps=12 format=3 uid="uid://bnjubmq3phi3w"]
+[gd_scene load_steps=4 format=3 uid="uid://bnjubmq3phi3w"]
 
 [ext_resource type="Script" path="res://MapScene/MapScene.cs" id="1_3h0t5"]
-[ext_resource type="Script" path="res://MapScene/TerrainMap.cs" id="2_u0u2q"]
-[ext_resource type="Texture2D" uid="uid://bsgby7tsxt1l7" path="res://MapScene/whrite16.png" id="2_x2ka0"]
-[ext_resource type="Script" path="res://MapScene/PopCountMap.cs" id="4_xv01h"]
+[ext_resource type="PackedScene" uid="uid://4djj474jikp0" path="res://MapScene/BaseMap.tscn" id="2_5yt0n"]
 [ext_resource type="Script" path="res://MapScene/MapCamera2D.cs" id="5_1hgk6"]
-[ext_resource type="Script" path="res://MapScene/ProvinceMap.cs" id="5_w852y"]
-[ext_resource type="Script" path="res://MapScene/CountryMap.cs" id="6_imvhe"]
-
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5wvpa"]
-texture = ExtResource("2_x2ka0")
-0:0/0 = 0
-
-[sub_resource type="TileSet" id="TileSet_uiqf5"]
-sources/0 = SubResource("TileSetAtlasSource_5wvpa")
-
-[sub_resource type="TileSet" id="TileSet_oq2sr"]
-tile_size = Vector2i(128, 128)
-
-[sub_resource type="TileSet" id="TileSet_583qe"]
-tile_size = Vector2i(64, 64)
 
 [node name="MapScene" type="Node2D"]
 script = ExtResource("1_3h0t5")
@@ -27,40 +10,7 @@ script = ExtResource("1_3h0t5")
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 follow_viewport_enabled = true
 
-[node name="TerrainMap" type="TileMap" parent="CanvasLayer"]
-tile_set = SubResource("TileSet_uiqf5")
-format = 2
-layer_0/modulate = Color(0, 0, 0.4, 1)
-layer_1/modulate = Color(0, 0.4, 0, 1)
-layer_1/tile_data = PackedInt32Array()
-layer_2/modulate = Color(0.4, 0.288067, 0.108, 1)
-layer_2/tile_data = PackedInt32Array()
-layer_3/modulate = Color(0.3268, 0.156, 0.4, 1)
-layer_3/tile_data = PackedInt32Array()
-script = ExtResource("2_u0u2q")
-
-[node name="PopCountMap" type="TileMap" parent="CanvasLayer"]
-visible = false
-tile_set = SubResource("TileSet_oq2sr")
-format = 2
-script = ExtResource("4_xv01h")
-
-[node name="ProvinceMap" type="TileMap" parent="CanvasLayer"]
-visible = false
-tile_set = SubResource("TileSet_oq2sr")
-format = 2
-script = ExtResource("5_w852y")
-
-[node name="PoliticalMap" type="TileMap" parent="CanvasLayer/ProvinceMap"]
-tile_set = SubResource("TileSet_583qe")
-format = 2
-
-[node name="CountryMap" type="TileMap" parent="CanvasLayer"]
-visible = false
-self_modulate = Color(1, 1, 1, 0.588235)
-tile_set = SubResource("TileSet_oq2sr")
-format = 2
-script = ExtResource("6_imvhe")
+[node name="BaseMap" parent="CanvasLayer" instance=ExtResource("2_5yt0n")]
 
 [node name="Camera2D" type="Camera2D" parent="CanvasLayer"]
 visible = false

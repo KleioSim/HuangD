@@ -11,37 +11,16 @@ public static partial class MapBuilder
         public static IEnumerable<Block> Build(int high, int width, string seed)
         {
             var random = RandomBuilder.Build(seed);
+            var cellRadius = 4;
+            List<Index> coreIndexs = GenerateCoreIndex(high, width, random, cellRadius);
 
             var dict = new Dictionary<Index, Block>();
-            var list = new HashSet<Block>();
-
-            var cellRadius = 4;
-
-            var coreIndexs = new List<Index>();
-
-            var fullIndexes = new Queue<Index>(Enumerable.Range(cellRadius, width - cellRadius)
-                .SelectMany(x => Enumerable.Range(cellRadius, high - cellRadius).Select(y => new Index(x, y)))
-                .OrderBy(_ => random.Next()));
-
-            while (fullIndexes.Count != 0)
-            {
-                var curr = fullIndexes.Dequeue();
-                if (coreIndexs.Any(index => System.Math.Abs(index.X - curr.X) < cellRadius * 2 && System.Math.Abs(index.Y - curr.Y) < cellRadius * 2))
-                {
-                    continue;
-                }
-
-                coreIndexs.Add(curr);
-            }
-
             foreach (var core in coreIndexs)
             {
                 var block = new Block();
                 block.coreIndex = core;
                 block.Edges = IndexMethods.GetNeighborCells(core).Values.Where(n => n.X < width && n.Y < high).ToList();
                 block.Indexes = block.Edges.Append(core).ToList();
-
-                list.Add(block);
 
                 foreach (var index in block.Indexes)
                 {
@@ -55,6 +34,7 @@ public static partial class MapBuilder
 
             freeIndexes.ExceptWith(dict.Values.Distinct().SelectMany(x => x.Indexes));
 
+            var list = dict.Values.ToHashSet();
             var finishedBlocks = new HashSet<Block>();
 
             while (freeIndexes.Count != 0 && finishedBlocks.Count < list.Count)
@@ -112,6 +92,28 @@ public static partial class MapBuilder
             }
 
             return dict.Values.Distinct();
+        }
+
+        private static List<Index> GenerateCoreIndex(int high, int width, System.Random random, int cellRadius)
+        {
+            var coreIndexs = new List<Index>();
+
+            var fullIndexes = new Queue<Index>(Enumerable.Range(cellRadius, width - cellRadius)
+                .SelectMany(x => Enumerable.Range(cellRadius, high - cellRadius).Select(y => new Index(x, y)))
+                .OrderBy(_ => random.Next()));
+
+            while (fullIndexes.Count != 0)
+            {
+                var curr = fullIndexes.Dequeue();
+                if (coreIndexs.Any(index => System.Math.Abs(index.X - curr.X) < cellRadius * 2 && System.Math.Abs(index.Y - curr.Y) < cellRadius * 2))
+                {
+                    continue;
+                }
+
+                coreIndexs.Add(curr);
+            }
+
+            return coreIndexs;
         }
 
         private static IEnumerable<Block> GetNeighborBlock(Index newEdge, Dictionary<Index, Block> dict)

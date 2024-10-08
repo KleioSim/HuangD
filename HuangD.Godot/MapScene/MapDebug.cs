@@ -10,11 +10,10 @@ using static HuangD.Sessions.Maps.Builders.MapBuilder;
 
 public partial class MapDebug : Node2D
 {
-    BlockMap BlockMap => GetNode<BlockMap>("BlockMap");
-    TerrainMap TerrainMap => GetNode<TerrainMap>("TerrainMap");
-    PopMap PopMap => GetNode<PopMap>("PopMap");
-
-    ProvinceMap ProvinceMap => GetNode<ProvinceMap>("ProvinceMap");
+    BlockMap BlockMap => GetNode<BlockMap>("BaseMap/BlockMap");
+    TerrainMap TerrainMap => GetNode<TerrainMap>("BaseMap/TerrainMap");
+    PopMap PopMap => GetNode<PopMap>("BaseMap/PopMap");
+    ProvinceMap ProvinceMap => GetNode<ProvinceMap>("BaseMap/ProvinceMap");
     public override void _Ready()
     {
         var seed = "test";
@@ -32,7 +31,7 @@ public partial class MapDebug : Node2D
             foreach (var index in pair.Key.Indexes)
             {
                 TerrainMap.AddOrUpdate(index, pair.Value);
-            }
+            } 
         }
 
         var block2PopCount = PopCountBuilder.Build(block2Terrain, seed);

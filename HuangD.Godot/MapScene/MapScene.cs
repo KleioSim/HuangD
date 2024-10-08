@@ -10,9 +10,9 @@ using System.Reactive.Linq;
 
 public partial class MapScene : Node2D
 {
-    ProvinceMap ProvinceMap => GetNode<ProvinceMap>("CanvasLayer/ProvinceMap");
-    PopCountMap PopCountMap => GetNode<PopCountMap>("CanvasLayer/PopCountMap");
-    TerrainMap TerrainMap => GetNode<TerrainMap>("CanvasLayer/TerrainMap");
+    ProvinceMap ProvinceMap => GetNode<ProvinceMap>("CanvasLayer/BaseMap/ProvinceMap");
+    PopCountMap PopCountMap => GetNode<PopCountMap>("CanvasLayer/BaseMap/PopCountMap");
+    TerrainMap TerrainMap => GetNode<TerrainMap>("CanvasLayer/BaseMap/TerrainMap");
     MapCamera2D Camera => GetNode<MapCamera2D>("CanvasLayer/Camera2D");
     InstancePlaceholder PoliticalInfoPlaceHolder => GetNode<InstancePlaceholder>("CanvasLayer/PoliticalInfo");
     InstancePlaceholder AmryMoveArrowPlaceHolder => GetNode<InstancePlaceholder>("CanvasLayer/ArmyMoveArrow");
