@@ -7,7 +7,7 @@ public partial class MapDebug : Node2D
 {
     BlockMap BlockMap => GetNode<BlockMap>("BaseMap/BlockMap");
     TerrainMap TerrainMap => GetNode<TerrainMap>("BaseMap/TerrainMap");
-    PopMap PopMap => GetNode<PopMap>("BaseMap/PopMap");
+    PopCountMap PopMap => GetNode<PopCountMap>("BaseMap/PopMap");
     ProvinceMap ProvinceMap => GetNode<ProvinceMap>("BaseMap/ProvinceMap");
     public override void _Ready()
     {

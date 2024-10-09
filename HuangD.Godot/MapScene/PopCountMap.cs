@@ -1,6 +1,7 @@
 ﻿using Godot;
 using HuangD.Sessions.Maps;
 using System;
+using System.Collections.Generic;
 
 public partial class PopCountMap : TileMap
 {
@@ -12,9 +13,11 @@ public partial class PopCountMap : TileMap
             this.SetLayerModulate(i, new Color(1f, (10 - i) * 0.1f, (10 - i) * 0.1f));
         }
     }
-
-    public void AddOrUpdate(HuangD.Sessions.Maps.Index index, int Count)
+    internal void AddOrUpdate(IEnumerable<HuangD.Sessions.Maps.Index> indexes, int layerId)
     {
-        this.SetCell(Math.Min(Count / 1000, 10), new Vector2I(index.X, index.Y), 0, Vector2I.Zero, 0);
+        foreach (var index in indexes)
+        {
+            SetCell(layerId, new Vector2I(index.X, index.Y), 0, Vector2I.Zero, 0);
+        }
     }
 }

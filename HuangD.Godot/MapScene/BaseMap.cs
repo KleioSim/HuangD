@@ -6,7 +6,7 @@ public partial class BaseMap : Node2D
 {
     BlockMap BlockMap => GetNode<BlockMap>("BlockMap");
     TerrainMap TerrainMap => GetNode<TerrainMap>("TerrainMap");
-    PopMap PopMap => GetNode<PopMap>("PopMap");
+    PopCountMap PopCountMap => GetNode<PopCountMap>("PopCountMap");
     ProvinceMap ProvinceMap => GetNode<ProvinceMap>("ProvinceMap");
 
     public void InitMap()
@@ -25,7 +25,7 @@ public partial class BaseMap : Node2D
 
         foreach (var province in session.Provinces)
         {
-            PopMap.AddOrUpdate(province.Block.Indexes, province.PopCount * 10 / session.Provinces.Max(p => p.PopCount));
+            PopCountMap.AddOrUpdate(province.Block.Indexes, province.PopCount * 10 / session.Provinces.Max(p => p.PopCount));
             ProvinceMap.AddOrUpdate(province.Block.Indexes, province.Id);
         }
     }
