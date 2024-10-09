@@ -1,32 +1,34 @@
 ﻿using Chrona.Engine.Core.Interfaces;
 using Chrona.Engine.Core.Sessions;
 using HuangD.Sessions.Maps;
-using HuangD.Sessions.Maps.Builders;
 using HuangD.Sessions.Messages;
 using HuangD.Sessions.Utilties;
-using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using static HuangD.Sessions.Maps.Builders.MapBuilder;
-using static System.Reflection.Metadata.BlobBuilder;
 
 namespace HuangD.Sessions;
 
 public class Session : AbstractSession
 {
+    public static Session Instance
+    {
+        get
+        {
+            instance ??= new Session();
+            return instance;
+        }
+    }
+
     public override IEntity Player { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
     public override IReadOnlyDictionary<string, IEntity> Entities => entities;
 
-    public Date Date { get; }
+    public Date Date { get; private set; }
 
-    public Dictionary<string, Block> Blocks { get; }
-    public Dictionary<string, TerrainType> Block2Terrain { get; }
-    public Dictionary<string, Province> Block2Province { get; }
-
-    //public Dictionary<Index, MapCell> MapCells { get; }
+    public Dictionary<string, Block> Blocks { get; private set; }
+    public Dictionary<string, TerrainType> Block2Terrain { get; private set; }
+    public Dictionary<string, Province> Block2Province { get; private set; }
 
     public Country PlayerCountry { get; private set; }
 
@@ -38,13 +40,28 @@ public class Session : AbstractSession
 
     public IEnumerable<Province> Provinces { get; set; }
 
-    public Session(string seed)
+    private static Session instance;
+
+    static Session()
+    {
+        Province.GetBlock = (blockId) => instance.Blocks[blockId];
+        Province.GetTerrain = (blockId) => instance.Block2Terrain[blockId];
+        Province.GetNeighbors = (blockId) => instance.Blocks[blockId].Neighbors
+            .Where(x => instance.Block2Province.ContainsKey(x.Id))
+            .Select(x => instance.Block2Province[x.Id]);
+        Province.FindArmies = (prov) => instance.entities.Values.OfType<CentralArmy>().Where(x => x.Position == prov);
+    }
+
+    private Session()
+    {
+
+    }
+
+    public void Init(string seed)
     {
         UUID.Restart();
 
-        Province.FindArmies = (prov) => entities.Values.OfType<CentralArmy>().Where(x => x.Position == prov);
         Date = new Date();
-        //MapCells = MapBuilder.Build2(64, seed);
 
         var blocks = BlockBuilder.Build(120, 120, seed);
         var block2Terrain = TerrainBuilder.Build(blocks, seed);
@@ -55,7 +72,6 @@ public class Session : AbstractSession
         Block2Province = block2province.ToDictionary(p => p.Key.Id, p => p.Value);
         Provinces = Block2Province.Values;
 
-        //var provinces = Province.Builder.Build(MapCells.Values, (prov) => entities.Values.OfType<CentralArmy>().Where(x => x.Position == prov));
         var countries = Country.Builder.Build(Provinces, Provinces.Max(x => x.PopCount) * 3, Provinces.Count() / 5, seed);
         var centralArmies = countries.Values.Select(x => new CentralArmy(1000, 1000, x)).ToDictionary(x => x.Id, y => y);
 

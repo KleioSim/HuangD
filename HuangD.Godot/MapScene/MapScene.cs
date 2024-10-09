@@ -105,7 +105,7 @@ public partial class MapScene : Node2D
         var session = this.GetSession();
         foreach (var Province in session.Provinces)
         {
-            foreach (var index in Province.Indexes)
+            foreach (var index in Province.Block.Indexes)
             {
                 TerrainMap.AddOrUpdate(index, Province.Terrain);
             }

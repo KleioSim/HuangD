@@ -32,9 +32,9 @@ public partial class MapDebug : Node2D
         var provinces = Province.Builder.Build(block2Terrain, seed);
         foreach (var province in provinces.Values)
         {
-            PopMap.AddOrUpdate(province.Indexes, province.PopCount * 10 / provinces.Values.Max(p => p.PopCount));
+            PopMap.AddOrUpdate(province.Block.Indexes, province.PopCount * 10 / provinces.Values.Max(p => p.PopCount));
 
-            foreach (var index in province.Indexes)
+            foreach (var index in province.Block.Indexes)
             {
                 ProvinceMap.AddOrUpdate(index, province.Id);
             }

@@ -8,7 +8,12 @@ namespace HuangD.Sessions;
 
 public partial class Province : IEntity
 {
+    public static Func<string, TerrainType> GetTerrain { get; set; }
+    public static Func<string, Block> GetBlock { get; set; }
+    public static Func<string, IEnumerable<Province>> GetNeighbors { get; set; }
+
     public string Id { get; }
+    public string BlockId { get; init; }
 
     public Country Owner
     {
@@ -26,20 +31,15 @@ public partial class Province : IEntity
         }
     }
 
-    public string BlockId { get; init; }
-    public TerrainType Terrain { get; init; }
-    public IEnumerable<Maps.Index> Indexes { get; init; }
-    public Maps.Index CoreIndex { get; init; }
+    public TerrainType Terrain => GetTerrain(BlockId);
+    public Block Block => GetBlock(BlockId);
+    public IEnumerable<Province> Neighbors => GetNeighbors(BlockId);
 
     public PopTax PopTax { get; }
 
     public LocalArmy LocalArmy { get; }
 
     public IEnumerable<CentralArmy> centralArmies => FindArmies(this);
-
-    public IEnumerable<Province> Neighbors { get; private set; } = new Province[] { };
-
-    public IEnumerable<MapCell> MapCells { get; private set; }
 
     public int PopCount { get; set; }
 
@@ -53,26 +53,6 @@ public partial class Province : IEntity
     {
         Id = id;
 
-        PopTax = new PopTax(this);
-        LocalArmy = new LocalArmy(this);
-    }
-
-    public Province(string id, IEnumerable<Maps.Index> indexes, Maps.Index coreIndex, TerrainType terrain, int popCount)
-    {
-        Id = id;
-        Indexes = indexes;
-        CoreIndex = coreIndex;
-        PopCount = popCount;
-        Terrain = terrain;
-
-        PopTax = new PopTax(this);
-        LocalArmy = new LocalArmy(this);
-    }
-
-    public Province(string key, IEnumerable<MapCell> mapCells, Func<Province, IEnumerable<CentralArmy>> armyFinder)
-    {
-        Id = key;
-        MapCells = mapCells;
         PopTax = new PopTax(this);
         LocalArmy = new LocalArmy(this);
     }

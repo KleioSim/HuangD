@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://qa5h50inevba"]
+[gd_scene load_steps=3 format=3 uid="uid://dwib2gq3b53kq"]
 
 [ext_resource type="Script" path="res://MapScene/MapSceneDebug.cs" id="1_bo3ue"]
 [ext_resource type="PackedScene" uid="uid://bnjubmq3phi3w" path="res://MapScene/MapScene.tscn" id="1_d0wot"]

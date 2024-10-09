@@ -19,7 +19,10 @@ public partial class InitialScene : ViewControl
 
     public void Load()
     {
-        this.SetSession(new Session(TextEdit.Text));
+        var instance = Session.Instance;
+        instance.Init(TextEdit.Text);
+
+        this.SetSession(instance);
 
         ViewControl.OnMessage = this.GetSession().OnMessage;
 
