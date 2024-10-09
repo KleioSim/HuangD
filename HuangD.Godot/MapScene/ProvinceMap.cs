@@ -110,14 +110,42 @@ public partial class ProvinceMap : TileMap
     {
         var cellVector = LocalToMap(vector2);
 
-        foreach(var pair in dict)
+        foreach (var pair in dict)
         {
-            if(GetCellSourceId(pair.Value, cellVector) != -1)
+            if (GetCellSourceId(pair.Value, cellVector) != -1)
             {
                 return pair.Key;
             }
         }
 
         return null;
+    }
+
+    internal void AddOrUpdate(List<Index> indexes, string provinceId)
+    {
+        if (!dict.TryGetValue(provinceId, out int layerId))
+        {
+            while (true)
+            {
+                var color = new Color(random.Next(0, 10) / 10.0f, random.Next(0, 10) / 10.0f, random.Next(0, 10) / 10.0f);
+                if (!colors.Contains(color))
+                {
+                    colors.Add(color);
+                    break;
+                }
+
+            }
+
+            layerId = colors.Count() - 1;
+            this.AddLayer(layerId);
+            this.SetLayerModulate(layerId, colors.ElementAt(layerId));
+
+            dict.Add(provinceId, layerId);
+        }
+
+        foreach (var index in indexes)
+        {
+            this.SetCell(layerId, new Vector2I(index.X, index.Y), 0, Vector2I.Zero, 0);
+        }
     }
 }

@@ -29,11 +29,24 @@ public partial class TerrainMap : TileMap
 
     public void AddOrUpdate(Index index, TerrainType type)
     {
-        foreach(var id in layerIds.Values)
+        foreach (var id in layerIds.Values)
         {
             this.EraseCell(id, new Vector2I(index.X, index.Y));
         };
 
         this.SetCell(layerIds[type], new Vector2I(index.X, index.Y), 0, Vector2I.Zero, 0);
+    }
+
+    internal void AddOrUpdate(List<Index> indexes, TerrainType terrainType)
+    {
+        foreach (var index in indexes)
+        {
+            foreach (var id in layerIds.Values)
+            {
+                this.EraseCell(id, new Vector2I(index.X, index.Y));
+            };
+
+            this.SetCell(layerIds[terrainType], new Vector2I(index.X, index.Y), 0, Vector2I.Zero, 0);
+        }
     }
 }

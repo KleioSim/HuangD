@@ -10,11 +10,11 @@ using System.Reactive.Linq;
 
 public partial class MapScene : Node2D
 {
-    //BaseMap BaseMap => GetNode<BaseMap>("CanvasLayer/BaseMap");
+    BaseMap BaseMap => GetNode<BaseMap>("CanvasLayer/BaseMap");
 
     ProvinceMap ProvinceMap => GetNode<ProvinceMap>("CanvasLayer/BaseMap/ProvinceMap");
-    PopCountMap PopCountMap => GetNode<PopCountMap>("CanvasLayer/BaseMap/PopCountMap");
-    TerrainMap TerrainMap => GetNode<TerrainMap>("CanvasLayer/BaseMap/TerrainMap");
+    //PopCountMap PopCountMap => GetNode<PopCountMap>("CanvasLayer/BaseMap/PopCountMap");
+    //TerrainMap TerrainMap => GetNode<TerrainMap>("CanvasLayer/BaseMap/TerrainMap");
 
     MapCamera2D Camera => GetNode<MapCamera2D>("CanvasLayer/Camera2D");
     InstancePlaceholder PoliticalInfoPlaceHolder => GetNode<InstancePlaceholder>("CanvasLayer/PoliticalInfo");
@@ -30,10 +30,10 @@ public partial class MapScene : Node2D
 
     public override void _Ready()
     {
-        ShowMaps();
+        BaseMap.InitMap();
         //politicalInfos = ShowPoliticalInfos().ToDictionary(x => x.province.Id, y => y);
 
-        //Camera.Position = TerrainMap.MapToLocal(TerrainMap.GetUsedRect().GetCenter());
+        Camera.Position = BaseMap.GetCenterPosition();
 
         //Camera.Connect(MapCamera2D.SignalName.OnZoomed, Callable.From<Vector2>((zoom) =>
         //{
@@ -98,18 +98,6 @@ public partial class MapScene : Node2D
         }
 
         return list;
-    }
-
-    private void ShowMaps()
-    {
-        var session = this.GetSession();
-        foreach (var Province in session.Provinces)
-        {
-            foreach (var index in Province.Block.Indexes)
-            {
-                TerrainMap.AddOrUpdate(index, Province.Terrain);
-            }
-        }
     }
 
     public override void _UnhandledInput(InputEvent @event)
