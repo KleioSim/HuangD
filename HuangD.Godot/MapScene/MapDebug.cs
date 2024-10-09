@@ -1,12 +1,7 @@
 ﻿using Godot;
-using HuangD.Sessions.Maps;
 using HuangD.Sessions;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Linq;
 using HuangD.Sessions.Maps.Builders;
-using System;
-using static HuangD.Sessions.Maps.Builders.MapBuilder;
+using System.Linq;
 
 public partial class MapDebug : Node2D
 {
@@ -20,7 +15,7 @@ public partial class MapDebug : Node2D
 
         var blocks = MapBuilder.BlockBuilder.Build(120, 120, seed);
 
-        foreach(var block in blocks)
+        foreach (var block in blocks)
         {
             BlockMap.AddOrUpdate(block.Indexes);
         }
@@ -31,19 +26,14 @@ public partial class MapDebug : Node2D
             foreach (var index in pair.Key.Indexes)
             {
                 TerrainMap.AddOrUpdate(index, pair.Value);
-            } 
+            }
         }
 
-        var block2PopCount = PopCountBuilder.Build(block2Terrain, seed);
-
-        foreach (var pair in block2PopCount)
-        {
-            PopMap.AddOrUpdate(pair.Key.Indexes, pair.Value*10/ block2PopCount.Values.Max());
-        }
-
-        var provinces = Province.Builder.Build(block2Terrain, block2PopCount, seed);
+        var provinces = Province.Builder.Build(block2Terrain, seed);
         foreach (var province in provinces.Values)
         {
+            PopMap.AddOrUpdate(province.Indexes, province.PopCount * 10 / provinces.Values.Max(p => p.PopCount));
+
             foreach (var index in province.Indexes)
             {
                 ProvinceMap.AddOrUpdate(index, province.Id);

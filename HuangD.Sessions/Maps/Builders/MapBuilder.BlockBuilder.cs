@@ -18,6 +18,7 @@ public static partial class MapBuilder
             foreach (var core in coreIndexs)
             {
                 var block = new Block();
+                block.Id = UUID.Generate("BLOCK");
                 block.coreIndex = core;
                 block.Edges = IndexMethods.GetNeighborCells(core).Values.Where(n => n.X < width && n.Y < high).ToList();
                 block.Indexes = block.Edges.Append(core).ToList();

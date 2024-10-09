@@ -10,6 +10,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using static HuangD.Sessions.Maps.Builders.MapBuilder;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace HuangD.Sessions;
 
@@ -21,6 +22,10 @@ public class Session : AbstractSession
 
     public Date Date { get; }
 
+    public Dictionary<string, Block> Blocks { get; }
+    public Dictionary<string, TerrainType> Block2Terrain { get; }
+    public Dictionary<string, Province> Block2Province { get; }
+
     //public Dictionary<Index, MapCell> MapCells { get; }
 
     public Country PlayerCountry { get; private set; }
@@ -31,7 +36,7 @@ public class Session : AbstractSession
 
     private List<string> currentReports = new List<string>();
 
-    public IEnumerable<Province> Provinces { get; set; } 
+    public IEnumerable<Province> Provinces { get; set; }
 
     public Session(string seed)
     {
@@ -42,17 +47,19 @@ public class Session : AbstractSession
         //MapCells = MapBuilder.Build2(64, seed);
 
         var blocks = BlockBuilder.Build(120, 120, seed);
-        var terrains = TerrainBuilder.Build(blocks, seed);
-        var pops = PopCountBuilder.Build(terrains, seed);
+        var block2Terrain = TerrainBuilder.Build(blocks, seed);
+        var block2province = Province.Builder.Build(block2Terrain, seed);
 
-        var provinces = Province.Builder.Build(terrains, pops, seed);
+        Blocks = blocks.ToDictionary(b => b.Id, b => b);
+        Block2Terrain = block2Terrain.ToDictionary(p => p.Key.Id, p => p.Value);
+        Block2Province = block2province.ToDictionary(p => p.Key.Id, p => p.Value);
+        Provinces = Block2Province.Values;
+
         //var provinces = Province.Builder.Build(MapCells.Values, (prov) => entities.Values.OfType<CentralArmy>().Where(x => x.Position == prov));
-        var countries = Country.Builder.Build(provinces.Values, provinces.Values.Max(x => x.PopCount) * 3, provinces.Count / 5, seed);
+        var countries = Country.Builder.Build(Provinces, Provinces.Max(x => x.PopCount) * 3, Provinces.Count() / 5, seed);
         var centralArmies = countries.Values.Select(x => new CentralArmy(1000, 1000, x)).ToDictionary(x => x.Id, y => y);
 
-        Provinces = provinces.Values;
-
-        foreach (var entity in provinces.Values)
+        foreach (var entity in Provinces)
         {
             entities.Add(entity.Id, entity);
         }

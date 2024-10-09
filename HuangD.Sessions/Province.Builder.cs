@@ -11,31 +11,25 @@ public partial class Province
 {
     public static class Builder
     {
-        public static Dictionary<string, Province> Build(Dictionary<Block, TerrainType> terrains, Dictionary<Block, int> pops, string seed)
+        public static Dictionary<Block, Province> Build(Dictionary<Block, TerrainType> block2Terrain, string seed)
         {
-            var provinces = terrains.Where(pair => pair.Value != TerrainType.Water)
-                .Select(pair =>
+            var pops = PopCountBuilder.Build(block2Terrain, seed);
+
+            var provinces = block2Terrain.Where(pair => pair.Value != TerrainType.Water)
+                .ToDictionary(pair => pair.Key, pair =>
                 {
                     var province = new Province(UUID.Generate("PROV"))
                     {
+                        BlockId = pair.Key.Id,
                         Indexes = pair.Key.Indexes,
                         CoreIndex = pair.Key.coreIndex,
                         Terrain = pair.Value,
                         PopCount = pops[pair.Key]
                     };
                     return province;
-                })
-                .ToArray();
+                });
 
-            foreach (var province in provinces)
-            {
-                province.Neighbors = terrains.Keys.Single(x => x.coreIndex == province.CoreIndex)
-                    .Neighbors.Where(x => terrains[x] != TerrainType.Water)
-                    .Select(x => provinces.Single(p => p.CoreIndex == x.coreIndex))
-                    .ToArray();
-            }
-
-            return provinces.ToDictionary(p => p.Id, p => p);
+            return provinces;
         }
 
         internal static Dictionary<string, Province> Build(IEnumerable<MapCell> mapCells, Func<Province, IEnumerable<CentralArmy>> armyFinder)

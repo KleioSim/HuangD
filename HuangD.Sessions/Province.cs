@@ -26,6 +26,7 @@ public partial class Province : IEntity
         }
     }
 
+    public string BlockId { get; init; }
     public TerrainType Terrain { get; init; }
     public IEnumerable<Maps.Index> Indexes { get; init; }
     public Maps.Index CoreIndex { get; init; }

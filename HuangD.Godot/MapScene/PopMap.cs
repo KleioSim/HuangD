@@ -1,4 +1,4 @@
-using Godot;
+﻿using Godot;
 using HuangD.Sessions.Maps;
 using System;
 using System.Collections.Generic;
@@ -13,7 +13,7 @@ public partial class PopMap : TileMap
             this.SetLayerModulate(i, new Color(1f, (10 - i) * 0.1f, (10 - i) * 0.1f));
         }
     }
-    internal void AddOrUpdate(List<HuangD.Sessions.Maps.Index> indexes, int layerId)
+    internal void AddOrUpdate(IEnumerable<HuangD.Sessions.Maps.Index> indexes, int layerId)
     {
         foreach (var index in indexes)
         {
