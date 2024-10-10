@@ -29,6 +29,7 @@ public class Session : AbstractSession
     public Dictionary<string, Block> Blocks { get; private set; }
     public Dictionary<string, TerrainType> Block2Terrain { get; private set; }
     public Dictionary<string, Province> Block2Province { get; private set; }
+    public Dictionary<string, Province> Provinces { get; private set; }
 
     public Country PlayerCountry { get; private set; }
 
@@ -38,7 +39,6 @@ public class Session : AbstractSession
 
     private List<string> currentReports = new List<string>();
 
-    public IEnumerable<Province> Provinces { get; set; }
 
     private static Session instance;
 
@@ -70,12 +70,12 @@ public class Session : AbstractSession
         Blocks = blocks.ToDictionary(b => b.Id, b => b);
         Block2Terrain = block2Terrain.ToDictionary(p => p.Key.Id, p => p.Value);
         Block2Province = block2province.ToDictionary(p => p.Key.Id, p => p.Value);
-        Provinces = Block2Province.Values;
+        Provinces = Block2Province.ToDictionary(p => p.Value.Id, p => p.Value);
 
-        var countries = Country.Builder.Build(Provinces, Provinces.Max(x => x.PopCount) * 3, Provinces.Count() / 5, seed);
+        var countries = Country.Builder.Build(Provinces.Values, Provinces.Values.Max(x => x.PopCount) * 3, Provinces.Count() / 5, seed);
         var centralArmies = countries.Values.Select(x => new CentralArmy(1000, 1000, x)).ToDictionary(x => x.Id, y => y);
 
-        foreach (var entity in Provinces)
+        foreach (var entity in Provinces.Values)
         {
             entities.Add(entity.Id, entity);
         }

@@ -12,7 +12,7 @@ public partial class MapScene : Node2D
 {
     BaseMap BaseMap => GetNode<BaseMap>("CanvasLayer/BaseMap");
 
-    ProvinceMap ProvinceMap => GetNode<ProvinceMap>("CanvasLayer/BaseMap/ProvinceMap");
+    //ProvinceMap ProvinceMap => GetNode<ProvinceMap>("CanvasLayer/BaseMap/ProvinceMap");
     //PopCountMap PopCountMap => GetNode<PopCountMap>("CanvasLayer/BaseMap/PopCountMap");
     //TerrainMap TerrainMap => GetNode<TerrainMap>("CanvasLayer/BaseMap/TerrainMap");
 
@@ -30,9 +30,9 @@ public partial class MapScene : Node2D
 
     public override void _Ready()
     {
-        //politicalInfos = ShowPoliticalInfos().ToDictionary(x => x.province.Id, y => y);
+        politicalInfos = ShowPoliticalInfos().ToDictionary(x => x.province.Id, y => y);
 
-        Camera.Position = BaseMap.GetCenterPosition();
+        Camera.Position = BaseMap.GetMapCenter();
 
         //Camera.Connect(MapCamera2D.SignalName.OnZoomed, Callable.From<Vector2>((zoom) =>
         //{
@@ -80,7 +80,7 @@ public partial class MapScene : Node2D
 
             list.Add(politicalInfo);
 
-            politicalInfo.Position = ProvinceMap.GetPawnLocation(province.Id);
+            politicalInfo.Position = BaseMap.GetProvinceCenter(province.Id);
             politicalInfo.province = province;
             politicalInfo.ArmyInfo.Connect(ArmyInfo.SignalName.ClickArmy, new Callable(this, MethodName.OnClickEntity));
             politicalInfo.EnemyInfo.Connect(ArmyInfo.SignalName.ClickArmy, new Callable(this, MethodName.OnClickEntity));
@@ -107,7 +107,7 @@ public partial class MapScene : Node2D
             {
                 if (eventKey.ButtonIndex == MouseButton.Left)
                 {
-                    var provinceId = ProvinceMap.LocalToProvince(GetGlobalMousePosition());
+                    var provinceId = BaseMap.LocalToProvince(GetGlobalMousePosition());
 
                     if (provinceId != null)
                     {

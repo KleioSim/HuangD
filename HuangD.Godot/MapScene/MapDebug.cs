@@ -7,7 +7,7 @@ public partial class MapDebug : Node2D
 {
     BlockMap BlockMap => GetNode<BlockMap>("BaseMap/BlockMap");
     TerrainMap TerrainMap => GetNode<TerrainMap>("BaseMap/TerrainMap");
-    PopCountMap PopMap => GetNode<PopCountMap>("BaseMap/PopMap");
+    PopCountMap PopCountMap => GetNode<PopCountMap>("BaseMap/PopMap");
     ProvinceMap ProvinceMap => GetNode<ProvinceMap>("BaseMap/ProvinceMap");
     public override void _Ready()
     {
@@ -32,12 +32,8 @@ public partial class MapDebug : Node2D
         var provinces = Province.Builder.Build(block2Terrain, seed);
         foreach (var province in provinces.Values)
         {
-            PopMap.AddOrUpdate(province.Block.Indexes, province.PopCount * 10 / provinces.Values.Max(p => p.PopCount));
-
-            foreach (var index in province.Block.Indexes)
-            {
-                ProvinceMap.AddOrUpdate(index, province.Id);
-            }
+            PopCountMap.AddOrUpdate(province.Block.Indexes, province.PopCount * 10 / provinces.Values.Max(p => p.PopCount));
+            ProvinceMap.AddOrUpdate(province.Block.Indexes, province.Id);
         }
     }
 }
