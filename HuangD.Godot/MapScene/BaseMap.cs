@@ -9,7 +9,7 @@ public partial class BaseMap : Node2D
     PopCountMap PopCountMap => GetNode<PopCountMap>("PopCountMap");
     ProvinceMap ProvinceMap => GetNode<ProvinceMap>("ProvinceMap");
 
-    public void InitMap()
+    public override void _Ready()
     {
         var session = this.GetSession();
 

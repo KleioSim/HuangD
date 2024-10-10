@@ -30,7 +30,6 @@ public partial class MapScene : Node2D
 
     public override void _Ready()
     {
-        BaseMap.InitMap();
         //politicalInfos = ShowPoliticalInfos().ToDictionary(x => x.province.Id, y => y);
 
         Camera.Position = BaseMap.GetCenterPosition();
