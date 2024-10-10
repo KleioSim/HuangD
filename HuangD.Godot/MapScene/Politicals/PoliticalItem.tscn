@@ -1,11 +1,11 @@
 [gd_scene load_steps=13 format=3 uid="uid://df0qeobvo5f2h"]
 
-[ext_resource type="Script" path="res://MapScene/PoliticalInfo.cs" id="1_mm6e2"]
-[ext_resource type="Texture2D" uid="uid://d3o4sb567jy4j" path="res://MapScene/whrite128.png" id="2_li8uw"]
-[ext_resource type="Script" path="res://MapScene/ArmyInfo.cs" id="3_0odwj"]
-[ext_resource type="Script" path="res://MapScene/MoveTarget.cs" id="3_fdawu"]
-[ext_resource type="Script" path="res://MapScene/EnemyInfo.cs" id="5_k3jpg"]
-[ext_resource type="Script" path="res://MapScene/BattleInfo.cs" id="6_s5fig"]
+[ext_resource type="Script" path="res://MapScene/Politicals/PoliticalItem.cs" id="1_fdej2"]
+[ext_resource type="Texture2D" uid="uid://d3o4sb567jy4j" path="res://MapScene/whrite128.png" id="1_y18xw"]
+[ext_resource type="Script" path="res://MapScene/Politicals/MoveTarget.cs" id="2_l6w5g"]
+[ext_resource type="Script" path="res://MapScene/Politicals/ArmyInfo.cs" id="3_ftv6p"]
+[ext_resource type="Script" path="res://MapScene/Politicals/EnemyInfo.cs" id="4_1aqd3"]
+[ext_resource type="Script" path="res://MapScene/Politicals/BattleInfo.cs" id="5_ke320"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_7c6r4"]
 font_color = Color(0, 0, 0, 1)
@@ -38,7 +38,7 @@ layout_mode = 3
 anchors_preset = 0
 size_flags_horizontal = 0
 mouse_filter = 1
-script = ExtResource("1_mm6e2")
+script = ExtResource("1_fdej2")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 0
@@ -54,7 +54,7 @@ theme_override_constants/separation = -5
 [node name="Country" type="TextureRect" parent="HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(80, 50)
 layout_mode = 2
-texture = ExtResource("2_li8uw")
+texture = ExtResource("1_y18xw")
 expand_mode = 1
 
 [node name="Name" type="Label" parent="HBoxContainer/VBoxContainer/Country"]
@@ -78,7 +78,7 @@ vertical_alignment = 1
 [node name="Province" type="TextureRect" parent="HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(80, 50)
 layout_mode = 2
-texture = ExtResource("2_li8uw")
+texture = ExtResource("1_y18xw")
 expand_mode = 1
 
 [node name="Panel" type="Panel" parent="HBoxContainer/VBoxContainer/Province"]
@@ -120,7 +120,7 @@ grow_horizontal = 2
 grow_vertical = 0
 pivot_offset = Vector2(30, 30)
 text = "Target"
-script = ExtResource("3_fdawu")
+script = ExtResource("2_l6w5g")
 
 [node name="Military" type="PanelContainer" parent="HBoxContainer"]
 layout_mode = 2
@@ -132,7 +132,7 @@ layout_mode = 2
 [node name="Army" type="Control" parent="HBoxContainer/Military/HBoxContainer"]
 custom_minimum_size = Vector2(45, 65)
 layout_mode = 2
-script = ExtResource("3_0odwj")
+script = ExtResource("3_ftv6p")
 
 [node name="TextureRect" type="TextureRect" parent="HBoxContainer/Military/HBoxContainer/Army"]
 custom_minimum_size = Vector2(45, 50)
@@ -150,7 +150,7 @@ grow_vertical = 0
 pivot_offset = Vector2(22.5, 25)
 size_flags_horizontal = 4
 size_flags_vertical = 4
-texture = ExtResource("2_li8uw")
+texture = ExtResource("1_y18xw")
 expand_mode = 1
 
 [node name="Label" type="Label" parent="HBoxContainer/Military/HBoxContainer/Army/TextureRect"]
@@ -181,7 +181,7 @@ grow_vertical = 2
 [node name="Enemy" type="Control" parent="HBoxContainer/Military/HBoxContainer"]
 custom_minimum_size = Vector2(45, 65)
 layout_mode = 2
-script = ExtResource("5_k3jpg")
+script = ExtResource("4_1aqd3")
 
 [node name="TextureRect" type="TextureRect" parent="HBoxContainer/Military/HBoxContainer/Enemy"]
 custom_minimum_size = Vector2(45, 50)
@@ -199,7 +199,7 @@ grow_vertical = 0
 pivot_offset = Vector2(22.5, 25)
 size_flags_horizontal = 4
 size_flags_vertical = 4
-texture = ExtResource("2_li8uw")
+texture = ExtResource("1_y18xw")
 expand_mode = 1
 
 [node name="Label" type="Label" parent="HBoxContainer/Military/HBoxContainer/Enemy/TextureRect"]
@@ -234,7 +234,7 @@ offset_left = -1.0
 offset_top = -26.0
 offset_right = 49.0
 offset_bottom = -1.0
-texture = ExtResource("2_li8uw")
+texture = ExtResource("1_y18xw")
 expand_mode = 1
 
 [node name="Name" type="Label" parent="HBoxContainer/Military/HBoxContainer/Enemy/TextureRect/Country"]
@@ -266,7 +266,7 @@ offset_top = 7.5
 offset_right = 13.0
 offset_bottom = 37.5
 grow_vertical = 2
-script = ExtResource("6_s5fig")
+script = ExtResource("5_ke320")
 
 [node name="Button" type="Button" parent="HBoxContainer/Military/HBoxContainer/Enemy/Battle"]
 layout_mode = 1

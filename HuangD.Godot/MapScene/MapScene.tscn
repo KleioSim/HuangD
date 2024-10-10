@@ -18,6 +18,6 @@ ZoomMin = 0.1
 ZoomMax = 1.0
 ZoomStep = 0.01
 
-[node name="PoliticalInfo" parent="CanvasLayer" instance_placeholder="res://MapScene/PoliticalInfo.tscn"]
+[node name="PoliticalItem" parent="CanvasLayer" instance_placeholder="res://MapScene/Politicals/PoliticalItem.tscn"]
 
 [node name="ArmyMoveArrow" parent="CanvasLayer" instance_placeholder="res://MapScene/Arrows/ArmyMoveArrow.tscn"]

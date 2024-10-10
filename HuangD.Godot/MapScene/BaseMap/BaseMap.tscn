@@ -50,6 +50,7 @@ layer_3/tile_data = PackedInt32Array()
 script = ExtResource("4_x1xyj")
 
 [node name="PopCountMap" type="TileMap" parent="."]
+visible = false
 tile_set = SubResource("TileSet_wxd1e")
 format = 2
 layer_0/modulate = Color(0, 0, 0.4, 1)
@@ -62,6 +63,7 @@ layer_3/tile_data = PackedInt32Array()
 script = ExtResource("5_adhf4")
 
 [node name="ProvinceMap" type="TileMap" parent="."]
+visible = false
 tile_set = SubResource("TileSet_wxd1e")
 format = 2
 layer_0/modulate = Color(0, 0, 0.4, 1)

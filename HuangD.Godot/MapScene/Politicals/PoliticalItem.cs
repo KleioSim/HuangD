@@ -4,7 +4,7 @@ using HuangD.Sessions;
 using System;
 using System.Linq;
 
-public partial class PoliticalInfo : ViewControl
+public partial class PoliticalItem : ViewControl
 {
     public Label ProvinceName => GetNode<Label>("HBoxContainer/VBoxContainer/Province/Panel/Name");
     public Label CountryName => GetNode<Label>("HBoxContainer/VBoxContainer/Country/Name");

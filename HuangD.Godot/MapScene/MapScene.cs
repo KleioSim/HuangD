@@ -17,7 +17,7 @@ public partial class MapScene : Node2D
     //TerrainMap TerrainMap => GetNode<TerrainMap>("CanvasLayer/BaseMap/TerrainMap");
 
     MapCamera2D Camera => GetNode<MapCamera2D>("CanvasLayer/Camera2D");
-    InstancePlaceholder PoliticalInfoPlaceHolder => GetNode<InstancePlaceholder>("CanvasLayer/PoliticalInfo");
+    InstancePlaceholder PoliticalInfoPlaceHolder => GetNode<InstancePlaceholder>("CanvasLayer/PoliticalItem");
     InstancePlaceholder AmryMoveArrowPlaceHolder => GetNode<InstancePlaceholder>("CanvasLayer/ArmyMoveArrow");
 
     [Signal]
@@ -26,7 +26,7 @@ public partial class MapScene : Node2D
     [Signal]
     public delegate void ClickArmyMoveTargetEventHandler(string id);
 
-    private Dictionary<string, PoliticalInfo> politicalInfos;
+    private Dictionary<string, PoliticalItem> politicalInfos;
 
     public override void _Ready()
     {
@@ -34,22 +34,22 @@ public partial class MapScene : Node2D
 
         Camera.Position = BaseMap.GetMapCenter();
 
-        //Camera.Connect(MapCamera2D.SignalName.OnZoomed, Callable.From<Vector2>((zoom) =>
-        //{
-        //    foreach (var politicalInfo in politicalInfos.Values)
-        //    {
-        //        politicalInfo.OnZoomed(zoom);
-        //    }
-
-        //    var amryMoveArrows = AmryMoveArrowPlaceHolder.GetParent().GetChildren().OfType<AmryMoveArrow>().ToList();
-        //    foreach (var arrow in amryMoveArrows)
-        //    {
-        //        arrow.OnZoom();
-        //    }
-
-        //}));
+        Camera.Connect(MapCamera2D.SignalName.OnZoomed, Callable.From<Vector2>(OnCameraZoom));
     }
 
+    private void OnCameraZoom(Vector2 zoom)
+    {
+        foreach (var politicalInfo in politicalInfos.Values)
+        {
+            politicalInfo.OnZoomed(zoom);
+        }
+
+        var amryMoveArrows = AmryMoveArrowPlaceHolder.GetParent().GetChildren().OfType<AmryMoveArrow>().ToList();
+        foreach (var arrow in amryMoveArrows)
+        {
+            arrow.OnZoom();
+        }
+    }
 
     internal (Vector2 position, float Rotation, float length) CalcPositionAndRotation(Province from, Province target)
     {
@@ -69,13 +69,13 @@ public partial class MapScene : Node2D
         return (position, angle, length);
     }
 
-    private IEnumerable<PoliticalInfo> ShowPoliticalInfos()
+    private IEnumerable<PoliticalItem> ShowPoliticalInfos()
     {
-        var list = new List<PoliticalInfo>();
+        var list = new List<PoliticalItem>();
         var session = this.GetSession();
         foreach (var province in session.Entities.Values.OfType<Province>())
         {
-            var politicalInfo = PoliticalInfoPlaceHolder.CreateInstance() as PoliticalInfo;
+            var politicalInfo = PoliticalInfoPlaceHolder.CreateInstance() as PoliticalItem;
             politicalInfo.Name = province.Id;
 
             list.Add(politicalInfo);
