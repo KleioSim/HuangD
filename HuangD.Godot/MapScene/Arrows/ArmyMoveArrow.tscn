@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://cl2gdum4rbkun"]
 
-[ext_resource type="Script" path="res://MapScene/AmryMoveArrow.cs" id="1_u7get"]
-[ext_resource type="Texture2D" uid="uid://cysxa4lny27st" path="res://arrow.png" id="2_rnnjp"]
+[ext_resource type="Texture2D" uid="uid://cysxa4lny27st" path="res://arrow.png" id="1_60gha"]
+[ext_resource type="Script" path="res://MapScene/Arrows/AmryMoveArrow.cs" id="1_l7ftc"]
 
 [node name="ArmyMoveArrow" type="Panel"]
 self_modulate = Color(1, 1, 1, 0)
@@ -10,7 +10,7 @@ offset_top = -31.0
 offset_right = 65.0
 offset_bottom = 240.0
 pivot_offset = Vector2(44, 0)
-script = ExtResource("1_u7get")
+script = ExtResource("1_l7ftc")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 1
@@ -35,8 +35,8 @@ size_flags_horizontal = 3
 fill_mode = 3
 nine_patch_stretch = true
 stretch_margin_top = 35
-texture_under = ExtResource("2_rnnjp")
-texture_progress = ExtResource("2_rnnjp")
+texture_under = ExtResource("1_60gha")
+texture_progress = ExtResource("1_60gha")
 tint_under = Color(0.588235, 0.588235, 0.588235, 1)
 tint_progress = Color(0.2, 0.572549, 0.360784, 1)
 

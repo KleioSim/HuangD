@@ -20,4 +20,4 @@ ZoomStep = 0.01
 
 [node name="PoliticalInfo" parent="CanvasLayer" instance_placeholder="res://MapScene/PoliticalInfo.tscn"]
 
-[node name="ArmyMoveArrow" parent="CanvasLayer" instance_placeholder="res://ArmyMoveArrow.tscn"]
+[node name="ArmyMoveArrow" parent="CanvasLayer" instance_placeholder="res://MapScene/Arrows/ArmyMoveArrow.tscn"]

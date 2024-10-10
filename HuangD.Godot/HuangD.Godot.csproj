@@ -6,6 +6,10 @@
     <EnableDynamicLoading>true</EnableDynamicLoading>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="MapScene\ArmyMoveArrow\**" />
+    <EmbeddedResource Remove="MapScene\ArmyMoveArrow\**" />
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="addons\" />
   </ItemGroup>
   <ItemGroup>
