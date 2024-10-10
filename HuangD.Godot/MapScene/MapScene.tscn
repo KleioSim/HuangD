@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://bnjubmq3phi3w"]
 
 [ext_resource type="Script" path="res://MapScene/MapScene.cs" id="1_3h0t5"]
-[ext_resource type="PackedScene" uid="uid://4djj474jikp0" path="res://MapScene/BaseMap.tscn" id="2_5yt0n"]
+[ext_resource type="PackedScene" uid="uid://4djj474jikp0" path="res://MapScene/BaseMap/BaseMap.tscn" id="2_2ryrc"]
 [ext_resource type="Script" path="res://MapScene/MapCamera2D.cs" id="5_1hgk6"]
 
 [node name="MapScene" type="Node2D"]
@@ -10,7 +10,7 @@ script = ExtResource("1_3h0t5")
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 follow_viewport_enabled = true
 
-[node name="BaseMap" parent="CanvasLayer" instance=ExtResource("2_5yt0n")]
+[node name="BaseMap" parent="CanvasLayer" instance=ExtResource("2_2ryrc")]
 
 [node name="Camera2D" type="Camera2D" parent="CanvasLayer"]
 script = ExtResource("5_1hgk6")

@@ -1,9 +1,9 @@
 [gd_scene load_steps=3 format=3 uid="uid://ct60da5o8e7u8"]
 
 [ext_resource type="Script" path="res://MapScene/MapDebug.cs" id="1_5venp"]
-[ext_resource type="PackedScene" uid="uid://4djj474jikp0" path="res://MapScene/BaseMap.tscn" id="2_qvgwo"]
+[ext_resource type="PackedScene" uid="uid://4djj474jikp0" path="res://MapScene/BaseMap/BaseMap.tscn" id="2_nv0p0"]
 
 [node name="MapDebug" type="Node2D"]
 script = ExtResource("1_5venp")
 
-[node name="BaseMap" parent="." instance=ExtResource("2_qvgwo")]
+[node name="BaseMap" parent="." instance=ExtResource("2_nv0p0")]

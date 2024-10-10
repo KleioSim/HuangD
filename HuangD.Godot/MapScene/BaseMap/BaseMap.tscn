@@ -1,28 +1,28 @@
 [gd_scene load_steps=11 format=3 uid="uid://4djj474jikp0"]
 
-[ext_resource type="Script" path="res://MapScene/BaseMap.cs" id="1_jisg2"]
-[ext_resource type="Texture2D" uid="uid://bsgby7tsxt1l7" path="res://MapScene/whrite16.png" id="1_qet6n"]
-[ext_resource type="Script" path="res://MapScene/BlockMap.cs" id="2_37hnd"]
-[ext_resource type="Script" path="res://MapScene/TerrainMap.cs" id="3_k0r0w"]
-[ext_resource type="Script" path="res://MapScene/ProvinceMap.cs" id="5_2pwxt"]
-[ext_resource type="Script" path="res://MapScene/PopCountMap.cs" id="5_hs2gw"]
+[ext_resource type="Script" path="res://MapScene/BaseMap/BaseMap.cs" id="1_kq2vw"]
+[ext_resource type="Texture2D" uid="uid://bsgby7tsxt1l7" path="res://MapScene/whrite16.png" id="1_ksx8f"]
+[ext_resource type="Script" path="res://MapScene/BaseMap/BlockMap.cs" id="3_myy0s"]
+[ext_resource type="Script" path="res://MapScene/BaseMap/TerrainMap.cs" id="4_x1xyj"]
+[ext_resource type="Script" path="res://MapScene/BaseMap/PopCountMap.cs" id="5_adhf4"]
+[ext_resource type="Script" path="res://MapScene/BaseMap/ProvinceMap.cs" id="6_1jkdy"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ee8ga"]
-texture = ExtResource("1_qet6n")
+texture = ExtResource("1_ksx8f")
 0:0/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_4mdm2"]
 sources/0 = SubResource("TileSetAtlasSource_ee8ga")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5wvpa"]
-texture = ExtResource("1_qet6n")
+texture = ExtResource("1_ksx8f")
 0:0/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_wxd1e"]
 sources/0 = SubResource("TileSetAtlasSource_5wvpa")
 
 [node name="BaseMap" type="Node2D"]
-script = ExtResource("1_jisg2")
+script = ExtResource("1_kq2vw")
 
 [node name="BlockMap" type="TileMap" parent="."]
 self_modulate = Color(1, 1, 1, 0.117647)
@@ -35,7 +35,7 @@ layer_2/modulate = Color(0.4, 0.288067, 0.108, 1)
 layer_2/tile_data = PackedInt32Array()
 layer_3/modulate = Color(0.3268, 0.156, 0.4, 1)
 layer_3/tile_data = PackedInt32Array()
-script = ExtResource("2_37hnd")
+script = ExtResource("3_myy0s")
 
 [node name="TerrainMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_wxd1e")
@@ -47,7 +47,7 @@ layer_2/modulate = Color(0.4, 0.288067, 0.108, 1)
 layer_2/tile_data = PackedInt32Array()
 layer_3/modulate = Color(0.3268, 0.156, 0.4, 1)
 layer_3/tile_data = PackedInt32Array()
-script = ExtResource("3_k0r0w")
+script = ExtResource("4_x1xyj")
 
 [node name="PopCountMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_wxd1e")
@@ -59,7 +59,7 @@ layer_2/modulate = Color(0.4, 0.288067, 0.108, 1)
 layer_2/tile_data = PackedInt32Array()
 layer_3/modulate = Color(0.3268, 0.156, 0.4, 1)
 layer_3/tile_data = PackedInt32Array()
-script = ExtResource("5_hs2gw")
+script = ExtResource("5_adhf4")
 
 [node name="ProvinceMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_wxd1e")
@@ -71,4 +71,4 @@ layer_2/modulate = Color(0.4, 0.288067, 0.108, 1)
 layer_2/tile_data = PackedInt32Array()
 layer_3/modulate = Color(0.3268, 0.156, 0.4, 1)
 layer_3/tile_data = PackedInt32Array()
-script = ExtResource("5_2pwxt")
+script = ExtResource("6_1jkdy")
