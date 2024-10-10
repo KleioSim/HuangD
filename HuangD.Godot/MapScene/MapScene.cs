@@ -17,87 +17,56 @@ public partial class MapScene : Node2D
     //TerrainMap TerrainMap => GetNode<TerrainMap>("CanvasLayer/BaseMap/TerrainMap");
 
     MapCamera2D Camera => GetNode<MapCamera2D>("CanvasLayer/Camera2D");
+    internal PoliticalContainer PoliticalContainer => GetNode<PoliticalContainer>("CanvasLayer/PoliticalContainer");
+
     InstancePlaceholder PoliticalInfoPlaceHolder => GetNode<InstancePlaceholder>("CanvasLayer/PoliticalItem");
     InstancePlaceholder AmryMoveArrowPlaceHolder => GetNode<InstancePlaceholder>("CanvasLayer/ArmyMoveArrow");
 
     [Signal]
     public delegate void ClickEnityEventHandler(string id);
 
-    [Signal]
-    public delegate void ClickArmyMoveTargetEventHandler(string id);
-
-    private Dictionary<string, PoliticalItem> politicalInfos;
-
     public override void _Ready()
     {
-        politicalInfos = ShowPoliticalInfos().ToDictionary(x => x.province.Id, y => y);
+        Camera.Connect(MapCamera2D.SignalName.OnZoomed, Callable.From<Vector2>(PoliticalContainer.OnCameraZoom));
+        PoliticalContainer.Connect(PoliticalContainer.SignalName.ClickEnity, Callable.From<string>((id) => EmitSignal(SignalName.ClickEnity, id)));
 
         Camera.Position = BaseMap.GetMapCenter();
 
-        Camera.Connect(MapCamera2D.SignalName.OnZoomed, Callable.From<Vector2>(OnCameraZoom));
+        PoliticalContainer.BuildPoliticalInfos(BaseMap.GetProvinceCenter);
+        PoliticalContainer.OnCameraZoom(Camera.Zoom);
     }
 
-    private void OnCameraZoom(Vector2 zoom)
-    {
-        foreach (var politicalInfo in politicalInfos.Values)
-        {
-            politicalInfo.OnZoomed(zoom);
-        }
+    //private void OnCameraZoom(Vector2 zoom)
+    //{
+    //    foreach (var politicalInfo in politicalInfos.Values)
+    //    {
+    //        politicalInfo.OnZoomed(zoom);
+    //    }
 
-        var amryMoveArrows = AmryMoveArrowPlaceHolder.GetParent().GetChildren().OfType<AmryMoveArrow>().ToList();
-        foreach (var arrow in amryMoveArrows)
-        {
-            arrow.OnZoom();
-        }
-    }
+    //    var amryMoveArrows = AmryMoveArrowPlaceHolder.GetParent().GetChildren().OfType<AmryMoveArrow>().ToList();
+    //    foreach (var arrow in amryMoveArrows)
+    //    {
+    //        arrow.OnZoom();
+    //    }
+    //}
 
-    internal (Vector2 position, float Rotation, float length) CalcPositionAndRotation(Province from, Province target)
-    {
+    //internal (Vector2 position, float Rotation, float length) CalcPositionAndRotation(Province from, Province target)
+    //{
 
-        var fromPolitical = politicalInfos[from.Id];
-        var targetPolitical = politicalInfos[target.Id];
+    //    var fromPolitical = politicalInfos[from.Id];
+    //    var targetPolitical = politicalInfos[target.Id];
 
-        var fromPos = fromPolitical.ArmyInfo.ArmyIcon.GetGlobalPositionWithPivotOffset();
-        var targetPos = targetPolitical.MoveTarget.GetGlobalPositionWithPivotOffset();
+    //    var fromPos = fromPolitical.ArmyInfo.ArmyIcon.GetGlobalPositionWithPivotOffset();
+    //    var targetPos = targetPolitical.MoveTarget.GetGlobalPositionWithPivotOffset();
 
-        var position = targetPos;
-        var angle = (float)(Math.Atan2((targetPos.Y - fromPos.Y), (targetPos.X - fromPos.X)) * 180 / Math.PI) + 90;
-        var length = fromPos.DistanceTo(targetPos);
+    //    var position = targetPos;
+    //    var angle = (float)(Math.Atan2((targetPos.Y - fromPos.Y), (targetPos.X - fromPos.X)) * 180 / Math.PI) + 90;
+    //    var length = fromPos.DistanceTo(targetPos);
 
-        GD.Print($"targetPolitical.MoveTarget position:{targetPolitical.MoveTarget.GetGlobalPositionWithPivotOffset()}");
+    //    GD.Print($"targetPolitical.MoveTarget position:{targetPolitical.MoveTarget.GetGlobalPositionWithPivotOffset()}");
 
-        return (position, angle, length);
-    }
-
-    private IEnumerable<PoliticalItem> ShowPoliticalInfos()
-    {
-        var list = new List<PoliticalItem>();
-        var session = this.GetSession();
-        foreach (var province in session.Entities.Values.OfType<Province>())
-        {
-            var politicalInfo = PoliticalInfoPlaceHolder.CreateInstance() as PoliticalItem;
-            politicalInfo.Name = province.Id;
-
-            list.Add(politicalInfo);
-
-            politicalInfo.Position = BaseMap.GetProvinceCenter(province.Id);
-            politicalInfo.province = province;
-            politicalInfo.ArmyInfo.Connect(ArmyInfo.SignalName.ClickArmy, new Callable(this, MethodName.OnClickEntity));
-            politicalInfo.EnemyInfo.Connect(ArmyInfo.SignalName.ClickArmy, new Callable(this, MethodName.OnClickEntity));
-            politicalInfo.MoveTarget.Connect(Button.SignalName.ButtonDown, Callable.From(() =>
-            {
-                GD.Print($"mouse {GetGlobalMousePosition()}");
-                GD.Print($"politicalInfo.MoveTarget  GlobalPositionPosition:{politicalInfo.MoveTarget.GlobalPosition}");
-                GD.Print($"politicalInfo.MoveTarget  GlobalPositionPositionWithOffset:{politicalInfo.MoveTarget.GetGlobalPositionWithPivotOffset()}");
-                EmitSignal(SignalName.ClickArmyMoveTarget, province.Id);
-            }));
-            politicalInfo.MoveTarget.Visible = false;
-
-            politicalInfo.OnZoomed(Camera.Zoom);
-        }
-
-        return list;
-    }
+    //    return (position, angle, length);
+    //}
 
     public override void _UnhandledInput(InputEvent @event)
     {
@@ -111,7 +80,7 @@ public partial class MapScene : Node2D
 
                     if (provinceId != null)
                     {
-                        OnClickEntity(provinceId);
+                        EmitSignal(SignalName.ClickEnity, provinceId);
                         GD.Print(provinceId);
                     }
                 }
@@ -120,16 +89,9 @@ public partial class MapScene : Node2D
         }
     }
 
-    private void OnClickEntity(string id)
-    {
-        UpdateMoveInfo(id);
-
-        EmitSignal(SignalName.ClickEnity, id);
-    }
-
     public void UpdateMoveInfo(string id)
     {
-        UpdateMoveTarget(id);
+        //UpdateMoveTarget(id);
         UpdateMoveArrow(id);
     }
 
@@ -159,20 +121,20 @@ public partial class MapScene : Node2D
 
     }
 
-    private void UpdateMoveTarget(string id)
-    {
-        var targetProvince = Enumerable.Empty<Province>();
-        if (this.GetSession().Entities[id] is CentralArmy centralArmy)
-        {
-            if (centralArmy.MoveTo == null)
-            {
-                targetProvince = centralArmy.Position.Neighbors;
-            }
-        }
+    //private void UpdateMoveTarget(string id)
+    //{
+    //    var targetProvince = Enumerable.Empty<Province>();
+    //    if (this.GetSession().Entities[id] is CentralArmy centralArmy)
+    //    {
+    //        if (centralArmy.MoveTo == null)
+    //        {
+    //            targetProvince = centralArmy.Position.Neighbors;
+    //        }
+    //    }
 
-        foreach (var politicalInfo in politicalInfos.Values)
-        {
-            politicalInfo.MoveTarget.Visible = targetProvince.Contains(politicalInfo.province);
-        }
-    }
+    //    foreach (var politicalInfo in politicalInfos.Values)
+    //    {
+    //        politicalInfo.MoveTarget.Visible = targetProvince.Contains(politicalInfo.province);
+    //    }
+    //}
 }

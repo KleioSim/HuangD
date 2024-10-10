@@ -35,21 +35,21 @@ public partial class AmryMoveArrow : ViewControl
 
     protected override void Update()
     {
-        var army = this.GetSession().Entities[armyId] as CentralArmy;
-        if (army == null || army.MoveTo == null)
-        {
-            QueueFree();
-            return;
-        }
+        //var army = this.GetSession().Entities[armyId] as CentralArmy;
+        //if (army == null || army.MoveTo == null)
+        //{
+        //    QueueFree();
+        //    return;
+        //}
 
-        Cancel.Visible = !army.IsRetreat;
+        //Cancel.Visible = !army.IsRetreat;
 
-        var result = MapScene.CalcPositionAndRotation(army.Position, army.MoveTo.Target);
-        this.SetGlobalPositionWithPivotOffset(result.position);
-        this.RotationDegrees = result.Rotation;
-        this.Size = new Vector2(this.Size.X, result.length);
+        //var result = MapScene.CalcPositionAndRotation(army.Position, army.MoveTo.Target);
+        //this.SetGlobalPositionWithPivotOffset(result.position);
+        //this.RotationDegrees = result.Rotation;
+        //this.Size = new Vector2(this.Size.X, result.length);
 
-        Progress.Value = army.MoveTo.percent;
+        //Progress.Value = army.MoveTo.percent;
     }
 
     private void OnCancel()

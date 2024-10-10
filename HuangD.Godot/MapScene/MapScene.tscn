@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://bnjubmq3phi3w"]
+[gd_scene load_steps=5 format=3 uid="uid://bnjubmq3phi3w"]
 
 [ext_resource type="Script" path="res://MapScene/MapScene.cs" id="1_3h0t5"]
 [ext_resource type="PackedScene" uid="uid://4djj474jikp0" path="res://MapScene/BaseMap/BaseMap.tscn" id="2_2ryrc"]
+[ext_resource type="PackedScene" uid="uid://okq5t8265wxa" path="res://MapScene/Politicals/PoliticalContainer.tscn" id="4_4cj6y"]
 [ext_resource type="Script" path="res://MapScene/MapCamera2D.cs" id="5_1hgk6"]
 
 [node name="MapScene" type="Node2D"]
@@ -18,6 +19,6 @@ ZoomMin = 0.1
 ZoomMax = 1.0
 ZoomStep = 0.01
 
-[node name="PoliticalItem" parent="CanvasLayer" instance_placeholder="res://MapScene/Politicals/PoliticalItem.tscn"]
-
 [node name="ArmyMoveArrow" parent="CanvasLayer" instance_placeholder="res://MapScene/Arrows/ArmyMoveArrow.tscn"]
+
+[node name="PoliticalContainer" parent="CanvasLayer" instance=ExtResource("4_4cj6y")]

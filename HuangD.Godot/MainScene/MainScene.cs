@@ -17,7 +17,7 @@ public partial class MainScene : ViewControl
         NextTurn.Connect(Button.SignalName.Pressed, new Callable(this, MethodName.OnNextTurn));
 
         MapScene.Connect(MapScene.SignalName.ClickEnity, new Callable(this, MethodName.OnSelectEntity));
-        MapScene.Connect(MapScene.SignalName.ClickArmyMoveTarget, new Callable(this, MethodName.OnStartArmyMove));
+        MapScene.PoliticalContainer.Connect(PoliticalContainer.SignalName.ClickArmyMoveTarget, new Callable(this, MethodName.OnStartArmyMove));
     }
 
     protected override void Update()
