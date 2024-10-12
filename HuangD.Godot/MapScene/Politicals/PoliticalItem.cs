@@ -1,5 +1,6 @@
 ﻿using Chrona.Engine.Godot;
 using Godot;
+using HuangD.Godot.Utilties;
 using HuangD.Sessions;
 using System;
 using System.Linq;
@@ -51,5 +52,8 @@ public partial class PoliticalItem : ViewControl
         ArmyInfo.Update(_province.centralArmies.Where(x => x.Owner == _province.Owner));
         EnemyInfo.Update(_province.centralArmies.Where(x => x.Owner != _province.Owner));
         BattleInfo.Update(_province.Battle);
+
+        var selectedEntity = this.GetSession().SelectedEntity;
+        MoveTarget.Visible = (selectedEntity is Army) && ((Army)selectedEntity).Position.Neighbors.Contains(_province);
     }
 }

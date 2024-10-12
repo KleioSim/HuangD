@@ -1,7 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://c6ypawcknilm0"]
+[gd_scene load_steps=3 format=3 uid="uid://cbn2qdvofnnot"]
 
 [ext_resource type="Script" path="res://Test.cs" id="1_upuka"]
-[ext_resource type="Texture2D" uid="uid://cysxa4lny27st" path="res://arrow.png" id="2_dkoyp"]
+[ext_resource type="Script" path="res://LabelTest.cs" id="2_h28sl"]
 
 [node name="Test" type="Control"]
 layout_mode = 3
@@ -10,48 +10,38 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
 script = ExtResource("1_upuka")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-follow_viewport_enabled = true
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "123"
+script = ExtResource("2_h28sl")
 
-[node name="Button" type="Button" parent="CanvasLayer"]
-offset_left = 100.0
-offset_top = 200.0
-offset_right = 220.0
-offset_bottom = 300.0
-pivot_offset = Vector2(60, 0)
+[node name="Label2" type="Label" parent="."]
+layout_mode = 0
+offset_left = 53.0
+offset_top = 2.0
+offset_right = 93.0
+offset_bottom = 25.0
+text = "123"
+script = ExtResource("2_h28sl")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_top = 34.0
+offset_right = 36.0
+offset_bottom = 65.0
 text = "123"
 
-[node name="Camera2D" type="Camera2D" parent="CanvasLayer"]
-offset = Vector2(300, 300)
-zoom = Vector2(0.3, 0.3)
+[node name="Remove" type="Button" parent="."]
+layout_mode = 0
+offset_left = 50.0
+offset_top = 33.0
+offset_right = 86.0
+offset_bottom = 64.0
+text = "Remove"
 
-[node name="TextureProgressBar" type="TextureProgressBar" parent="CanvasLayer"]
-offset_left = 12.0
-offset_top = 623.0
-offset_right = 525.0
-offset_bottom = 1364.0
-value = 90.0
-fill_mode = 3
-nine_patch_stretch = true
-stretch_margin_top = 200
-texture_under = ExtResource("2_dkoyp")
-texture_progress = ExtResource("2_dkoyp")
-tint_under = Color(0.588235, 0.588235, 0.588235, 1)
-tint_progress = Color(0.2, 0.572549, 0.360784, 1)
-
-[node name="TextureProgressBar2" type="TextureProgressBar" parent="CanvasLayer"]
-offset_left = 12.0
-offset_top = 623.0
-offset_right = 525.0
-offset_bottom = 1364.0
-value = 90.0
-fill_mode = 3
-nine_patch_stretch = true
-stretch_margin_top = 200
-texture_under = ExtResource("2_dkoyp")
-texture_progress = ExtResource("2_dkoyp")
-tint_under = Color(0.588235, 0.588235, 0.588235, 1)
-tint_progress = Color(0.2, 0.572549, 0.360784, 1)
+[connection signal="pressed" from="Button" to="." method="OnButton"]
+[connection signal="pressed" from="Remove" to="." method="OnRemove"]

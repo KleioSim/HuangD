@@ -35,6 +35,8 @@ public class Session : AbstractSession
 
     public IEnumerable<string> CurrentReports => currentReports;
 
+    public IEntity SelectedEntity { get; set; }
+
     private Dictionary<string, IEntity> entities = new Dictionary<string, IEntity>();
 
     private List<string> currentReports = new List<string>();
