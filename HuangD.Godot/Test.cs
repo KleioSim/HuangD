@@ -1,8 +1,10 @@
 ﻿using Chrona.Engine.Godot;
+using Chrona.Engine.Godot.UBBCodes;
 using Godot;
 using HuangD.Sessions;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 public partial class Test : Control
@@ -47,6 +49,12 @@ public interface IView
     }
 }
 
+[AttributeUsage(AttributeTargets.Method)]
+public class DataChangeAttribute : Attribute
+{
+
+}
+
 public interface IData
 {
     string GetName();
@@ -62,6 +70,7 @@ public class Data : IData
         return name;
     }
 
+    [DataChange]
     public void SetName(string value)
     {
         name = value;
@@ -73,13 +82,25 @@ public class Decorator<T> : DispatchProxy
     public static uint Label { get; private set; }
     private T _decorated;
 
+    private Dictionary<MethodInfo, bool> method2DataChangeFlag = new Dictionary<MethodInfo, bool>();
+
     protected override object Invoke(MethodInfo targetMethod, object[] args)
     {
-        if (targetMethod.Name == nameof(Data.SetName))
+        if (!method2DataChangeFlag.TryGetValue(targetMethod, out var flag))
+        {
+            var methodParameterTypes = targetMethod.GetParameters().Select(p => p.ParameterType).ToArray();
+            var realMethodInfo = _decorated.GetType().GetMethod(targetMethod.Name, methodParameterTypes);
+
+            var attribute = realMethodInfo.GetCustomAttribute<DataChangeAttribute>();
+            flag = attribute != null;
+
+            method2DataChangeFlag.Add(targetMethod, flag);
+        }
+
+        if (flag)
         {
             Label++;
         }
-
 
         var result = targetMethod.Invoke(_decorated, args);
 
