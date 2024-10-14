@@ -10,8 +10,6 @@ using System.Reflection;
 
 public partial class CommandRegister : Node
 {
-    public Action<IMessage> SendCommand;
-
     public override void _Ready()
     {
         CommandConsole.IsVaild = true;
@@ -35,7 +33,7 @@ public partial class CommandRegister : Node
                 {
                     var obj = constructor.Invoke(parameters) as IMessage;
 
-                    SendCommand(obj);
+                    this.GetSession().OnMessage(obj);
                 },
                 constructor.GetParameters().ToDictionary(k => k.Name, v => v.ParameterType));
         }
