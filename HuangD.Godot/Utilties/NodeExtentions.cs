@@ -9,10 +9,10 @@ namespace HuangD.Godot.Utilties;
 
 static class NodeExtentions
 {
-    public static Session GetSession(this Node node)
+    public static ISessionData GetSession(this Node node)
     {
         var chroncle = node.GetNode<Global>("/root/Chrona_Global").Chroncle;
-        return chroncle.Session as Session;
+        return chroncle.Session as ISessionData;
     }
 
     public static void SetSession(this Node node, Session session)

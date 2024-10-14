@@ -10,9 +10,6 @@
     <EmbeddedResource Remove="MapScene\ArmyMoveArrow\**" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="addons\" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="DynamicData" Version="8.4.1" />
     <PackageReference Include="System.Reactive" Version="6.0.1" />
   </ItemGroup>

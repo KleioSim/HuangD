@@ -7,7 +7,7 @@ using HuangD.Sessions.Messages;
 using System;
 using System.Linq;
 
-public partial class InitialScene : ViewControl
+public partial class InitialScene : ViewControl//, IView
 {
     public TextEdit TextEdit => GetNode<TextEdit>("CanvasLayer/VBoxContainer/BuildMapPanel/VBoxContainer/SeedEditor");
     public SelectCountryPanel SelectCountryPanel => GetNode<SelectCountryPanel>("CanvasLayer/VBoxContainer/SelectCountryPanel");
@@ -47,6 +47,22 @@ public partial class InitialScene : ViewControl
             SendCommand(new Command_ChangePlayerCountry(province.Owner.Id));
         }
     }
+
+    //public override void _Process(double delta)
+    //{
+    //    var view = this as IView;
+    //    if (!view.IsDirty()) { return; }
+
+    //    var playerCountry = this.GetSession()?.PlayerCountry;
+
+    //    SelectCountryPanel.Visible = playerCountry != null;
+    //    if (SelectCountryPanel.Visible)
+    //    {
+    //        SelectCountryPanel.CountryName.Text = playerCountry.Id;
+    //        SelectCountryPanel.ProvinceCount.Text = playerCountry.Provinces.Count().ToString();
+    //        SelectCountryPanel.PopCount.Text = playerCountry.PopCount.ToString();
+    //    }
+    //}
 
     protected override void Initialize()
     {
