@@ -9,21 +9,16 @@ using static HuangD.Sessions.Maps.Builders.MapBuilder;
 
 namespace HuangD.Sessions;
 
-public interface ISessionData
+public interface ISessionData : ISession
 {
     Date Date { get; }
     Country PlayerCountry { get; }
     IEntity SelectedEntity { get; set; }
 
-    IReadOnlyDictionary<string, IEntity> Entities { get; }
-
     Dictionary<string, Block> Blocks { get; }
     Dictionary<string, TerrainType> Block2Terrain { get; }
     Dictionary<string, Province> Block2Province { get; }
     Dictionary<string, Province> Provinces { get; }
-
-    void OnMessage(IMessage message);
-
 }
 
 public class Session : AbstractSession, ISessionData
@@ -78,6 +73,7 @@ public class Session : AbstractSession, ISessionData
     public void Init(string seed)
     {
         UUID.Restart();
+        entities.Clear();
 
         Date = new Date();
 

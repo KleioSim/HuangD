@@ -1,4 +1,5 @@
-﻿using Chrona.Engine.Godot;
+﻿using Chrona.Engine.Core.Interfaces;
+using Chrona.Engine.Godot;
 using Chrona.Engine.Godot.Utilties;
 using DynamicData;
 using Godot;
@@ -15,7 +16,7 @@ static class NodeExtentions
         return chroncle.Session as ISessionData;
     }
 
-    public static void SetSession(this Node node, Session session)
+    public static void SetSession(this Node node, ISessionData session)
     {
         var chroncle = node.GetNode<Global>("/root/Chrona_Global").Chroncle;
         chroncle.Session = session;

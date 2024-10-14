@@ -7,7 +7,7 @@ using HuangD.Sessions.Messages;
 using System;
 using System.Linq;
 
-public partial class InitialScene : ViewControl//, IView
+public partial class InitialScene : Control, IView
 {
     public TextEdit TextEdit => GetNode<TextEdit>("CanvasLayer/VBoxContainer/BuildMapPanel/VBoxContainer/SeedEditor");
     public SelectCountryPanel SelectCountryPanel => GetNode<SelectCountryPanel>("CanvasLayer/VBoxContainer/SelectCountryPanel");
@@ -22,14 +22,14 @@ public partial class InitialScene : ViewControl//, IView
         var instance = Session.Instance;
         instance.Init(TextEdit.Text);
 
-        this.SetSession(instance);
+        this.SetSession(Decorator<ISessionData>.Create(instance));
 
-        ViewControl.OnMessage = this.GetSession().OnMessage;
+        //ViewControl.OnMessage = this.GetSession().OnMessage;
 
-        var commandRegister = new CommandRegister();
-        commandRegister.SendCommand = ViewControl.SendCommand;
+        //var commandRegister = new CommandRegister();
+        //commandRegister.SendCommand = ViewControl.SendCommand;
 
-        GetTree().Root.AddChild(commandRegister, true);
+        //GetTree().Root.AddChild(commandRegister, true);
 
         var mapScene = ResourceLoader.Load<PackedScene>("res://MapScene/MapScene.tscn").Instantiate() as MapScene;
         GetTree().Root.AddChild(mapScene);
@@ -44,33 +44,15 @@ public partial class InitialScene : ViewControl//, IView
         var province = this.GetSession().Entities[id] as Province;
         if (province != null)
         {
-            SendCommand(new Command_ChangePlayerCountry(province.Owner.Id));
+            this.GetSession().OnMessage(new Command_ChangePlayerCountry(province.Owner.Id));
         }
     }
 
-    //public override void _Process(double delta)
-    //{
-    //    var view = this as IView;
-    //    if (!view.IsDirty()) { return; }
-
-    //    var playerCountry = this.GetSession()?.PlayerCountry;
-
-    //    SelectCountryPanel.Visible = playerCountry != null;
-    //    if (SelectCountryPanel.Visible)
-    //    {
-    //        SelectCountryPanel.CountryName.Text = playerCountry.Id;
-    //        SelectCountryPanel.ProvinceCount.Text = playerCountry.Provinces.Count().ToString();
-    //        SelectCountryPanel.PopCount.Text = playerCountry.PopCount.ToString();
-    //    }
-    //}
-
-    protected override void Initialize()
+    public override void _Process(double delta)
     {
+        var view = this as IView;
+        if (!view.IsDirty()) { return; }
 
-    }
-
-    protected override void Update()
-    {
         var playerCountry = this.GetSession()?.PlayerCountry;
 
         SelectCountryPanel.Visible = playerCountry != null;
@@ -82,8 +64,26 @@ public partial class InitialScene : ViewControl//, IView
         }
     }
 
-    void TestInt(int id)
-    {
-        GD.Print(id + 1);
-    }
+    //protected override void Initialize()
+    //{
+
+    //}
+
+    //protected override void Update()
+    //{
+    //    var playerCountry = this.GetSession()?.PlayerCountry;
+
+    //    SelectCountryPanel.Visible = playerCountry != null;
+    //    if (SelectCountryPanel.Visible)
+    //    {
+    //        SelectCountryPanel.CountryName.Text = playerCountry.Id;
+    //        SelectCountryPanel.ProvinceCount.Text = playerCountry.Provinces.Count().ToString();
+    //        SelectCountryPanel.PopCount.Text = playerCountry.PopCount.ToString();
+    //    }
+    //}
+
+    //void TestInt(int id)
+    //{
+    //    GD.Print(id + 1);
+    //}
 }

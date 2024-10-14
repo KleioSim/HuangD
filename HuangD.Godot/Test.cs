@@ -1,4 +1,5 @@
-﻿using Chrona.Engine.Godot;
+﻿using Chrona.Engine.Core;
+using Chrona.Engine.Godot;
 using Chrona.Engine.Godot.UBBCodes;
 using Godot;
 using HuangD.Sessions;
@@ -37,7 +38,7 @@ public interface IData
 
 public class Data : IData
 {
-    private string name;
+    private string name = "999";
 
     public string GetName()
     {
