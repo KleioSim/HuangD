@@ -39,24 +39,33 @@ public partial class InitialScene : Control, IView<ISessionData>
         GetTree().Root.AddChild(mapScene);
     }
 
+    public override void _Ready()
+    {
+        SelectCountryPanel.Visible = false;
+    }
+
     public override void _Process(double delta)
     {
+        if (this.GetSession() == null)
+        {
+            return;
+        }
+
         var view = this as IView<ISessionData>;
         if (!view.IsDirty()) { return; }
 
         var selectEntity = this.GetSession().SelectedEntity;
-        if (selectEntity is Province province)
+        if (selectEntity is not Province province)
         {
-            var country = province.Owner;
-
-            SelectCountryPanel.Visible = country != null;
-            if (SelectCountryPanel.Visible)
-            {
-                SelectCountryPanel.CountryName.Text = country.Id;
-                SelectCountryPanel.ProvinceCount.Text = country.Provinces.Count().ToString();
-                SelectCountryPanel.PopCount.Text = country.PopCount.ToString();
-            }
+            SelectCountryPanel.Visible = false;
+            return;
         }
 
+        var country = province.Owner;
+
+        SelectCountryPanel.Visible = true;
+        SelectCountryPanel.CountryName.Text = country.Id;
+        SelectCountryPanel.ProvinceCount.Text = country.Provinces.Count().ToString();
+        SelectCountryPanel.PopCount.Text = country.PopCount.ToString();
     }
 }
