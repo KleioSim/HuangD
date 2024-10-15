@@ -7,9 +7,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-public abstract partial class DetailPanel : ViewControl
+public abstract partial class DetailPanel : Control
 {
-    public string EntityId { get; set; }
+    //public string EntityId { get; set; }
 
     public Label Title => GetNode<Label>("../Title/Label");
 }

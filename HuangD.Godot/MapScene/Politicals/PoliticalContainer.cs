@@ -1,18 +1,12 @@
 ﻿using Godot;
 using HuangD.Godot.Utilties;
 using HuangD.Sessions;
+using HuangD.Sessions.Messages;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 public partial class PoliticalContainer : Control
 {
-    [Signal]
-    public delegate void ClickArmyMoveTargetEventHandler(string id);
-
-    [Signal]
-    public delegate void ClickEnityEventHandler(string id);
-
     InstancePlaceholder PoliticalInfoPlaceHolder => GetNode<InstancePlaceholder>("Item");
 
     public override void _Ready()
@@ -38,7 +32,12 @@ public partial class PoliticalContainer : Control
                 GD.Print($"mouse {GetGlobalMousePosition()}");
                 GD.Print($"politicalInfo.MoveTarget  GlobalPositionPosition:{politicalInfo.MoveTarget.GlobalPosition}");
                 GD.Print($"politicalInfo.MoveTarget  GlobalPositionPositionWithOffset:{politicalInfo.MoveTarget.GetGlobalPositionWithPivotOffset()}");
-                EmitSignal(SignalName.ClickArmyMoveTarget, province.Id);
+                var selectEntity = this.GetSession().SelectedEntity;
+                if (selectEntity is Army army)
+                {
+                    this.GetSession().OnMessage(new Command_ArmyMove(army.Id, province.Id));
+                }
+
             }));
             politicalInfo.MoveTarget.Visible = false;
         }
@@ -54,8 +53,11 @@ public partial class PoliticalContainer : Control
 
     private void OnClickEntity(string id)
     {
-        //UpdateMoveInfo(id);
+        this.GetSession().OnMessage(new Command_SelectEntity(id));
+    }
 
-        EmitSignal(SignalName.ClickEnity, id);
+    internal PoliticalItem GetItem(string id)
+    {
+        return PoliticalInfoPlaceHolder.GetParent().GetChildren().OfType<PoliticalItem>().SingleOrDefault(x => x.province.Id == id);
     }
 }

@@ -5,8 +5,10 @@ using HuangD.Sessions;
 using HuangD.Sessions.Messages;
 using System;
 
-public partial class AmryMoveArrow : ViewControl
+public partial class AmryMoveArrow : Control, IView<ISessionData>
 {
+    public static Func<string, PoliticalItem> GetPoliticalItem { get; set; }
+
     public Button Cancel => GetNode<Button>("HBoxContainer/Button");
     public TextureProgressBar Progress => GetNode<TextureProgressBar>("HBoxContainer/TextureProgressBar");
     public MapScene MapScene { get; internal set; }
@@ -17,45 +19,59 @@ public partial class AmryMoveArrow : ViewControl
         set
         {
             armyId = value;
-            Update();
+
+            var view = this as IView<ISessionData>;
+            view.IsSelfDirty = true;
         }
     }
 
     private string armyId;
 
-    public void OnZoom()
+    public void OnZoom(Vector2 vector)
     {
-        Update();
+        var view = this as IView<ISessionData>;
+        view.IsSelfDirty = true;
     }
 
-    protected override void Initialize()
+
+    public override void _Ready()
     {
-        Cancel.Connect(Button.SignalName.Pressed, new Callable(this, MethodName.OnCancel));
+        Cancel.Connect(Button.SignalName.Pressed, Callable.From(() =>
+        {
+            this.GetSession().OnMessage(new Command_Cancel_ArmyMove(ArmyId));
+        }));
     }
 
-    protected override void Update()
+    public override void _Process(double delta)
     {
-        //var army = this.GetSession().Entities[armyId] as CentralArmy;
-        //if (army == null || army.MoveTo == null)
-        //{
-        //    QueueFree();
-        //    return;
-        //}
+        var view = this as IView<ISessionData>;
+        if (!view.IsDirty()) { return; }
+
+        var army = this.GetSession().Entities[armyId] as CentralArmy;
+        if (army == null || army.MoveTo == null)
+        {
+            QueueFree();
+            return;
+        }
 
         //Cancel.Visible = !army.IsRetreat;
 
-        //var result = MapScene.CalcPositionAndRotation(army.Position, army.MoveTo.Target);
-        //this.SetGlobalPositionWithPivotOffset(result.position);
-        //this.RotationDegrees = result.Rotation;
-        //this.Size = new Vector2(this.Size.X, result.length);
+        var fromPolitical = GetPoliticalItem(army.Position.Id);
+        var targetPolitical = GetPoliticalItem(army.MoveTo.Target.Id);
 
-        //Progress.Value = army.MoveTo.percent;
-    }
+        var fromPos = fromPolitical.ArmyInfo.ArmyIcon.GetGlobalPositionWithPivotOffset();
+        var targetPos = targetPolitical.MoveTarget.GetGlobalPositionWithPivotOffset();
 
-    private void OnCancel()
-    {
-        SendCommand(new Command_Cancel_ArmyMove(armyId));
+        var position = targetPos;
+        var angle = (float)(Math.Atan2((targetPos.Y - fromPos.Y), (targetPos.X - fromPos.X)) * 180 / Math.PI) + 90;
+        var length = fromPos.DistanceTo(targetPos);
 
-        MapScene.UpdateMoveInfo(armyId);
+        GD.Print($"targetPolitical.MoveTarget position:{targetPolitical.MoveTarget.GetGlobalPositionWithPivotOffset()}");
+
+        this.SetGlobalPositionWithPivotOffset(position);
+        this.RotationDegrees = angle;
+        this.Size = new Vector2(this.Size.X, length);
+
+        Progress.Value = army.MoveTo.percent;
     }
 }

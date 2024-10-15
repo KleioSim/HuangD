@@ -4,15 +4,16 @@ using HuangD.Godot.Utilties;
 using HuangD.Sessions;
 using System;
 
-public partial class ProvinceDetailPanel : DetailPanel
+public partial class ProvinceDetailPanel : DetailPanel, IView<ISessionData>
 {
     TabContainer TabContainer => GetNode<TabContainer>("TabContainer");
 
-    protected override void Initialize()
+    public override void _Ready()
     {
         TabContainer.Connect(TabContainer.SignalName.TabChanged, Callable.From((long index) =>
         {
-            Update();
+            var view = this as IView<ISessionData>;
+            view.IsSelfDirty = true;
         }));
 
         for (int i = 0; i < TabContainer.GetTabCount(); i++)
@@ -22,14 +23,12 @@ public partial class ProvinceDetailPanel : DetailPanel
         }
     }
 
-    private void TabContainer_TabChanged(long tab)
+    public override void _Process(double delta)
     {
-        throw new NotImplementedException();
-    }
+        var view = this as IView<ISessionData>;
+        if (!view.IsDirty()) { return; }
 
-    protected override void Update()
-    {
-        var province = this.GetSession().Entities[EntityId] as Province;
+        var province = this.GetSession().SelectedEntity as Province;
         Title.Text = province.Id;
 
         var control = TabContainer.GetCurrentTabControl();

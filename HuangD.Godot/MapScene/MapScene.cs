@@ -3,6 +3,7 @@ using Godot;
 using HuangD.Godot.Utilties;
 using HuangD.Sessions;
 using HuangD.Sessions.Maps;
+using HuangD.Sessions.Messages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,23 +13,23 @@ public partial class MapScene : Node2D
 {
     BaseMap BaseMap => GetNode<BaseMap>("CanvasLayer/BaseMap");
 
-    //ProvinceMap ProvinceMap => GetNode<ProvinceMap>("CanvasLayer/BaseMap/ProvinceMap");
-    //PopCountMap PopCountMap => GetNode<PopCountMap>("CanvasLayer/BaseMap/PopCountMap");
-    //TerrainMap TerrainMap => GetNode<TerrainMap>("CanvasLayer/BaseMap/TerrainMap");
-
     MapCamera2D Camera => GetNode<MapCamera2D>("CanvasLayer/Camera2D");
-    internal PoliticalContainer PoliticalContainer => GetNode<PoliticalContainer>("CanvasLayer/PoliticalContainer");
 
-    InstancePlaceholder PoliticalInfoPlaceHolder => GetNode<InstancePlaceholder>("CanvasLayer/PoliticalItem");
-    InstancePlaceholder AmryMoveArrowPlaceHolder => GetNode<InstancePlaceholder>("CanvasLayer/ArmyMoveArrow");
+    PoliticalContainer PoliticalContainer => GetNode<PoliticalContainer>("CanvasLayer/PoliticalContainer");
+    ArrowContainer ArrowContainer => GetNode<ArrowContainer>("CanvasLayer/ArrowContainer");
 
-    [Signal]
-    public delegate void ClickEnityEventHandler(string id);
+    //[Signal]
+    //public delegate void ClickEnityEventHandler(string id);
 
     public override void _Ready()
     {
-        Camera.Connect(MapCamera2D.SignalName.OnZoomed, Callable.From<Vector2>(PoliticalContainer.OnCameraZoom));
-        PoliticalContainer.Connect(PoliticalContainer.SignalName.ClickEnity, Callable.From<string>((id) => EmitSignal(SignalName.ClickEnity, id)));
+        AmryMoveArrow.GetPoliticalItem = PoliticalContainer.GetItem;
+
+        Camera.Connect(MapCamera2D.SignalName.OnZoomed, Callable.From<Vector2>((vector) =>
+        {
+            PoliticalContainer.OnCameraZoom(vector);
+            ArrowContainer.OnCameraZoom(vector);
+        }));
 
         Camera.Position = BaseMap.GetMapCenter();
 
@@ -80,8 +81,7 @@ public partial class MapScene : Node2D
 
                     if (provinceId != null)
                     {
-                        EmitSignal(SignalName.ClickEnity, provinceId);
-                        GD.Print(provinceId);
+                        this.GetSession().OnMessage(new Command_SelectEntity(provinceId));
                     }
                 }
             }
@@ -89,37 +89,37 @@ public partial class MapScene : Node2D
         }
     }
 
-    public void UpdateMoveInfo(string id)
-    {
-        //UpdateMoveTarget(id);
-        UpdateMoveArrow(id);
-    }
+    //public void UpdateMoveInfo(string id)
+    //{
+    //    //UpdateMoveTarget(id);
+    //    UpdateMoveArrow(id);
+    //}
 
-    private void UpdateMoveArrow(string id)
-    {
-        var amryMoveArrows = AmryMoveArrowPlaceHolder.GetParent().GetChildren().OfType<AmryMoveArrow>().ToList();
-        var army = this.GetSession().Entities[id] as CentralArmy;
-        foreach (var arrow in amryMoveArrows.ToArray())
-        {
-            if (army == null
-                || army.MoveTo == null
-                || arrow.ArmyId != army.Id)
-            {
-                arrow.QueueFree();
-                amryMoveArrows.Remove(arrow);
-            }
-        }
+    //private void UpdateMoveArrow(string id)
+    //{
+    //    var amryMoveArrows = AmryMoveArrowPlaceHolder.GetParent().GetChildren().OfType<AmryMoveArrow>().ToList();
+    //    var army = this.GetSession().Entities[id] as CentralArmy;
+    //    foreach (var arrow in amryMoveArrows.ToArray())
+    //    {
+    //        if (army == null
+    //            || army.MoveTo == null
+    //            || arrow.ArmyId != army.Id)
+    //        {
+    //            arrow.QueueFree();
+    //            amryMoveArrows.Remove(arrow);
+    //        }
+    //    }
 
-        if (amryMoveArrows.Count == 0
-            && army != null
-            && army.MoveTo != null)
-        {
-            var currArmyArrow = AmryMoveArrowPlaceHolder.CreateInstance() as AmryMoveArrow;
-            currArmyArrow.MapScene = this;
-            currArmyArrow.ArmyId = army.Id;
-        }
+    //    if (amryMoveArrows.Count == 0
+    //        && army != null
+    //        && army.MoveTo != null)
+    //    {
+    //        var currArmyArrow = AmryMoveArrowPlaceHolder.CreateInstance() as AmryMoveArrow;
+    //        currArmyArrow.MapScene = this;
+    //        currArmyArrow.ArmyId = army.Id;
+    //    }
 
-    }
+    //}
 
     //private void UpdateMoveTarget(string id)
     //{

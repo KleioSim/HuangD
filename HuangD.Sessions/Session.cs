@@ -179,4 +179,10 @@ public class Session : AbstractSession, ISessionData
 
         army.OnMove(target);
     }
+
+    [MessageProcess]
+    private void On_Command_SelectEntity(Command_SelectEntity cmd)
+    {
+        SelectedEntity = cmd.entityId == null ? null : entities[cmd.entityId];
+    }
 }

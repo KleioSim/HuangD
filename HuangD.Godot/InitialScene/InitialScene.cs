@@ -14,6 +14,14 @@ public partial class InitialScene : Control, IView<ISessionData>
 
     public void Start()
     {
+        var selectEntity = this.GetSession().SelectedEntity;
+        if (selectEntity is not Province province)
+        {
+            throw new Exception();
+        }
+
+        this.GetSession().OnMessage(new Command_ChangePlayerCountry(province.Owner.Id));
+
         GetTree().ChangeSceneToFile("res://MainScene/MainScene.tscn");
     }
 
@@ -29,17 +37,6 @@ public partial class InitialScene : Control, IView<ISessionData>
 
         var mapScene = ResourceLoader.Load<PackedScene>("res://MapScene/MapScene.tscn").Instantiate() as MapScene;
         GetTree().Root.AddChild(mapScene);
-
-        mapScene.Connect(MapScene.SignalName.ClickEnity, new Callable(this, MethodName.OnSelectProvince));
-    }
-
-    public void OnSelectProvince(string id)
-    {
-        var province = this.GetSession().Entities[id] as Province;
-        if (province != null)
-        {
-            this.GetSession().OnMessage(new Command_ChangePlayerCountry(province.Owner.Id));
-        }
     }
 
     public override void _Process(double delta)
@@ -47,14 +44,19 @@ public partial class InitialScene : Control, IView<ISessionData>
         var view = this as IView<ISessionData>;
         if (!view.IsDirty()) { return; }
 
-        var playerCountry = this.GetSession()?.PlayerCountry;
-
-        SelectCountryPanel.Visible = playerCountry != null;
-        if (SelectCountryPanel.Visible)
+        var selectEntity = this.GetSession().SelectedEntity;
+        if (selectEntity is Province province)
         {
-            SelectCountryPanel.CountryName.Text = playerCountry.Id;
-            SelectCountryPanel.ProvinceCount.Text = playerCountry.Provinces.Count().ToString();
-            SelectCountryPanel.PopCount.Text = playerCountry.PopCount.ToString();
+            var country = province.Owner;
+
+            SelectCountryPanel.Visible = country != null;
+            if (SelectCountryPanel.Visible)
+            {
+                SelectCountryPanel.CountryName.Text = country.Id;
+                SelectCountryPanel.ProvinceCount.Text = country.Provinces.Count().ToString();
+                SelectCountryPanel.PopCount.Text = country.PopCount.ToString();
+            }
         }
+
     }
 }

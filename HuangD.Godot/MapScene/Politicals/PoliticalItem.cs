@@ -5,7 +5,7 @@ using HuangD.Sessions;
 using System;
 using System.Linq;
 
-public partial class PoliticalItem : ViewControl
+public partial class PoliticalItem : Control, IView<ISessionData>
 {
     public Label ProvinceName => GetNode<Label>("HBoxContainer/VBoxContainer/Province/Panel/Name");
     public Label CountryName => GetNode<Label>("HBoxContainer/VBoxContainer/Country/Name");
@@ -37,13 +37,11 @@ public partial class PoliticalItem : ViewControl
         this.Scale = Vector2.One / zoom;
     }
 
-    protected override void Initialize()
+    public override void _Process(double delta)
     {
+        var view = this as IView<ISessionData>;
+        if (!view.IsDirty()) { return; }
 
-    }
-
-    protected override void Update()
-    {
         ProvinceName.Text = _province.Id;
         CountryName.Text = _province.Owner.Id;
 
