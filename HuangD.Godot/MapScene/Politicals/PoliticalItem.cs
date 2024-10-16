@@ -5,7 +5,7 @@ using HuangD.Sessions;
 using System;
 using System.Linq;
 
-public partial class PoliticalItem : Control, IView<ISessionData>
+public partial class PoliticalItem : Control, IView
 {
     public Label ProvinceName => GetNode<Label>("HBoxContainer/VBoxContainer/Province/Panel/Name");
     public Label CountryName => GetNode<Label>("HBoxContainer/VBoxContainer/Country/Name");
@@ -39,7 +39,7 @@ public partial class PoliticalItem : Control, IView<ISessionData>
 
     public override void _Process(double delta)
     {
-        var view = this as IView<ISessionData>;
+        var view = this as IView;
         if (!view.IsDirty()) { return; }
 
         ProvinceName.Text = _province.Id;

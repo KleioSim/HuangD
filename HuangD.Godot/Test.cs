@@ -15,7 +15,7 @@ public partial class Test : Control
 
     public override void _Ready()
     {
-        data = Decorator<IData>.Create(new Data());
+        data = Decorator.Create(new Data());
     }
 
     public void OnButton()

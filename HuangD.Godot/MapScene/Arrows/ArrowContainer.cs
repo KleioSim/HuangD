@@ -5,13 +5,13 @@ using HuangD.Sessions;
 using System;
 using System.Linq;
 
-public partial class ArrowContainer : Control, IView<ISessionData>
+public partial class ArrowContainer : Control, IView
 {
     InstancePlaceholder AmryMoveArrowPlaceHolder => GetNode<InstancePlaceholder>("ArmyMoveArrow");
 
     public override void _Process(double delta)
     {
-        var view = this as IView<ISessionData>;
+        var view = this as IView;
         if (!view.IsDirty()) { return; }
 
         var arrow = AmryMoveArrowPlaceHolder.GetParent().GetChildren().OfType<AmryMoveArrow>().SingleOrDefault();

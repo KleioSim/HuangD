@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
 
-public partial class DetailPanelContainer : PanelContainer, IView<ISessionData>
+public partial class DetailPanelContainer : PanelContainer, IView
 {
     private IEnumerable<DetailPanel> viewContrls;
 
@@ -20,9 +20,9 @@ public partial class DetailPanelContainer : PanelContainer, IView<ISessionData>
         return viewContrls;
     }
 
-    public override void _Ready()
+    public override void _Process(double delta)
     {
-        var view = this as IView<ISessionData>;
+        var view = this as IView;
         if (!view.IsDirty()) { return; }
 
         foreach (var control in FindViewContrls())

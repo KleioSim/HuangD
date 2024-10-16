@@ -7,7 +7,7 @@ using HuangD.Sessions.Messages;
 using System;
 using System.Linq;
 
-public partial class InitialScene : Control, IView<ISessionData>
+public partial class InitialScene : Control, IView
 {
     public TextEdit TextEdit => GetNode<TextEdit>("CanvasLayer/VBoxContainer/BuildMapPanel/VBoxContainer/SeedEditor");
     public SelectCountryPanel SelectCountryPanel => GetNode<SelectCountryPanel>("CanvasLayer/VBoxContainer/SelectCountryPanel");
@@ -30,7 +30,7 @@ public partial class InitialScene : Control, IView<ISessionData>
         var instance = Session.Instance;
         instance.Init(TextEdit.Text);
 
-        this.SetSession(Decorator<ISessionData>.Create(instance));
+        this.SetSession(Decorator.Create<ISessionData>(instance));
 
         var commandRegister = new CommandRegister();
         GetTree().Root.AddChild(commandRegister, true);
@@ -51,7 +51,7 @@ public partial class InitialScene : Control, IView<ISessionData>
             return;
         }
 
-        var view = this as IView<ISessionData>;
+        var view = this as IView;
         if (!view.IsDirty()) { return; }
 
         var selectEntity = this.GetSession().SelectedEntity;

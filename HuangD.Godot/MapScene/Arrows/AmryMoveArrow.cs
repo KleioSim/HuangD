@@ -5,7 +5,7 @@ using HuangD.Sessions;
 using HuangD.Sessions.Messages;
 using System;
 
-public partial class AmryMoveArrow : Control, IView<ISessionData>
+public partial class AmryMoveArrow : Control, IView
 {
     public static Func<string, PoliticalItem> GetPoliticalItem { get; set; }
 
@@ -20,7 +20,7 @@ public partial class AmryMoveArrow : Control, IView<ISessionData>
         {
             armyId = value;
 
-            var view = this as IView<ISessionData>;
+            var view = this as IView;
             view.IsSelfDirty = true;
         }
     }
@@ -29,7 +29,7 @@ public partial class AmryMoveArrow : Control, IView<ISessionData>
 
     public void OnZoom(Vector2 vector)
     {
-        var view = this as IView<ISessionData>;
+        var view = this as IView;
         view.IsSelfDirty = true;
     }
 
@@ -44,7 +44,7 @@ public partial class AmryMoveArrow : Control, IView<ISessionData>
 
     public override void _Process(double delta)
     {
-        var view = this as IView<ISessionData>;
+        var view = this as IView;
         if (!view.IsDirty()) { return; }
 
         var army = this.GetSession().Entities[armyId] as CentralArmy;

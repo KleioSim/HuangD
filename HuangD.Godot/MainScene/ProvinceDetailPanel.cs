@@ -4,7 +4,7 @@ using HuangD.Godot.Utilties;
 using HuangD.Sessions;
 using System;
 
-public partial class ProvinceDetailPanel : DetailPanel, IView<ISessionData>
+public partial class ProvinceDetailPanel : DetailPanel, IView
 {
     TabContainer TabContainer => GetNode<TabContainer>("TabContainer");
 
@@ -12,7 +12,7 @@ public partial class ProvinceDetailPanel : DetailPanel, IView<ISessionData>
     {
         TabContainer.Connect(TabContainer.SignalName.TabChanged, Callable.From((long index) =>
         {
-            var view = this as IView<ISessionData>;
+            var view = this as IView;
             view.IsSelfDirty = true;
         }));
 
@@ -25,7 +25,7 @@ public partial class ProvinceDetailPanel : DetailPanel, IView<ISessionData>
 
     public override void _Process(double delta)
     {
-        var view = this as IView<ISessionData>;
+        var view = this as IView;
         if (!view.IsDirty()) { return; }
 
         var province = this.GetSession().SelectedEntity as Province;
