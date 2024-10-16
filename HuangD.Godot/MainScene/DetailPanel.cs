@@ -11,5 +11,5 @@ public abstract partial class DetailPanel : Control
 {
     //public string EntityId { get; set; }
 
-    public Label Title => GetNode<Label>("../Title/Label");
+    public Label Title => GetNode<Label>("../PanelContainer/Title/Label");
 }

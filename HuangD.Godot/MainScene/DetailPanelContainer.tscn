@@ -4,28 +4,30 @@
 [ext_resource type="PackedScene" uid="uid://ccxefb6gagvbn" path="res://MainScene/ProvinceDetailPanel.tscn" id="2_6bhf5"]
 
 [node name="DetailPanelContainer" type="PanelContainer"]
+self_modulate = Color(1, 1, 1, 0)
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("1_y31sj")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="Content" type="VBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="Title" type="HBoxContainer" parent="VBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="Content"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="VBoxContainer/Title"]
+[node name="Title" type="HBoxContainer" parent="Content/PanelContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Content/PanelContainer/Title"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "--"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Button" type="Button" parent="VBoxContainer/Title"]
+[node name="Button" type="Button" parent="Content/PanelContainer/Title"]
 layout_mode = 2
 text = "X"
 
-[node name="ProvinceDetailPanel" parent="VBoxContainer" instance=ExtResource("2_6bhf5")]
+[node name="ProvinceDetailPanel" parent="Content" instance=ExtResource("2_6bhf5")]
 layout_mode = 2
-
-[connection signal="pressed" from="VBoxContainer/Title/Button" to="." method="queue_free"]

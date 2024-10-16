@@ -29,7 +29,7 @@ public partial class ArrowContainer : Control, IView
         }
         else
         {
-            arrow.QueueFree();
+            arrow?.QueueFree();
         }
 
     }

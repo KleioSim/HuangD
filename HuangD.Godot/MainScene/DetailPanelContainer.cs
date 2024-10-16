@@ -9,12 +9,22 @@ using System.Reflection.Emit;
 public partial class DetailPanelContainer : PanelContainer, IView
 {
     private IEnumerable<DetailPanel> viewContrls;
+    private Control Content => GetNode<Control>("Content");
+    private Button Button => GetNode<Button>("Content/PanelContainer/Title/Button");
+
+    public override void _Ready()
+    {
+        Button.Connect(Button.SignalName.Pressed, Callable.From(() =>
+        {
+            Content.Visible = false;
+        }));
+    }
 
     private IEnumerable<DetailPanel> FindViewContrls()
     {
         viewContrls ??= new DetailPanel[]
         {
-            GetNode<ProvinceDetailPanel>("VBoxContainer/ProvinceDetailPanel"),
+            GetNode<ProvinceDetailPanel>("Content/ProvinceDetailPanel"),
         };
 
         return viewContrls;
@@ -24,6 +34,9 @@ public partial class DetailPanelContainer : PanelContainer, IView
     {
         var view = this as IView;
         if (!view.IsDirty()) { return; }
+
+        Content.Visible = this.GetSession().SelectedEntity != null;
+        if(Content.Visible == false) { return; }
 
         foreach (var control in FindViewContrls())
         {

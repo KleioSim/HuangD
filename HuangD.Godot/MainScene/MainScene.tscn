@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://c746kt5iwp6xo"]
+[gd_scene load_steps=3 format=3 uid="uid://c746kt5iwp6xo"]
 
 [ext_resource type="Script" path="res://MainScene/MainScene.cs" id="1_02pok"]
+[ext_resource type="PackedScene" uid="uid://bxqmwnytq3xcs" path="res://MainScene/DetailPanelContainer.tscn" id="2_waunx"]
 
 [node name="MainScene" type="Control"]
 layout_mode = 3
@@ -292,7 +293,7 @@ custom_minimum_size = Vector2(120, 60)
 layout_mode = 2
 text = "NextTurn"
 
-[node name="DetailPanelContainer" parent="CanvasLayer" instance_placeholder="res://MainScene/DetailPanelContainer.tscn"]
+[node name="DetailPanelContainer" parent="CanvasLayer" instance=ExtResource("2_waunx")]
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
