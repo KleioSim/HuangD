@@ -4,9 +4,10 @@ using HuangD.Godot.Utilties;
 using HuangD.Sessions;
 using System;
 
-public partial class ProvinceDetailPanel : DetailPanel, IView
+public partial class ProvinceDetailPanel : PanelContainer, IView
 {
-    TabContainer TabContainer => GetNode<TabContainer>("TabContainer");
+    public Label Title => GetNode<Label>("VBoxContainer/Header/Label");
+    TabContainer TabContainer => GetNode<TabContainer>("VBoxContainer/TabContainer");
 
     public override void _Ready()
     {
@@ -29,6 +30,11 @@ public partial class ProvinceDetailPanel : DetailPanel, IView
         if (!view.IsDirty()) { return; }
 
         var province = this.GetSession().SelectedEntity as Province;
+        if(province == null)
+        {
+            QueueFree();
+        }
+
         Title.Text = province.Id;
 
         var control = TabContainer.GetCurrentTabControl();

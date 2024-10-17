@@ -1,33 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://bxqmwnytq3xcs"]
+[gd_scene load_steps=2 format=3 uid="uid://bxqmwnytq3xcs"]
 
 [ext_resource type="Script" path="res://MainScene/DetailPanelContainer.cs" id="1_y31sj"]
-[ext_resource type="PackedScene" uid="uid://ccxefb6gagvbn" path="res://MainScene/ProvinceDetailPanel.tscn" id="2_6bhf5"]
 
 [node name="DetailPanelContainer" type="PanelContainer"]
 self_modulate = Color(1, 1, 1, 0)
 offset_right = 40.0
 offset_bottom = 40.0
+mouse_filter = 1
 script = ExtResource("1_y31sj")
 
-[node name="Content" type="VBoxContainer" parent="."]
-layout_mode = 2
-
-[node name="PanelContainer" type="PanelContainer" parent="Content"]
-layout_mode = 2
-
-[node name="Title" type="HBoxContainer" parent="Content/PanelContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="Content/PanelContainer/Title"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "--"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Button" type="Button" parent="Content/PanelContainer/Title"]
-layout_mode = 2
-text = "X"
-
-[node name="ProvinceDetailPanel" parent="Content" instance=ExtResource("2_6bhf5")]
+[node name="ProvinceDetailPanel" parent="." instance_placeholder="res://MainScene/ProvinceDetailPanel.tscn"]
 layout_mode = 2

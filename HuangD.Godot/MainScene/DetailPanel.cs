@@ -12,4 +12,5 @@ public abstract partial class DetailPanel : Control
     //public string EntityId { get; set; }
 
     public Label Title => GetNode<Label>("../PanelContainer/Title/Label");
+    public Button Close => GetNode<Button>("close");
 }

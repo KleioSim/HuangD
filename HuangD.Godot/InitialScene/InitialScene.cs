@@ -20,6 +20,7 @@ public partial class InitialScene : Control, IView
             throw new Exception();
         }
 
+        this.GetSession().OnMessage(new Command_SelectEntity(null));
         this.GetSession().OnMessage(new Command_ChangePlayerCountry(province.Owner.Id));
 
         GetTree().ChangeSceneToFile("res://MainScene/MainScene.tscn");
