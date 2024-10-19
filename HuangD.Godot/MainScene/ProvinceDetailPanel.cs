@@ -7,7 +7,7 @@ using System;
 public partial class ProvinceDetailPanel : PanelContainer, IView
 {
     public Label Title => GetNode<Label>("VBoxContainer/Header/Label");
-    TabContainer TabContainer => GetNode<TabContainer>("VBoxContainer/TabContainer");
+    TabContainer TabContainer => GetNode<TabContainer>("VBoxContainer/HBoxContainer/TabContainer");
 
     public override void _Ready()
     {
