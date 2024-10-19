@@ -103,6 +103,11 @@ public class Session : AbstractSession, ISessionData
         {
             entities.Add(entity.Id, entity);
         }
+
+        foreach (var entity in Provinces.Values.Select(x=>x.LocalArmy))
+        {
+            entities.Add(entity.Id, entity);
+        }
     }
 
     [MessageProcess]
@@ -132,7 +137,10 @@ public class Session : AbstractSession, ISessionData
         {
             army.OnNextTurn();
         }
-
+        foreach (var army in entities.Values.OfType<LocalArmy>())
+        {
+            army.OnNextTurn();
+        }
         foreach (var battle in entities.Values.OfType<Province>().Select(x => x.Battle).Where(x => x != null))
         {
             currentReports.AddRange(battle.OnNextTurn(Date).Select(x => x.Desc));
@@ -184,5 +192,12 @@ public class Session : AbstractSession, ISessionData
     private void On_Command_SelectEntity(Command_SelectEntity cmd)
     {
         SelectedEntity = cmd.entityId == null ? null : entities[cmd.entityId];
+    }
+
+    [MessageProcess]
+    private void On_Command_ChangLocalArmyLevel(Command_ChangLocalArmyLevel cmd)
+    {
+        var army = entities[cmd.armyId] as Army;
+        army.Level = (ArmyLevel)cmd.level;
     }
 }

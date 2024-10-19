@@ -9,6 +9,8 @@ public partial class ProvinceDetailPanel : PanelContainer, IView
     public Label Title => GetNode<Label>("VBoxContainer/Header/Label");
     TabContainer TabContainer => GetNode<TabContainer>("VBoxContainer/HBoxContainer/TabContainer");
 
+    LocalArmyPanel LocalArmyPanel => GetNode<LocalArmyPanel>("VBoxContainer/HBoxContainer/OperationPanel/TogglePropertyPanel/VBoxContainer/LocalArmy");
+
     public override void _Ready()
     {
         TabContainer.Connect(TabContainer.SignalName.TabChanged, Callable.From((long index) =>
@@ -22,6 +24,10 @@ public partial class ProvinceDetailPanel : PanelContainer, IView
             var tabControl = TabContainer.GetTabControl(i) as ProvinceDetailTabControl;
             TabContainer.SetTabTitle(i, tabControl.TabName);
         }
+
+        var province = this.GetSession().SelectedEntity as Province;
+
+        LocalArmyPanel.armyId = province.LocalArmy.Id;
     }
 
     public override void _Process(double delta)
@@ -34,6 +40,8 @@ public partial class ProvinceDetailPanel : PanelContainer, IView
         {
             QueueFree();
         }
+
+        LocalArmyPanel.armyId = province.LocalArmy.Id;
 
         Title.Text = province.Id;
 
