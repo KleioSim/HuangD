@@ -108,6 +108,8 @@ public class Session : AbstractSession, ISessionData
         {
             entities.Add(entity.Id, entity);
         }
+
+        entities.Add(nameof(PlayerArmy), new PlayerArmy(this));
     }
 
     [MessageProcess]

@@ -43,5 +43,14 @@ offset_right = 86.0
 offset_bottom = 64.0
 text = "Remove"
 
+[node name="TabBar" type="TabBar" parent="."]
+layout_mode = 0
+offset_right = 430.0
+offset_bottom = 188.0
+tab_count = 3
+tab_0/title = ""
+tab_1/title = ""
+tab_2/title = ""
+
 [connection signal="pressed" from="Button" to="." method="OnButton"]
 [connection signal="pressed" from="Remove" to="." method="OnRemove"]

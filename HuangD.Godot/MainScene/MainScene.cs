@@ -6,16 +6,24 @@ using HuangD.Sessions.Messages;
 using System;
 using System.Linq;
 
-public partial class MainScene : Control
+public partial class MainScene : Control, IView
 {
     Button NextTurn => GetNode<Button>("CanvasLayer/NextTurn/Button");
+
+    Button Army => GetNode<Button>("CanvasLayer/TopInfos/Army/Button");
+    Label ArmyCount => GetNode<Label>("CanvasLayer/TopInfos/Army/HBoxContainer/Value");
+
     //MapScene MapScene => GetNode<MapScene>("/root/MapScene");
     InstancePlaceholder DetailPanelPlaceHolder => GetNode<InstancePlaceholder>("CanvasLayer/DetailPanelContainer");
 
     public override void _Ready()
     {
-        NextTurn.Connect(Button.SignalName.Pressed, new Callable(this, MethodName.OnNextTurn));
-        //MapScene.PoliticalContainer.Connect(PoliticalContainer.SignalName.ClickArmyMoveTarget, new Callable(this, MethodName.OnStartArmyMove));
+        NextTurn.Connect(
+            Button.SignalName.Pressed, 
+            Callable.From(()=> this.GetSession().OnMessage(new Command_NextTurn())));
+        Army.Connect(
+            Button.SignalName.Pressed,
+            Callable.From(() => this.GetSession().OnMessage(new Command_SelectEntity("PlayerArmy"))));
     }
 
 
@@ -24,6 +32,13 @@ public partial class MainScene : Control
         this.GetSession().OnMessage(new Command_NextTurn());
     }
 
+    public override void _Process(double delta)
+    {
+        var view = this as IView;
+        if (!view.IsDirty()) { return; }
+
+        ArmyCount.Text = this.GetSession().PlayerCountry.Provinces.Sum(x=>x.LocalArmy.Count).ToString();
+    }
 
     //private void OnStartArmyMove(string provinceId)
     //{

@@ -148,9 +148,13 @@ vertical_alignment = 1
 [node name="Army" type="PanelContainer" parent="CanvasLayer/TopInfos"]
 layout_mode = 2
 
+[node name="Button" type="Button" parent="CanvasLayer/TopInfos/Army"]
+layout_mode = 2
+
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/TopInfos/Army"]
 custom_minimum_size = Vector2(200, 60)
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/separation = 6
 
 [node name="Name" type="Label" parent="CanvasLayer/TopInfos/Army/HBoxContainer"]
