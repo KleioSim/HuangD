@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://bxqmwnytq3xcs"]
+
+[ext_resource type="Script" path="res://MainScene/DetailPanels/DetailPanelContainer.cs" id="1_y31sj"]
+[ext_resource type="PackedScene" uid="uid://bkttfna4ornph" path="res://MainScene/DetailPanels/ArmyDetailPanels/ArmyDetailPanel.tscn" id="2_mbbqb"]
+
+[node name="DetailPanelContainer" type="PanelContainer"]
+self_modulate = Color(1, 1, 1, 0)
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 1
+script = ExtResource("1_y31sj")
+
+[node name="ProvinceDetailPanel" parent="." instance_placeholder="res://MainScene/DetailPanels/ProvinceDetailPanels/ProvinceDetailPanel.tscn"]
+layout_mode = 2
+
+[node name="ArmyDetailPanel" parent="." instance=ExtResource("2_mbbqb")]
+layout_mode = 2

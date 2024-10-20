@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://ccxefb6gagvbn"]
 
-[ext_resource type="Script" path="res://MainScene/ProvinceDetailPanel.cs" id="1_14ltj"]
-[ext_resource type="Script" path="res://MainScene/ProvinceAttributeInfo.cs" id="2_8w3e0"]
-[ext_resource type="Script" path="res://MainScene/ProvinceBattleInfo.cs" id="3_r51ca"]
-[ext_resource type="PackedScene" uid="uid://hj5vnhho5o2k" path="res://MainScene/LocalArmyPanel.tscn" id="4_vtrg4"]
+[ext_resource type="Script" path="res://MainScene/DetailPanels/ProvinceDetailPanels/ProvinceDetailPanel.cs" id="1_14ltj"]
+[ext_resource type="Script" path="res://MainScene/DetailPanels/ProvinceDetailPanels/ProvinceAttributeInfo.cs" id="2_8w3e0"]
+[ext_resource type="Script" path="res://MainScene/DetailPanels/ProvinceDetailPanels/ProvinceBattleInfo.cs" id="3_r51ca"]
+[ext_resource type="PackedScene" uid="uid://hj5vnhho5o2k" path="res://MainScene/DetailPanels/ProvinceDetailPanels/LocalArmyPanel.tscn" id="4_vtrg4"]
 
 [node name="ProvinceDetailPanel" type="PanelContainer"]
 offset_top = 239.0

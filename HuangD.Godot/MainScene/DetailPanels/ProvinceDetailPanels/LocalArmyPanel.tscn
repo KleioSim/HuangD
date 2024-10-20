@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://hj5vnhho5o2k"]
 
-[ext_resource type="Script" path="res://MainScene/LocalArmyPanel.cs" id="1_6oure"]
+[ext_resource type="Script" path="res://MainScene/DetailPanels/ProvinceDetailPanels/LocalArmyPanel.cs" id="1_6oure"]
 [ext_resource type="ButtonGroup" uid="uid://bwx85f5h32cvp" path="res://new_button_group.tres" id="2_ljtv1"]
 
 [node name="LocalArmy" type="PanelContainer"]
