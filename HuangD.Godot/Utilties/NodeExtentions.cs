@@ -10,6 +10,11 @@ namespace HuangD.Godot.Utilties;
 
 static class NodeExtentions
 {
+    public static SelectEntity GetSelectEntity(this Node node)
+    {
+        return node.GetNode<SelectEntity>("/root/SelectEntity");
+    }
+
     public static ISessionData GetSession(this Node node)
     {
         var chroncle = node.GetNode<Global>("/root/Chrona_Global").Chroncle;

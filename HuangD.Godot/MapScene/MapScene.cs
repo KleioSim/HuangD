@@ -81,7 +81,7 @@ public partial class MapScene : Node2D
 
                     if (provinceId != null)
                     {
-                        this.GetSession().OnMessage(new Command_SelectEntity(provinceId));
+                        this.GetSelectEntity().Current = this.GetSession().Entities[provinceId];
                     }
                 }
             }

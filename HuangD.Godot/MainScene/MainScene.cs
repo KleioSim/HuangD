@@ -1,9 +1,11 @@
-﻿using Chrona.Engine.Godot;
+﻿using Chrona.Engine.Core.Interfaces;
+using Chrona.Engine.Godot;
 using Godot;
 using HuangD.Godot.Utilties;
 using HuangD.Sessions;
 using HuangD.Sessions.Messages;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 public partial class MainScene : Control, IView
@@ -20,12 +22,14 @@ public partial class MainScene : Control, IView
     {
         NextTurn.Connect(
             Button.SignalName.Pressed, 
-            Callable.From(()=> this.GetSession().OnMessage(new Command_NextTurn())));
+            Callable.From(() => this.GetSession().OnMessage(new Command_NextTurn())));
         Army.Connect(
             Button.SignalName.Pressed,
-            Callable.From(() => this.GetSession().OnMessage(new Command_SelectEntity("PlayerArmy"))));
+            Callable.From(() =>
+            {
+                this.GetSelectEntity().Current = new PlayerArmyData(this.GetSession());
+            }));
     }
-
 
     private void OnNextTurn()
     {
@@ -51,4 +55,18 @@ public partial class MainScene : Control, IView
     //        MapScene.UpdateMoveInfo(detailPanel.EntityId);
     //    }
     //}
+}
+
+internal class PlayerArmyData
+{
+    private ISessionData session;
+
+    public string Id { get; } = nameof(PlayerArmyData);
+    public IEnumerable<LocalArmy> localArmies => session.PlayerCountry.Provinces.Select(x => x.LocalArmy);
+
+    public PlayerArmyData(ISessionData session)
+    {
+        this.session = session;
+    }
+
 }

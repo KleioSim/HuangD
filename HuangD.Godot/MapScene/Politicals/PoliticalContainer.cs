@@ -32,7 +32,7 @@ public partial class PoliticalContainer : Control
                 GD.Print($"mouse {GetGlobalMousePosition()}");
                 GD.Print($"politicalInfo.MoveTarget  GlobalPositionPosition:{politicalInfo.MoveTarget.GlobalPosition}");
                 GD.Print($"politicalInfo.MoveTarget  GlobalPositionPositionWithOffset:{politicalInfo.MoveTarget.GetGlobalPositionWithPivotOffset()}");
-                var selectEntity = this.GetSession().SelectedEntity;
+                var selectEntity = this.GetSelectEntity().Current;
                 if (selectEntity is Army army)
                 {
                     this.GetSession().OnMessage(new Command_ArmyMove(army.Id, province.Id));
@@ -53,7 +53,9 @@ public partial class PoliticalContainer : Control
 
     private void OnClickEntity(string id)
     {
-        this.GetSession().OnMessage(new Command_SelectEntity(id));
+        this.GetSelectEntity().Current = this.GetSession().Entities[id];
+
+        //this.GetSession().OnMessage(new Command_SelectEntity(id));
     }
 
     internal PoliticalItem GetItem(string id)

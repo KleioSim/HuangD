@@ -13,7 +13,7 @@ public interface ISessionData : ISession
 {
     Date Date { get; }
     Country PlayerCountry { get; }
-    IEntity SelectedEntity { get; set; }
+    //IEntity SelectedEntity { get; set; }
 
     Dictionary<string, Block> Blocks { get; }
     Dictionary<string, TerrainType> Block2Terrain { get; }
@@ -47,7 +47,7 @@ public class Session : AbstractSession, ISessionData
 
     public IEnumerable<string> CurrentReports => currentReports;
 
-    public IEntity SelectedEntity { get; set; }
+    //public IEntity SelectedEntity { get; set; }
 
     private Dictionary<string, IEntity> entities = new Dictionary<string, IEntity>();
 
@@ -109,7 +109,7 @@ public class Session : AbstractSession, ISessionData
             entities.Add(entity.Id, entity);
         }
 
-        entities.Add(nameof(PlayerArmy), new PlayerArmy(this));
+        //entities.Add(nameof(PlayerArmy), new PlayerArmy(this));
     }
 
     [MessageProcess]
@@ -190,11 +190,11 @@ public class Session : AbstractSession, ISessionData
         army.OnMove(target);
     }
 
-    [MessageProcess]
-    private void On_Command_SelectEntity(Command_SelectEntity cmd)
-    {
-        SelectedEntity = cmd.entityId == null ? null : entities[cmd.entityId];
-    }
+    //[MessageProcess]
+    //private void On_Command_SelectEntity(Command_SelectEntity cmd)
+    //{
+    //    SelectedEntity = cmd.entityId == null ? null : entities[cmd.entityId];
+    //}
 
     [MessageProcess]
     private void On_Command_ChangLocalArmyLevel(Command_ChangLocalArmyLevel cmd)

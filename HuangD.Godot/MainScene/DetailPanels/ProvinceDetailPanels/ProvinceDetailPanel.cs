@@ -9,7 +9,7 @@ public partial class ProvinceDetailPanel : PanelContainer, IView
     public Label Title => GetNode<Label>("VBoxContainer/Header/Label");
     TabContainer TabContainer => GetNode<TabContainer>("VBoxContainer/HBoxContainer/TabContainer");
 
-    LocalArmyPanel LocalArmyPanel => GetNode<LocalArmyPanel>("VBoxContainer/HBoxContainer/OperationPanel/TogglePropertyPanel/VBoxContainer/LocalArmy");
+    //LocalArmyPanel LocalArmyPanel => GetNode<LocalArmyPanel>("VBoxContainer/HBoxContainer/OperationPanel/TogglePropertyPanel/VBoxContainer/LocalArmy");
 
     public override void _Ready()
     {
@@ -25,9 +25,7 @@ public partial class ProvinceDetailPanel : PanelContainer, IView
             TabContainer.SetTabTitle(i, tabControl.TabName);
         }
 
-        var province = this.GetSession().SelectedEntity as Province;
-
-        LocalArmyPanel.armyId = province.LocalArmy.Id;
+        var province = this.GetSelectEntity().Current as Province;
     }
 
     public override void _Process(double delta)
@@ -35,13 +33,13 @@ public partial class ProvinceDetailPanel : PanelContainer, IView
         var view = this as IView;
         if (!view.IsDirty()) { return; }
 
-        var province = this.GetSession().SelectedEntity as Province;
+        var province = this.GetSelectEntity().Current as Province;
         if(province == null)
         {
             QueueFree();
         }
 
-        LocalArmyPanel.armyId = province.LocalArmy.Id;
+        //LocalArmyPanel.armyId = province.LocalArmy.Id;
 
         Title.Text = province.Id;
 

@@ -14,13 +14,14 @@ public partial class InitialScene : Control, IView
 
     public void Start()
     {
-        var selectEntity = this.GetSession().SelectedEntity;
+        var selectEntity = this.GetSelectEntity().Current;
         if (selectEntity is not Province province)
         {
             throw new Exception();
         }
 
-        this.GetSession().OnMessage(new Command_SelectEntity(null));
+        this.GetSelectEntity().Current = null;
+
         this.GetSession().OnMessage(new Command_ChangePlayerCountry(province.Owner.Id));
 
         GetTree().ChangeSceneToFile("res://MainScene/MainScene.tscn");
@@ -55,7 +56,7 @@ public partial class InitialScene : Control, IView
         var view = this as IView;
         if (!view.IsDirty()) { return; }
 
-        var selectEntity = this.GetSession().SelectedEntity;
+        var selectEntity = this.GetSelectEntity().Current;
         if (selectEntity is not Province province)
         {
             SelectCountryPanel.Visible = false;

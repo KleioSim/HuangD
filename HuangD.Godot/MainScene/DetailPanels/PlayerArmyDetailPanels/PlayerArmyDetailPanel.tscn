@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://bkttfna4ornph"]
 
-[ext_resource type="Script" path="res://MainScene/DetailPanels/ArmyDetailPanels/ArmyDetailPanel.cs" id="1_1bke4"]
+[ext_resource type="Script" path="res://MainScene/DetailPanels/PlayerArmyDetailPanels/PlayerArmyDetailPanel.cs" id="1_cm61n"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_f1f4g"]
 font_size = 25
@@ -8,8 +8,8 @@ font_size = 25
 [sub_resource type="LabelSettings" id="LabelSettings_0qsgy"]
 font_size = 20
 
-[node name="ArmyDetailPanel" type="PanelContainer"]
-script = ExtResource("1_1bke4")
+[node name="PlayerArmyDetailPanel" type="PanelContainer"]
+script = ExtResource("1_cm61n")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2

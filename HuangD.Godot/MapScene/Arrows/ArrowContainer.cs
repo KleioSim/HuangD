@@ -16,7 +16,7 @@ public partial class ArrowContainer : Control, IView
 
         var arrow = AmryMoveArrowPlaceHolder.GetParent().GetChildren().OfType<AmryMoveArrow>().SingleOrDefault();
 
-        var selectEntity = this.GetSession().SelectedEntity;
+        var selectEntity = this.GetSelectEntity().Current;
         if (selectEntity is Army army)
         {
             if (arrow == null)

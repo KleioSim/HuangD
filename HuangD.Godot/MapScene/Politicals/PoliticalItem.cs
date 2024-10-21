@@ -51,7 +51,7 @@ public partial class PoliticalItem : Control, IView
         EnemyInfo.Update(_province.centralArmies.Where(x => x.Owner != _province.Owner));
         BattleInfo.Update(_province.Battle);
 
-        var selectedEntity = this.GetSession().SelectedEntity;
+        var selectedEntity = this.GetSelectEntity().Current;
         MoveTarget.Visible = (selectedEntity is Army) && ((Army)selectedEntity).Position.Neighbors.Contains(_province);
     }
 }

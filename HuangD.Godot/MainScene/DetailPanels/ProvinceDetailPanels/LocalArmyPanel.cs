@@ -36,7 +36,15 @@ public partial class LocalArmyPanel : PanelContainer,IView
         var view = this as IView;
         if (!view.IsDirty()) { return; }
 
-        var army = this.GetSession().Entities[armyId] as Army;
+        var province = this.GetSelectEntity().Current as Province;
+        if (province == null)
+        {
+            QueueFree();
+        }
+
+        var army = province.LocalArmy;
+        armyId = army.Id;
+
         localArmyCount.Text = army.Count.ToString();
 
         switch (army.Level)

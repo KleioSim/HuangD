@@ -9,6 +9,7 @@ using System.Reflection.Emit;
 public partial class DetailPanelContainer : PanelContainer, IView
 {
     private InstancePlaceholder ProvinceDetailPlaceholder => GetNode<InstancePlaceholder>("ProvinceDetailPanel");
+    private InstancePlaceholder PlayerArmyDetailPlaceholder => GetNode<InstancePlaceholder>("PlayerArmyDetailPanel");
 
     public override void _Ready()
     {
@@ -20,12 +21,18 @@ public partial class DetailPanelContainer : PanelContainer, IView
         var view = this as IView;
         if (!view.IsDirty()) { return; }
 
-        switch (this.GetSession().SelectedEntity)
+        switch (this.GetSelectEntity().Current)
         {
             case Province:
                 if(!ProvinceDetailPlaceholder.GetParent().GetChildren().OfType<ProvinceDetailPanel>().Any()) 
                 {
                     ProvinceDetailPlaceholder.CreateInstance();
+                }
+                break;
+            case PlayerArmyData:
+                if (!PlayerArmyDetailPlaceholder.GetParent().GetChildren().OfType<PlayerArmyDetailPanel>().Any())
+                {
+                    PlayerArmyDetailPlaceholder.CreateInstance();
                 }
                 break;
         }
