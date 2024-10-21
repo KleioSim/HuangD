@@ -37,6 +37,7 @@ public partial class ProvinceDetailPanel : PanelContainer, IView
         if(province == null)
         {
             QueueFree();
+            return;
         }
 
         //LocalArmyPanel.armyId = province.LocalArmy.Id;

@@ -39,7 +39,7 @@ public partial class LocalArmyPanel : PanelContainer,IView
         var province = this.GetSelectEntity().Current as Province;
         if (province == null)
         {
-            QueueFree();
+            return;
         }
 
         var army = province.LocalArmy;

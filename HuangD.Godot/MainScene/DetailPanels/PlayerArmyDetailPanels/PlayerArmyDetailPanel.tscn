@@ -9,6 +9,7 @@ font_size = 25
 font_size = 20
 
 [node name="PlayerArmyDetailPanel" type="PanelContainer"]
+custom_minimum_size = Vector2(400, 400)
 script = ExtResource("1_cm61n")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
@@ -17,16 +18,26 @@ theme_override_constants/separation = 0
 
 [node name="Title" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
+size_flags_vertical = 4
 
-[node name="Label" type="Label" parent="VBoxContainer/Title"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Title"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="VBoxContainer/Title/HBoxContainer"]
 layout_mode = 2
 text = "总兵力"
 label_settings = SubResource("LabelSettings_f1f4g")
 
-[node name="Value" type="Label" parent="VBoxContainer/Title"]
+[node name="Value" type="Label" parent="VBoxContainer/Title/HBoxContainer"]
 layout_mode = 2
 text = "1000"
 label_settings = SubResource("LabelSettings_0qsgy")
+
+[node name="Button" type="Button" parent="VBoxContainer/Title"]
+layout_mode = 2
+text = "X"
 
 [node name="TabBar" type="TabBar" parent="VBoxContainer"]
 layout_mode = 2
@@ -34,3 +45,5 @@ tab_count = 3
 tab_0/title = "禁军"
 tab_1/title = "州军"
 tab_2/title = "义从"
+
+[connection signal="pressed" from="VBoxContainer/Title/Button" to="." method="queue_free"]
