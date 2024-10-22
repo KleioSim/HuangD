@@ -22,8 +22,5 @@ public class LocalArmy : Army
         Count = ExpectCount;
     }
 
-    internal void OnNextTurn()
-    {
-        Count = ExpectCount;
-    }
+
 }

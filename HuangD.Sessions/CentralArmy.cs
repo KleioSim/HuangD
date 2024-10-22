@@ -44,8 +44,10 @@ public class CentralArmy : Army
         MoveTo = null;
     }
 
-    internal void OnNextTurn()
+    internal override void OnNextTurn()
     {
+        base.OnNextTurn();
+
         if (MoveTo != null)
         {
             MoveTo.percent += MoveTo.speed;
