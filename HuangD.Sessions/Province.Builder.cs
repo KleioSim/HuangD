@@ -15,18 +15,26 @@ public partial class Province
         {
             var pops = PopCountBuilder.Build(block2Terrain, seed);
 
-            var provinces = block2Terrain.Where(pair => pair.Value != TerrainType.Water)
-                .ToDictionary(pair => pair.Key, pair =>
+            var result = new Dictionary<Block, Province>();
+            foreach (var pair in block2Terrain.Where(pair => pair.Value != TerrainType.Water))
+            {
+                var province = new Province(UUID.Generate("PROV"), GenerateProvinceName(result.Values.Select(x => x.Name)))
                 {
-                    var province = new Province(UUID.Generate("PROV"))
-                    {
-                        BlockId = pair.Key.Id,
-                        PopCount = pops[pair.Key]
-                    };
-                    return province;
-                });
+                    BlockId = pair.Key.Id,
+                    PopCount = pops[pair.Key]
+                };
 
-            return provinces;
+                result.Add(pair.Key, province);
+            }
+
+            return result;
+        }
+
+        private static string[] Names = { };
+
+        private static string GenerateProvinceName(IEnumerable<string> usedNames)
+        {
+            return Names.Except(usedNames).First();
         }
     }
 }

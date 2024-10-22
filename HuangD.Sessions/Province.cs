@@ -12,6 +12,7 @@ public partial class Province : IEntity
     public static Func<string, Block> GetBlock { get; set; }
     public static Func<string, IEnumerable<Province>> GetNeighbors { get; set; }
 
+    public string Name { get; set; }
     public string Id { get; }
     public string BlockId { get; init; }
 
@@ -49,12 +50,13 @@ public partial class Province : IEntity
 
     private Country owner;
 
-    private Province(string id)
+    private Province(string id, string name)
     {
         Id = id;
 
         PopTax = new PopTax(this);
         LocalArmy = new LocalArmy(this);
+        Name = name;
     }
 
     internal void UpdateBattle()
