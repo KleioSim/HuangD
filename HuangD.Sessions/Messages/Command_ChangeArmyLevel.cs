@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace HuangD.Sessions.Messages;
 
 [RegistCommand]
-public class Command_ChangLocalArmyLevel : IMessage
+public class Command_ChangeArmyLevel : IMessage
 {
     public object Target { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     public object Value { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
@@ -16,7 +16,7 @@ public class Command_ChangLocalArmyLevel : IMessage
     public readonly string armyId;
     public readonly int level;
 
-    public Command_ChangLocalArmyLevel(string armyId, int level)
+    public Command_ChangeArmyLevel(string armyId, int level)
     {
         this.armyId = armyId;
         this.level = level;

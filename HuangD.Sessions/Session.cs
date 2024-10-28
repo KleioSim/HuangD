@@ -104,7 +104,7 @@ public class Session : AbstractSession, ISessionData
             entities.Add(entity.Id, entity);
         }
 
-        foreach (var entity in Provinces.Values.Select(x=>x.LocalArmy))
+        foreach (var entity in Provinces.Values.Select(x => x.LocalArmy))
         {
             entities.Add(entity.Id, entity);
         }
@@ -197,8 +197,19 @@ public class Session : AbstractSession, ISessionData
     //}
 
     [MessageProcess]
-    private void On_Command_ChangLocalArmyLevel(Command_ChangLocalArmyLevel cmd)
+    private void On_Command_ChangeArmyLevel(Command_ChangeArmyLevel cmd)
     {
+        var army = entities[cmd.armyId] as Army;
+        army.Level = (ArmyLevel)cmd.level;
+    }
+
+    [MessageProcess]
+    private void On_Command_CreateCenterlArmy(Command_CreateCenterlArmy cmd)
+    {
+        var army = new CentralArmy();
+        entities.Add(army.Id, army);
+
+
         var army = entities[cmd.armyId] as Army;
         army.Level = (ArmyLevel)cmd.level;
     }

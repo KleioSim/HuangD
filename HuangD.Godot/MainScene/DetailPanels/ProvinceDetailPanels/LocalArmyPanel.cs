@@ -28,7 +28,7 @@ public partial class LocalArmyPanel : PanelContainer,IView
 
     private void ChangeArmyLevel(ArmyLevel level)
     {
-        this.GetSession().OnMessage(new Command_ChangLocalArmyLevel(armyId, (int)level));
+        this.GetSession().OnMessage(new Command_ChangeArmyLevel(armyId, (int)level));
     }
 
     public override void _Process(double delta)

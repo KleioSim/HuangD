@@ -12,12 +12,14 @@ namespace HuangD.Sessions;
 public partial class Country : IEntity
 {
     private static Func<Country, IEnumerable<Province>> GetProvinces;
+    private static Func<Country, IEnumerable<CentralArmy>> GetCenterArmies;
 
     public (float h, float s, float v) Color { get; }
 
     public string Id { get; }
 
     public IEnumerable<Province> Provinces => GetProvinces(this);
+    public IEnumerable<CentralArmy> CenterArmies => GetCenterArmies(this);
 
     public Economy Economy { get; }
 
@@ -36,10 +38,6 @@ public partial class Country : IEntity
     }
 
     public int PopCount => Provinces.Sum(x => x.PopCount);
-
-    public IEnumerable<CentralArmy> CenterArmies => centralArmies;
-
-    private List<CentralArmy> centralArmies;
 
     private Province capitalProvince;
 
