@@ -22,7 +22,7 @@ public abstract class Army : IEntity
     }
 
     public int Count { get; internal set; }
-    public virtual int ExpectCount { get; internal set; }
+    public virtual int ExpectCount { get; }
     public virtual int IncCount { get; internal set; } = 100;
     public Province Position { get; internal set; }
 

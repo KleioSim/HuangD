@@ -25,9 +25,14 @@ public partial class PoliticalItem : Control, IView
         }
         set
         {
+            if (_province == value)
+            {
+                return;
+            }
+
             _province = value;
-            ProvinceName.Text = _province.Id;
-            CountryName.Text = _province.Owner.Id;
+            var view = this as IView;
+            view.IsSelfDirty = true;
         }
     }
 
@@ -42,7 +47,7 @@ public partial class PoliticalItem : Control, IView
         var view = this as IView;
         if (!view.IsDirty()) { return; }
 
-        ProvinceName.Text = _province.Id;
+        ProvinceName.Text = _province.Name;
         CountryName.Text = _province.Owner.Id;
 
         //CurrentOwner.Modulate = Color.FromHsv(_province.Owner.Color.h, _province.Owner.Color.s, _province.Owner.Color.v);

@@ -8,16 +8,15 @@ public class CentralArmy : Army
     public override string Id { get; }
     public override float Cost => Math.Max(ExpectCount, Count) / 1000;
     public override Country Owner { get; }
-
+    public override int ExpectCount => (int)Level * 500;
     public bool IsRetreat { get; internal set; }
     public MoveTo MoveTo { get; internal set; }
 
-    internal CentralArmy(int count, int expectCount, Country owner)
+    public CentralArmy(Country owner, ArmyLevel level)
     {
         Id = UUID.Generate("ARMY");
 
-        Count = count;
-        ExpectCount = expectCount;
+        Level = level;
         Owner = owner;
         Position = owner.CapitalProvince;
     }

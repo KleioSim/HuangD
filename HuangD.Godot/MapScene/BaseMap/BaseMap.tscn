@@ -25,6 +25,7 @@ sources/0 = SubResource("TileSetAtlasSource_5wvpa")
 script = ExtResource("1_kq2vw")
 
 [node name="BlockMap" type="TileMap" parent="."]
+visible = false
 self_modulate = Color(1, 1, 1, 0.117647)
 tile_set = SubResource("TileSet_4mdm2")
 format = 2
@@ -38,6 +39,7 @@ layer_3/tile_data = PackedInt32Array()
 script = ExtResource("3_myy0s")
 
 [node name="TerrainMap" type="TileMap" parent="."]
+visible = false
 tile_set = SubResource("TileSet_wxd1e")
 format = 2
 layer_0/modulate = Color(0, 0, 0.4, 1)

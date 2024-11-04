@@ -57,6 +57,9 @@ public class Session : AbstractSession, ISessionData
 
     static Session()
     {
+        Country.GetCenterArmies = (country) => instance.entities.Values.OfType<CentralArmy>().Where(x => x.Owner == country);
+        Country.GetProvinces = (coutry) => instance.Provinces.Values.Where(x => x.Owner == coutry);
+
         Province.GetBlock = (blockId) => instance.Blocks[blockId];
         Province.GetTerrain = (blockId) => instance.Block2Terrain[blockId];
         Province.GetNeighbors = (blockId) => instance.Blocks[blockId].Neighbors
@@ -87,7 +90,7 @@ public class Session : AbstractSession, ISessionData
         Provinces = Block2Province.ToDictionary(p => p.Value.Id, p => p.Value);
 
         var countries = Country.Builder.Build(Provinces.Values, Provinces.Values.Max(x => x.PopCount) * 3, Provinces.Count() / 5, seed);
-        var centralArmies = countries.Values.Select(x => new CentralArmy(1000, 1000, x)).ToDictionary(x => x.Id, y => y);
+        var centralArmies = countries.Values.Select(x => new CentralArmy(x, ArmyLevel.VeryHigh)).ToDictionary(x => x.Id, y => y);
 
         foreach (var entity in Provinces.Values)
         {
@@ -206,11 +209,8 @@ public class Session : AbstractSession, ISessionData
     [MessageProcess]
     private void On_Command_CreateCenterlArmy(Command_CreateCenterlArmy cmd)
     {
-        var army = new CentralArmy();
+        var country = entities[cmd.countryId] as Country;
+        var army = new CentralArmy(country, (ArmyLevel)cmd.level);
         entities.Add(army.Id, army);
-
-
-        var army = entities[cmd.armyId] as Army;
-        army.Level = (ArmyLevel)cmd.level;
     }
 }

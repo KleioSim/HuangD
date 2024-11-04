@@ -18,9 +18,6 @@ public partial class Country
 
             var colors = Enumerable.Range(0, 33).Select(x => x * 0.03f).OrderBy(_ => random.Next(0, 100)).ToArray();
 
-            Country.GetProvinces = (coutry) => provinces.Where(x => x.Owner == coutry);
-
-
             var rslt = new Dictionary<string, Country>();
 
             var list = provinces.OrderBy(x => x.PopCount).ToList();

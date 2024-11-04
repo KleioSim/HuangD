@@ -1,0 +1,15 @@
+[gd_resource type="Theme" load_steps=5 format=3 uid="uid://dgi25jix5u4k8"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0rjyw"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5hoi4"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0lqgb"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pfulm"]
+
+[resource]
+HScrollBar/styles/scroll = SubResource("StyleBoxEmpty_0rjyw")
+HScrollBar/styles/scroll_focus = SubResource("StyleBoxEmpty_5hoi4")
+VScrollBar/styles/scroll = SubResource("StyleBoxEmpty_0lqgb")
+VScrollBar/styles/scroll_focus = SubResource("StyleBoxEmpty_pfulm")

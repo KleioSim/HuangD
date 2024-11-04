@@ -15,7 +15,20 @@ public partial class Test : Control
 
     public override void _Ready()
     {
-        data = Decorator.Create(new Data());
+        //data = Decorator.Create(new Data());
+    }
+
+    public override void _Process(double delta)
+    {
+        base._Process(delta);
+    }
+
+    public override void _Input(InputEvent @event)
+    {
+        if (@event is InputEventScreenDrag eventKey)
+        {
+            GD.Print($"Drag {eventKey.Position}");
+        }
     }
 
     public void OnButton()

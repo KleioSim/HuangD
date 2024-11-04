@@ -42,7 +42,7 @@ public partial class ProvinceDetailPanel : PanelContainer, IView
 
         //LocalArmyPanel.armyId = province.LocalArmy.Id;
 
-        Title.Text = province.Id;
+        Title.Text = province.Name;
 
         var control = TabContainer.GetCurrentTabControl();
         switch (control)

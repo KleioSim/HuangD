@@ -11,8 +11,8 @@ namespace HuangD.Sessions;
 
 public partial class Country : IEntity
 {
-    private static Func<Country, IEnumerable<Province>> GetProvinces;
-    private static Func<Country, IEnumerable<CentralArmy>> GetCenterArmies;
+    internal static Func<Country, IEnumerable<Province>> GetProvinces;
+    internal static Func<Country, IEnumerable<CentralArmy>> GetCenterArmies;
 
     public (float h, float s, float v) Color { get; }
 
