@@ -9,32 +9,35 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
 
-public partial class MapScene : Node2D
+public partial class MapScene : GraphEdit
 {
-    BaseMap BaseMap => GetNode<BaseMap>("CanvasLayer/BaseMap");
+    GraphElement GraphElement => GetNode<GraphElement>("GraphElement");
+    BaseMap BaseMap => GetNode<BaseMap>("GraphElement/BaseMap");
 
-    MapCamera2D Camera => GetNode<MapCamera2D>("CanvasLayer/Camera2D");
+    //MapCamera2D Camera => GetNode<MapCamera2D>("CanvasLayer/Camera2D");
 
-    PoliticalContainer PoliticalContainer => GetNode<PoliticalContainer>("CanvasLayer/PoliticalContainer");
-    ArrowContainer ArrowContainer => GetNode<ArrowContainer>("CanvasLayer/ArrowContainer");
+    PoliticalContainer PoliticalContainer => GetNode<PoliticalContainer>("GraphElement/MarginContainer/PoliticalContainer");
+    //ArrowContainer ArrowContainer => GetNode<ArrowContainer>("CanvasLayer/ArrowContainer");
 
     //[Signal]
     //public delegate void ClickEnityEventHandler(string id);
 
     public override void _Ready()
     {
-        AmryMoveArrow.GetPoliticalItem = PoliticalContainer.GetItem;
+        GraphElement.Size = BaseMap.GetSize();
 
-        Camera.Connect(MapCamera2D.SignalName.OnZoomed, Callable.From<Vector2>((vector) =>
-        {
-            PoliticalContainer.OnCameraZoom(vector);
-            ArrowContainer.OnCameraZoom(vector);
-        }));
+        //AmryMoveArrow.GetPoliticalItem = PoliticalContainer.GetItem;
 
-        Camera.Position = BaseMap.GetMapCenter();
+        //Camera.Connect(MapCamera2D.SignalName.OnZoomed, Callable.From<Vector2>((vector) =>
+        //{
+        //    PoliticalContainer.OnCameraZoom(vector);
+        //    ArrowContainer.OnCameraZoom(vector);
+        //}));
+
+        //Camera.Position = BaseMap.GetMapCenter();
 
         PoliticalContainer.BuildPoliticalInfos(BaseMap.GetProvinceCenter);
-        PoliticalContainer.OnCameraZoom(Camera.Zoom);
+        //PoliticalContainer.OnCameraZoom(Camera.Zoom);
     }
 
     //private void OnCameraZoom(Vector2 zoom)

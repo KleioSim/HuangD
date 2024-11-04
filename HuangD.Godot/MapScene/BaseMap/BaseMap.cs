@@ -45,6 +45,11 @@ public partial class BaseMap : Node2D
         return ProvinceMap.MapToLocal(new Vector2I(coreIndex.X, coreIndex.Y));
     }
 
+    internal Vector2 GetSize()
+    {
+        return BlockMap.MapToLocal(BlockMap.GetUsedRect().Size);
+    }
+
     internal string LocalToProvince(Vector2 vector2)
     {
         var cellVector = ProvinceMap.LocalToMap(vector2);
