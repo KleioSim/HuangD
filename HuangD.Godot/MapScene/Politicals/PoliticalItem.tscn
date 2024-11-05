@@ -81,11 +81,11 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 texture = ExtResource("4_cudxv")
 
-[node name="Armies" type="HFlowContainer" parent="."]
-custom_minimum_size = Vector2(110, 0)
+[node name="Armies" type="GridContainer" parent="."]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 8
+columns = 3
 
 [node name="ArmyInfo" parent="Armies" instance_placeholder="res://MapScene/Politicals/ArmyInfo.tscn"]
 layout_mode = 2
