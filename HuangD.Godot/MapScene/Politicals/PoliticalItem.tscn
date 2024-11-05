@@ -1,11 +1,9 @@
-[gd_scene load_steps=13 format=3 uid="uid://df0qeobvo5f2h"]
+[gd_scene load_steps=7 format=3 uid="uid://df0qeobvo5f2h"]
 
 [ext_resource type="Script" path="res://MapScene/Politicals/PoliticalItem.cs" id="1_fdej2"]
-[ext_resource type="Texture2D" uid="uid://d3o4sb567jy4j" path="res://MapScene/whrite128.png" id="1_y18xw"]
-[ext_resource type="Script" path="res://MapScene/Politicals/MoveTarget.cs" id="2_l6w5g"]
-[ext_resource type="Script" path="res://MapScene/Politicals/ArmyInfo.cs" id="3_ftv6p"]
-[ext_resource type="Script" path="res://MapScene/Politicals/EnemyInfo.cs" id="4_1aqd3"]
-[ext_resource type="Script" path="res://MapScene/Politicals/BattleInfo.cs" id="5_ke320"]
+[ext_resource type="Texture2D" uid="uid://clo654op6gfwe" path="res://MapScene/isolated-vexillum-flag-icon-in-line-art-vector副本.png" id="2_8t0q7"]
+[ext_resource type="Texture2D" uid="uid://blcgtofhv8oh4" path="res://MapScene/china.png" id="3_6t75m"]
+[ext_resource type="Texture2D" uid="uid://bsgby7tsxt1l7" path="res://MapScene/whrite16.png" id="4_cudxv"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_7c6r4"]
 font_color = Color(0, 0, 0, 1)
@@ -13,61 +11,38 @@ outline_size = 3
 outline_color = Color(0.784314, 0.784314, 0.784314, 1)
 shadow_size = 2
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c36k0"]
-bg_color = Color(1, 1, 1, 1)
-
 [sub_resource type="LabelSettings" id="LabelSettings_v8lxk"]
 font_color = Color(0, 0, 0, 1)
 outline_size = 2
 outline_color = Color(0.980392, 0.980392, 0.980392, 1)
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3vv70"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_v7ndn"]
-font_color = Color(0, 0, 0, 1)
-outline_size = 3
-
-[sub_resource type="LabelSettings" id="LabelSettings_iip0s"]
-font_size = 12
-font_color = Color(0, 0, 0, 1)
-outline_size = 3
-outline_color = Color(0.784314, 0.784314, 0.784314, 0.784314)
-
-[node name="Control" type="Control"]
-layout_mode = 3
-anchors_preset = 0
-size_flags_horizontal = 0
-mouse_filter = 1
+[node name="PoliticalItem" type="HBoxContainer"]
+offset_right = 70.0
+offset_bottom = 69.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 10
 script = ExtResource("1_fdej2")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-theme_override_constants/separation = 2
-alignment = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
-theme_override_constants/separation = -5
+size_flags_horizontal = 0
+size_flags_vertical = 0
 
-[node name="Country" type="TextureRect" parent="HBoxContainer/VBoxContainer"]
-custom_minimum_size = Vector2(80, 50)
+[node name="Country" type="TextureButton" parent="VBoxContainer"]
+custom_minimum_size = Vector2(40, 35)
 layout_mode = 2
-texture = ExtResource("1_y18xw")
-expand_mode = 1
+texture_normal = ExtResource("2_8t0q7")
+ignore_texture_size = true
+stretch_mode = 0
 
-[node name="Name" type="Label" parent="HBoxContainer/VBoxContainer/Country"]
+[node name="Name" type="Label" parent="VBoxContainer/Country"]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -36.0
-offset_top = -16.0
-offset_right = 50.0
-offset_bottom = 7.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -3.0
+offset_right = 3.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "CNT_NAME"
@@ -75,206 +50,42 @@ label_settings = SubResource("LabelSettings_7c6r4")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Province" type="TextureRect" parent="HBoxContainer/VBoxContainer"]
-custom_minimum_size = Vector2(80, 50)
+[node name="Province" type="TextureButton" parent="VBoxContainer"]
+custom_minimum_size = Vector2(35, 30)
 layout_mode = 2
-texture = ExtResource("1_y18xw")
-expand_mode = 1
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = ExtResource("3_6t75m")
+ignore_texture_size = true
+stretch_mode = 0
 
-[node name="Panel" type="Panel" parent="HBoxContainer/VBoxContainer/Province"]
-custom_minimum_size = Vector2(80, 20)
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Province"]
+layout_mode = 0
+offset_left = -30.0
+offset_top = 30.0
+offset_right = 67.0
+offset_bottom = 92.0
+
+[node name="Name" type="Label" parent="VBoxContainer/Province/VBoxContainer"]
 layout_mode = 2
-offset_left = 1.0
-offset_top = 42.0
-offset_right = 81.0
-offset_bottom = 62.0
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_c36k0")
-
-[node name="Name" type="Label" parent="HBoxContainer/VBoxContainer/Province/Panel"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "PRO_NAME
+text = "PROV_NAME
 "
 label_settings = SubResource("LabelSettings_v8lxk")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MoveTarget" type="Button" parent="HBoxContainer/VBoxContainer/Province"]
-custom_minimum_size = Vector2(60, 60)
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -28.0
-offset_top = 3.0
-offset_right = 32.0
-offset_bottom = 63.0
-grow_horizontal = 2
-grow_vertical = 0
-pivot_offset = Vector2(30, 30)
-text = "Target"
-script = ExtResource("2_l6w5g")
-
-[node name="Military" type="PanelContainer" parent="HBoxContainer"]
+[node name="Battle" type="TextureRect" parent="VBoxContainer/Province/VBoxContainer"]
+custom_minimum_size = Vector2(35, 35)
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxEmpty_3vv70")
-
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/Military"]
-layout_mode = 2
-
-[node name="Army" type="Control" parent="HBoxContainer/Military/HBoxContainer"]
-custom_minimum_size = Vector2(45, 65)
-layout_mode = 2
-script = ExtResource("3_ftv6p")
-
-[node name="TextureRect" type="TextureRect" parent="HBoxContainer/Military/HBoxContainer/Army"]
-custom_minimum_size = Vector2(45, 50)
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -22.5
-offset_top = -50.0
-offset_right = 22.5
-grow_horizontal = 2
-grow_vertical = 0
-pivot_offset = Vector2(22.5, 25)
 size_flags_horizontal = 4
 size_flags_vertical = 4
-texture = ExtResource("1_y18xw")
-expand_mode = 1
+texture = ExtResource("4_cudxv")
 
-[node name="Label" type="Label" parent="HBoxContainer/Military/HBoxContainer/Army/TextureRect"]
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 1.0
-offset_top = -9.0
-offset_right = 1.0
-offset_bottom = 14.0
-grow_horizontal = 2
-grow_vertical = 0
-text = "--"
-label_settings = SubResource("LabelSettings_v7ndn")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Button" type="Button" parent="HBoxContainer/Military/HBoxContainer/Army/TextureRect"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Enemy" type="Control" parent="HBoxContainer/Military/HBoxContainer"]
-custom_minimum_size = Vector2(45, 65)
+[node name="Armies" type="HFlowContainer" parent="."]
+custom_minimum_size = Vector2(110, 0)
 layout_mode = 2
-script = ExtResource("4_1aqd3")
+size_flags_horizontal = 0
+size_flags_vertical = 8
 
-[node name="TextureRect" type="TextureRect" parent="HBoxContainer/Military/HBoxContainer/Enemy"]
-custom_minimum_size = Vector2(45, 50)
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -22.5
-offset_top = -50.0
-offset_right = 22.5
-grow_horizontal = 2
-grow_vertical = 0
-pivot_offset = Vector2(22.5, 25)
-size_flags_horizontal = 4
-size_flags_vertical = 4
-texture = ExtResource("1_y18xw")
-expand_mode = 1
-
-[node name="Label" type="Label" parent="HBoxContainer/Military/HBoxContainer/Enemy/TextureRect"]
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 1.0
-offset_top = -9.0
-offset_right = 1.0
-offset_bottom = 14.0
-grow_horizontal = 2
-grow_vertical = 0
-text = "--"
-label_settings = SubResource("LabelSettings_v7ndn")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Button" type="Button" parent="HBoxContainer/Military/HBoxContainer/Enemy/TextureRect"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Country" type="TextureRect" parent="HBoxContainer/Military/HBoxContainer/Enemy/TextureRect"]
-custom_minimum_size = Vector2(50, 25)
-layout_mode = 1
-offset_left = -1.0
-offset_top = -26.0
-offset_right = 49.0
-offset_bottom = -1.0
-texture = ExtResource("1_y18xw")
-expand_mode = 1
-
-[node name="Name" type="Label" parent="HBoxContainer/Military/HBoxContainer/Enemy/TextureRect/Country"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -32.0
-offset_top = -11.5
-offset_right = 54.0
-offset_bottom = 11.5
-grow_horizontal = 2
-grow_vertical = 2
-text = "CNT_NAME"
-label_settings = SubResource("LabelSettings_iip0s")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Battle" type="Control" parent="HBoxContainer/Military/HBoxContainer/Enemy"]
-custom_minimum_size = Vector2(30, 30)
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = -17.0
-offset_top = 7.5
-offset_right = 13.0
-offset_bottom = 37.5
-grow_vertical = 2
-script = ExtResource("5_ke320")
-
-[node name="Button" type="Button" parent="HBoxContainer/Military/HBoxContainer/Enemy/Battle"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "Battle"
-text_overrun_behavior = 3
-clip_text = true
+[node name="ArmyInfo" parent="Armies" instance_placeholder="res://MapScene/Politicals/ArmyInfo.tscn"]
+layout_mode = 2

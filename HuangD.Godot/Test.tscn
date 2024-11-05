@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://cbn2qdvofnnot"]
+[gd_scene load_steps=2 format=3 uid="uid://cbn2qdvofnnot"]
 
-[ext_resource type="Script" path="res://Test.cs" id="1_upuka"]
-[ext_resource type="Texture2D" uid="uid://b7lic4rwkyle0" path="res://MapScene/icon.svg" id="2_fe8p4"]
+[ext_resource type="Texture2D" uid="uid://blcgtofhv8oh4" path="res://MapScene/china.png" id="1_x761o"]
 
 [node name="Test" type="Control"]
 layout_mode = 3
@@ -10,38 +9,12 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_upuka")
 
-[node name="GraphEdit" type="GraphEdit" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-scroll_offset = Vector2(-31, 0)
-
-[node name="GraphNode" type="GraphNode" parent="GraphEdit"]
+[node name="TextureButton" type="TextureButton" parent="."]
+custom_minimum_size = Vector2(30, 30)
 layout_mode = 0
-offset_left = 485.0
-offset_top = 181.0
-offset_right = 987.0
-offset_bottom = 457.0
-mouse_filter = 1
-theme_override_colors/resizer_color = Color(0, 1, 1, 1)
-position_offset = Vector2(454, 181)
-title = "111111"
-slot/0/left_enabled = false
-slot/0/left_type = 0
-slot/0/left_color = Color(1, 1, 1, 1)
-slot/0/left_icon = null
-slot/0/right_enabled = false
-slot/0/right_type = 0
-slot/0/right_color = Color(1, 1, 1, 1)
-slot/0/right_icon = null
-slot/0/draw_stylebox = true
-
-[node name="Button" type="Button" parent="GraphEdit/GraphNode"]
-layout_mode = 2
-text = "qweqweqwe"
-icon = ExtResource("2_fe8p4")
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = ExtResource("1_x761o")
+ignore_texture_size = true
+stretch_mode = 0

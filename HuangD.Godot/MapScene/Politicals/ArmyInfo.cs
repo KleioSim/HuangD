@@ -1,44 +1,44 @@
 ﻿
+using Chrona.Engine.Godot;
 using Godot;
+using HuangD.Godot.Utilties;
 using HuangD.Sessions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-public partial class ArmyInfo : Control
+public partial class ArmyInfo : TextureButton, IView
 {
-    public Button Button => GetNode<Button>("TextureRect/Button");
-    public TextureRect ArmyIcon => GetNode<TextureRect>("TextureRect");
-    public Label ArmyCount => GetNode<Label>("TextureRect/Label");
+    public Label CountryName => GetNode<Label>("Name");
 
-    [Signal]
-    public delegate void ClickArmyEventHandler(string id);
+    public CentralArmy armyObj
+    {
+        get => _armyObj;
+        set
+        {
+            if (_armyObj == value) return;
+            _armyObj = value;
 
-    private CentralArmy[] centralArmies;
+            var view = this as IView;
+            view.IsSelfDirty = true;
+        }
+    }
 
-    private int index;
+    private CentralArmy _armyObj;
 
     public override void _Ready()
     {
-        Button.Connect(Button.SignalName.Pressed, Callable.From(() =>
+        this.Connect(TextureButton.SignalName.Pressed, Callable.From(() =>
         {
-            index++;
-            if (index >= centralArmies.Length)
-            {
-                index = 0;
-            }
-
-            EmitSignal(SignalName.ClickArmy, centralArmies[index].Id);
+            this.GetSelectEntity().Current = this.GetSession().Entities[_armyObj.Id];
         }));
     }
 
-    internal void Update(IEnumerable<CentralArmy> armies)
+    public override void _Process(double delta)
     {
-        centralArmies = armies.ToArray();
-        this.Visible = centralArmies.Length != 0;
-        if (this.Visible)
-        {
-            ArmyCount.Text = "x" + armies.Count().ToString();
-        }
+        var view = this as IView;
+        if (!view.IsDirty()) { return; }
+
+        CountryName.Text = _armyObj.Owner.Id;
     }
 }

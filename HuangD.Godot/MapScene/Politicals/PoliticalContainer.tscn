@@ -10,3 +10,4 @@ offset_bottom = 40.0
 script = ExtResource("1_vkjj8")
 
 [node name="Item" parent="." instance_placeholder="res://MapScene/Politicals/PoliticalItem.tscn"]
+layout_mode = 0

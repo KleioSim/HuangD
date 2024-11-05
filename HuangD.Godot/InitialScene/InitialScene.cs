@@ -12,17 +12,13 @@ public partial class InitialScene : Control, IView
     public TextEdit TextEdit => GetNode<TextEdit>("CanvasLayer/VBoxContainer/BuildMapPanel/VBoxContainer/SeedEditor");
     public SelectCountryPanel SelectCountryPanel => GetNode<SelectCountryPanel>("CanvasLayer/VBoxContainer/SelectCountryPanel");
 
+    private Country selectedCountry;
+
     public void Start()
     {
-        var selectEntity = this.GetSelectEntity().Current;
-        if (selectEntity is not Province province)
-        {
-            throw new Exception();
-        }
-
         this.GetSelectEntity().Current = null;
 
-        this.GetSession().OnMessage(new Command_ChangePlayerCountry(province.Owner.Id));
+        this.GetSession().OnMessage(new Command_ChangePlayerCountry(selectedCountry.Id));
 
         GetTree().ChangeSceneToFile("res://MainScene/MainScene.tscn");
     }
@@ -56,18 +52,31 @@ public partial class InitialScene : Control, IView
         var view = this as IView;
         if (!view.IsDirty()) { return; }
 
+        selectedCountry = null;
+
         var selectEntity = this.GetSelectEntity().Current;
-        if (selectEntity is not Province province)
+        switch (selectEntity)
         {
-            SelectCountryPanel.Visible = false;
-            return;
+            case Province province:
+                selectedCountry = province.Owner;
+                break;
+            case Country country:
+                selectedCountry = country;
+                break;
+            case CentralArmy centralArmy:
+                selectedCountry = centralArmy.Owner;
+                break;
+            default:
+                break;
         }
 
-        var country = province.Owner;
 
-        SelectCountryPanel.Visible = true;
-        SelectCountryPanel.CountryName.Text = country.Id;
-        SelectCountryPanel.ProvinceCount.Text = country.Provinces.Count().ToString();
-        SelectCountryPanel.PopCount.Text = country.PopCount.ToString();
+        SelectCountryPanel.Visible = selectedCountry != null;
+        if (SelectCountryPanel.Visible)
+        {
+            SelectCountryPanel.CountryName.Text = selectedCountry.Id;
+            SelectCountryPanel.ProvinceCount.Text = selectedCountry.Provinces.Count().ToString();
+            SelectCountryPanel.PopCount.Text = selectedCountry.PopCount.ToString();
+        }
     }
 }
