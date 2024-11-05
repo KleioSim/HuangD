@@ -34,17 +34,20 @@ layout_mode = 2
 
 [node name="TabContainer" type="TabContainer" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
+current_tab = 0
 
 [node name="AttributeInfo" type="Panel" parent="VBoxContainer/HBoxContainer/TabContainer"]
 custom_minimum_size = Vector2(400, 200)
 layout_mode = 2
 script = ExtResource("2_8w3e0")
+metadata/_tab_index = 0
 
 [node name="BattleReport" type="Panel" parent="VBoxContainer/HBoxContainer/TabContainer"]
 visible = false
 custom_minimum_size = Vector2(400, 200)
 layout_mode = 2
 script = ExtResource("3_r51ca")
+metadata/_tab_index = 1
 
 [node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer/HBoxContainer/TabContainer/BattleReport"]
 layout_mode = 1
