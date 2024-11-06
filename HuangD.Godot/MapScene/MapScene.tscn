@@ -32,7 +32,6 @@ grow_vertical = 2
 [node name="BaseMap" parent="GraphElement" instance=ExtResource("2_2ryrc")]
 
 [node name="MarginContainer" type="MarginContainer" parent="GraphElement"]
-visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 0
 theme_override_constants/margin_top = 0

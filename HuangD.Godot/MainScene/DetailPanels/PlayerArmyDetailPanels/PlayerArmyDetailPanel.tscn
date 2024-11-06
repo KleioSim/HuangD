@@ -41,9 +41,23 @@ text = "X"
 
 [node name="TabBar" type="TabBar" parent="VBoxContainer"]
 layout_mode = 2
-tab_count = 3
-tab_0/title = "禁军"
-tab_1/title = "州军"
-tab_2/title = "义从"
+tab_count = 2
+tab_0/title = "中央军"
+tab_1/title = "地方军"
+
+[node name="TabContainer" type="TabContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+current_tab = 0
+tabs_visible = false
+
+[node name="CenterArmies" type="Panel" parent="VBoxContainer/TabContainer"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="LocalArmies" type="Panel" parent="VBoxContainer/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
 
 [connection signal="pressed" from="VBoxContainer/Title/Button" to="." method="queue_free"]
