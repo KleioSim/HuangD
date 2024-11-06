@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://4djj474jikp0"]
+[gd_scene load_steps=15 format=3 uid="uid://4djj474jikp0"]
 
 [ext_resource type="Script" path="res://MapScene/BaseMap/BaseMap.cs" id="1_kq2vw"]
 [ext_resource type="Texture2D" uid="uid://bsgby7tsxt1l7" path="res://MapScene/whrite16.png" id="1_ksx8f"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://MapScene/BaseMap/TerrainMap.cs" id="4_x1xyj"]
 [ext_resource type="Script" path="res://MapScene/BaseMap/PopCountMap.cs" id="5_adhf4"]
 [ext_resource type="Script" path="res://MapScene/BaseMap/ProvinceMap.cs" id="6_1jkdy"]
+[ext_resource type="Texture2D" uid="uid://dmpj5n7a1tkla" path="res://MapScene/whrite8.png" id="7_du5ie"]
 [ext_resource type="Script" path="res://MapScene/BaseMap/BoundaryMap.cs" id="7_wggg4"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ee8ga"]
@@ -22,13 +23,14 @@ texture = ExtResource("1_ksx8f")
 [sub_resource type="TileSet" id="TileSet_wxd1e"]
 sources/0 = SubResource("TileSetAtlasSource_5wvpa")
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_a0bf5"]
-texture = ExtResource("1_ksx8f")
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_s2kl3"]
+texture = ExtResource("7_du5ie")
+texture_region_size = Vector2i(8, 8)
 0:0/0 = 0
 
-[sub_resource type="TileSet" id="TileSet_201m0"]
+[sub_resource type="TileSet" id="TileSet_83seo"]
 tile_size = Vector2i(8, 8)
-sources/0 = SubResource("TileSetAtlasSource_a0bf5")
+sources/0 = SubResource("TileSetAtlasSource_s2kl3")
 
 [node name="BaseMap" type="Node2D"]
 script = ExtResource("1_kq2vw")
@@ -74,7 +76,7 @@ layer_3/modulate = Color(0.3268, 0.156, 0.4, 1)
 script = ExtResource("5_adhf4")
 
 [node name="ProvinceMap" type="TileMap" parent="."]
-modulate = Color(1, 1, 1, 0.392157)
+modulate = Color(1, 1, 1, 0.196078)
 tile_set = SubResource("TileSet_wxd1e")
 format = 2
 layer_0/modulate = Color(0, 0, 0.4, 1)
@@ -89,5 +91,5 @@ script = ExtResource("6_1jkdy")
 
 [node name="BoundaryMap" type="TileMapLayer" parent="."]
 position = Vector2(4, 4)
-tile_set = SubResource("TileSet_201m0")
+tile_set = SubResource("TileSet_83seo")
 script = ExtResource("7_wggg4")

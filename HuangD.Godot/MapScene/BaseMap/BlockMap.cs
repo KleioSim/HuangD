@@ -8,7 +8,7 @@ public partial class BlockMap : TileMap
 
     private int layerId;
 
-    internal void AddOrUpdate(List<HuangD.Sessions.Maps.Index> indexes)
+    internal void AddOrUpdate(IEnumerable<HuangD.Sessions.Maps.Index> indexes)
     {
         var color = new Color(random.Next(0, 10) / 10.0f, random.Next(0, 10) / 10.0f, random.Next(0, 10) / 10.0f);
         AddLayer(layerId);

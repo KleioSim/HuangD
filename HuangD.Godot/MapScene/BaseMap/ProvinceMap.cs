@@ -15,7 +15,7 @@ public partial class ProvinceMap : TileMap
 
     }
 
-    internal void AddOrUpdate(List<Index> indexes, string provinceId)
+    internal void AddOrUpdate(IEnumerable<Index> indexes, string provinceId)
     {
         while (true)
         {

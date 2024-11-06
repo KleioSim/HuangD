@@ -37,7 +37,7 @@ public partial class TerrainMap : TileMap
         this.SetCell(layerIds[type], new Vector2I(index.X, index.Y), 0, Vector2I.Zero, 0);
     }
 
-    internal void AddOrUpdate(List<Index> indexes, TerrainType terrainType)
+    internal void AddOrUpdate(IEnumerable<Index> indexes, TerrainType terrainType)
     {
         foreach (var index in indexes)
         {

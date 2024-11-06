@@ -20,8 +20,8 @@ public static partial class MapBuilder
                 var block = new Block();
                 block.Id = UUID.Generate("BLOCK");
                 block.coreIndex = core;
-                block.Edges = IndexMethods.GetNeighborCells(core).Values.Where(n => n.X < width && n.Y < high).ToList();
-                block.Indexes = block.Edges.Append(core).ToList();
+                block.Edges = IndexMethods.GetNeighborCells(core).Values.Where(n => n.X < width && n.Y < high).ToHashSet();
+                block.Indexes = block.Edges.Append(core).ToHashSet();
 
                 foreach (var index in block.Indexes)
                 {
@@ -92,7 +92,30 @@ public static partial class MapBuilder
                 }
             }
 
-            return dict.Values.Distinct();
+            var blocks = dict.Values.Distinct().ToList();
+            //var totalCellCount = blocks.Sum(x => x.Indexes.Count);
+
+            //var smallBlocks = new Queue<Block>(blocks.Where(x => x.Indexes.Count() < totalCellCount / 150));
+            //while (smallBlocks.Count != 0)
+            //{
+            //    var block = smallBlocks.Dequeue();
+
+            //    var maxNeighbor = block.Neighbors.MaxBy(x => x.Indexes.Count());
+            //    maxNeighbor.Indexes.UnionWith(block.Indexes);
+            //    maxNeighbor.Neighbors.UnionWith(block.Neighbors.Where(x => x != maxNeighbor));
+            //    maxNeighbor.Neighbors.Remove(block);
+
+            //    maxNeighbor.Edges.UnionWith(block.Edges);
+            //    maxNeighbor.Edges.RemoveWhere(x => IndexMethods.GetNeighborCells(x).All(y => maxNeighbor.Indexes.Contains(y.Value)));
+            //}
+
+            //blocks.RemoveAll(x => smallBlocks.Contains(x));
+            //foreach (var block in blocks)
+            //{
+            //    block.Neighbors.ExceptWith(smallBlocks);
+            //}
+
+            return blocks;
         }
 
         private static List<Index> GenerateCoreIndex(int high, int width, System.Random random, int cellRadius)
