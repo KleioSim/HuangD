@@ -10,6 +10,7 @@ public partial class BaseMap : Node2D
     TerrainMap TerrainMap => GetNode<TerrainMap>("TerrainMap");
     PopCountMap PopCountMap => GetNode<PopCountMap>("PopCountMap");
     ProvinceMap ProvinceMap => GetNode<ProvinceMap>("ProvinceMap");
+    BoundaryMap BoundaryMap => GetNode<BoundaryMap>("BoundaryMap");
 
     public override void _Ready()
     {
@@ -30,6 +31,8 @@ public partial class BaseMap : Node2D
             PopCountMap.AddOrUpdate(province.Block.Indexes, province.PopCount * 10 / session.Provinces.Values.Max(p => p.PopCount));
             ProvinceMap.AddOrUpdate(province.Block.Indexes, province.Id);
         }
+
+        BoundaryMap.Update(ProvinceMap);
     }
 
     internal Vector2 GetMapCenter()
