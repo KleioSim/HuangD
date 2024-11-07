@@ -7,6 +7,8 @@ public partial class BoundaryMap : TileMapLayer
 {
     internal void Update(ProvinceMap provinceMap)
     {
+        this.Clear();
+
         var tileSize = TileSet.TileSize;
         var provTileSize = provinceMap.TileSet.TileSize;
 

@@ -11,6 +11,7 @@ public partial class BaseMap : Node2D
     PopCountMap PopCountMap => GetNode<PopCountMap>("PopCountMap");
     ProvinceMap ProvinceMap => GetNode<ProvinceMap>("ProvinceMap");
     BoundaryMap BoundaryMap => GetNode<BoundaryMap>("BoundaryMap");
+    EdgeMap EdgeMap => GetNode<EdgeMap>("EdgeMap");
 
     public override void _Ready()
     {
@@ -33,6 +34,7 @@ public partial class BaseMap : Node2D
         }
 
         BoundaryMap.Update(ProvinceMap);
+        EdgeMap.Update(ProvinceMap);
     }
 
     internal Vector2 GetMapCenter()
@@ -50,7 +52,7 @@ public partial class BaseMap : Node2D
 
     internal Vector2 GetSize()
     {
-        return BlockMap.MapToLocal(BlockMap.GetUsedRect().Size);
+        return EdgeMap.MapToLocal(EdgeMap.GetUsedRect().Size);
     }
 
     internal string LocalToProvince(Vector2 vector2)
