@@ -13,7 +13,7 @@ public partial class MapDebug : Node2D
     {
         var seed = "test";
 
-        var blocks = MapBuilder.BlockBuilder.Build(120, 120, seed);
+        var blocks = MapBuilder.BlockBuilder.Build(160, 160, seed);
 
         foreach (var block in blocks)
         {

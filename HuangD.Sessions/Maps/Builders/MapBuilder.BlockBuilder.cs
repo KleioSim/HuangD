@@ -11,7 +11,7 @@ public static partial class MapBuilder
         public static IEnumerable<Block> Build(int high, int width, string seed)
         {
             var random = RandomBuilder.Build(seed);
-            var cellRadius = 4;
+            var cellRadius = 5;
             List<Index> coreIndexs = GenerateCoreIndex(high, width, random, cellRadius);
 
             var dict = new Dictionary<Index, Block>();

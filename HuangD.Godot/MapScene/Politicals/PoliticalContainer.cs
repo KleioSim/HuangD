@@ -23,7 +23,7 @@ public partial class PoliticalContainer : Control
             var politicalInfo = PoliticalInfoPlaceHolder.CreateInstance() as PoliticalItem;
             politicalInfo.Name = province.Id;
 
-            politicalInfo.Position = FuncGetProvinceCenter(province.Id);
+            politicalInfo.SetLocalPositionWithPivotOffset(FuncGetProvinceCenter(province.Id));
             politicalInfo.province = province;
             //politicalInfo.ArmyInfo.Connect(ArmyInfo.SignalName.ClickArmy, new Callable(this, MethodName.OnClickEntity));
             //politicalInfo.EnemyInfo.Connect(ArmyInfo.SignalName.ClickArmy, new Callable(this, MethodName.OnClickEntity));
