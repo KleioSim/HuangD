@@ -1,6 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://cbn2qdvofnnot"]
+[gd_scene load_steps=4 format=4 uid="uid://cbn2qdvofnnot"]
 
-[ext_resource type="Texture2D" uid="uid://blcgtofhv8oh4" path="res://MapScene/china.png" id="1_x761o"]
+[ext_resource type="Texture2D" uid="uid://bsgby7tsxt1l7" path="res://MapScene/whrite16.png" id="1_t8upp"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2mie7"]
+texture = ExtResource("1_t8upp")
+0:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_fyppa"]
+sources/0 = SubResource("TileSetAtlasSource_2mie7")
 
 [node name="Test" type="Control"]
 layout_mode = 3
@@ -10,11 +17,28 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TextureButton" type="TextureButton" parent="."]
-custom_minimum_size = Vector2(30, 30)
-layout_mode = 0
+[node name="GraphEdit" type="GraphEdit" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scroll_offset = Vector2(-40, -40)
+
+[node name="GraphElement" type="GraphElement" parent="GraphEdit"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="GraphEdit/GraphElement"]
+layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-texture_normal = ExtResource("1_x761o")
-ignore_texture_size = true
-stretch_mode = 0
+
+[node name="TileMapLayer" type="TileMapLayer" parent="GraphEdit/GraphElement/CenterContainer"]
+tile_map_data = PackedByteArray("AAAAAP//AAAAAAAAAAD/////AAAAAAAAAAD//wAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAABAAEAAAAAAAAAAAD//wEAAAAAAAAAAAD//wIAAAAAAAAAAAD//wMAAAAAAAAAAAD//wQAAAAAAAAAAAD//wUAAAAAAAAAAAAAAAUAAAAAAAAAAAABAAUAAAAAAAAAAAACAAUAAAAAAAAAAAADAAUAAAAAAAAAAAAEAAUAAAAAAAAAAAAFAAUAAAAAAAAAAAAGAAUAAAAAAAAAAAAHAAUAAAAAAAAAAAABAP//AAAAAAAAAAACAP//AAAAAAAAAAADAP//AAAAAAAAAAAEAAAAAAAAAAAAAAAFAAAAAAAAAAAAAAAGAAAAAAAAAAAAAAAHAAAAAAAAAAAAAAAHAAEAAAAAAAAAAAAHAAIAAAAAAAAAAAAHAAMAAAAAAAAAAAAHAAQAAAAAAAAAAAACAAEAAAAAAAAAAAADAAEAAAAAAAAAAAADAAIAAAAAAAAAAAAEAAIAAAAAAAAAAAAFAAIAAAAAAAAAAAAFAAMAAAAAAAAAAAAFAAQAAAAAAAAAAAAEAAQAAAAAAAAAAAADAAQAAAAAAAAAAAACAAQAAAAAAAAAAAABAAQAAAAAAAAAAAAAAAMAAAAAAAAAAAACAAIAAAAAAAAAAAABAAIAAAAAAAAAAAAAAAIAAAAAAAAAAAADAAMAAAAAAAAAAAACAAMAAAAAAAAAAAABAAMAAAAAAAAAAAAAAAQAAAAAAAAAAAAEAAMAAAAAAAAAAAAGAAMAAAAAAAAAAAAGAAIAAAAAAAAAAAAFAAEAAAAAAAAAAAAEAAEAAAAAAAAAAAACAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAEAP//AAAAAAAAAAAFAP//AAAAAAAAAAAGAAEAAAAAAAAAAAAGAAQAAAAAAAAAAAAHAP//AAAAAAAAAAAGAP//AAAAAAAAAAA=")
+tile_set = SubResource("TileSet_fyppa")

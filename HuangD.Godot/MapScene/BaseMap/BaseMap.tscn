@@ -65,6 +65,7 @@ modulate = Color(1, 1, 1, 0.392157)
 tile_set = SubResource("TileSet_wxd1e")
 format = 2
 layer_0/modulate = Color(0, 0, 0.4, 1)
+layer_0/tile_data = PackedInt32Array(0, 0, 0, 65536, 0, 0, 1, 0, 0)
 layer_1/name = "Layer1"
 layer_1/modulate = Color(0, 0.4, 0, 1)
 layer_2/name = "Layer2"
@@ -108,6 +109,6 @@ tile_set = SubResource("TileSet_mc214")
 script = ExtResource("7_wggg4")
 
 [node name="EdgeMap" type="TileMapLayer" parent="."]
-position = Vector2(4, 4)
+tile_map_data = PackedByteArray(0, 0, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0)
 tile_set = SubResource("TileSet_gpklp")
 script = ExtResource("9_d0l4k")
