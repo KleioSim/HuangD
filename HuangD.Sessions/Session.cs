@@ -15,6 +15,7 @@ public interface ISessionData : ISession
     Country PlayerCountry { get; }
     //IEntity SelectedEntity { get; set; }
 
+    (int x, int y) MapSize { get; }
     Dictionary<string, Block> Blocks { get; }
     Dictionary<string, TerrainType> Block2Terrain { get; }
     Dictionary<string, Province> Block2Province { get; }
@@ -38,6 +39,7 @@ public class Session : AbstractSession, ISessionData
 
     public Date Date { get; private set; }
 
+    public (int x, int y) MapSize { get; private set; }
     public Dictionary<string, Block> Blocks { get; private set; }
     public Dictionary<string, TerrainType> Block2Terrain { get; private set; }
     public Dictionary<string, Province> Block2Province { get; private set; }
@@ -46,6 +48,8 @@ public class Session : AbstractSession, ISessionData
     public Country PlayerCountry { get; private set; }
 
     public IEnumerable<string> CurrentReports => currentReports;
+
+
 
     //public IEntity SelectedEntity { get; set; }
 
@@ -80,7 +84,8 @@ public class Session : AbstractSession, ISessionData
 
         Date = new Date();
 
-        var blocks = BlockBuilder.Build(120, 120, seed);
+        MapSize = (120, 120);
+        var blocks = BlockBuilder.Build(MapSize.x, MapSize.y, seed);
         var block2Terrain = TerrainBuilder.Build(blocks, seed);
         var block2province = Province.Builder.Build(block2Terrain, seed);
 

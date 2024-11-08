@@ -13,24 +13,4 @@ public partial class MapScene : GraphEdit
 
         PoliticalContainer.BuildPoliticalInfos(BaseMap.GetProvinceCenter);
     }
-
-    //public override void _UnhandledInput(InputEvent @event)
-    //{
-    //    if (@event is InputEventMouseButton eventKey)
-    //    {
-    //        if (eventKey.Pressed)
-    //        {
-    //            if (eventKey.ButtonIndex == MouseButton.Left)
-    //            {
-    //                var provinceId = BaseMap.LocalToProvince(GetGlobalMousePosition());
-
-    //                if (provinceId != null)
-    //                {
-    //                    this.GetSelectEntity().Current = this.GetSession().Entities[provinceId];
-    //                }
-    //            }
-    //        }
-    //        return;
-    //    }
-    //}
 }

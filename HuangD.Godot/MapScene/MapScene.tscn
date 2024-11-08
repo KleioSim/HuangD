@@ -31,6 +31,7 @@ grow_vertical = 2
 position = Vector2(128, 128)
 
 [node name="PoliticalContainer" parent="GraphElement/BaseMap" instance=ExtResource("4_4cj6y")]
+visible = false
 layout_direction = 2
 offset_right = 0.0
 offset_bottom = 0.0

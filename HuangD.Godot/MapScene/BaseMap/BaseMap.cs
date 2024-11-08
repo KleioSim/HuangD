@@ -27,19 +27,21 @@ public partial class BaseMap : Node2D
             TerrainMap.AddOrUpdate(session.Blocks[pair.Key].Indexes, pair.Value);
         }
 
+        ProvinceMap.Clear();
         foreach (var province in session.Provinces.Values)
         {
             PopCountMap.AddOrUpdate(province.Block.Indexes, province.PopCount * 10 / session.Provinces.Values.Max(p => p.PopCount));
             ProvinceMap.AddOrUpdate(province.Block.Indexes, province.Id);
         }
 
-        BoundaryMap.Update(ProvinceMap);
-        EdgeMap.Update(ProvinceMap);
-    }
+        var mapSize = new Vector2I(session.MapSize.x, session.MapSize.y);
+        var provTileSize = ProvinceMap.TileSize;
 
-    internal Vector2 GetMapCenter()
-    {
-        return BlockMap.MapToLocal(BlockMap.GetUsedRect().GetCenter());
+        var boundaryTileSize = BoundaryMap.TileSet.TileSize;
+        BoundaryMap.Update(mapSize * provTileSize / boundaryTileSize, ProvinceMap);
+
+        var edgeTileSize = EdgeMap.TileSet.TileSize;
+        EdgeMap.Update(mapSize * provTileSize / edgeTileSize);
     }
 
     internal Vector2 GetProvinceCenter(string id)
@@ -53,20 +55,5 @@ public partial class BaseMap : Node2D
     internal Vector2 GetSize()
     {
         return EdgeMap.MapToLocal(EdgeMap.GetUsedRect().Size);
-    }
-
-    internal string LocalToProvince(Vector2 vector2)
-    {
-        var cellVector = ProvinceMap.LocalToMap(vector2);
-
-        for (int i = 0; i < ProvinceMap.GetLayersCount(); i++)
-        {
-            if (ProvinceMap.GetCellSourceId(i, cellVector) != -1)
-            {
-                return ProvinceMap.GetLayerName(i);
-            }
-        }
-
-        return null;
     }
 }

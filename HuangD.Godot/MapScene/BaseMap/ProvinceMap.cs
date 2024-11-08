@@ -5,15 +5,15 @@ using System.Collections.Generic;
 using System.Linq;
 using Index = HuangD.Sessions.Maps.Index;
 
-public partial class ProvinceMap : TileMap
+public partial class ProvinceMap : Node2D
 {
+    public Vector2I TileSize => TileMapLayer.TileSet.TileSize;
+
+    private TileMapLayer TileMapLayer => GetNode<TileMapLayer>("TileMapLayer");
+
     private Random random = new Random();
     private List<Color> colors = new List<Color>();
-
-    public override void _Ready()
-    {
-
-    }
+    private Dictionary<string, TileMapLayer> tileMapLayers = new Dictionary<string, TileMapLayer>();
 
     internal void AddOrUpdate(IEnumerable<Index> indexes, string provinceId)
     {
@@ -27,15 +27,42 @@ public partial class ProvinceMap : TileMap
             }
         }
 
-        this.AddLayer(-1);
+        var newTileMapLayer = TileMapLayer.Duplicate() as TileMapLayer;
+        TileMapLayer.AddSibling(newTileMapLayer);
+        tileMapLayers.Add(provinceId, newTileMapLayer);
 
-        var layerId = this.GetLayersCount() - 1;
-        this.SetLayerName(layerId, provinceId);
-        this.SetLayerModulate(layerId, colors.Last());
+        newTileMapLayer.Name = provinceId;
+        newTileMapLayer.Modulate = colors.Last();
 
         foreach (var index in indexes)
         {
-            this.SetCell(layerId, new Vector2I(index.X, index.Y), 0, Vector2I.Zero, 0);
+            newTileMapLayer.SetCell(new Vector2I(index.X, index.Y), 0, Vector2I.Zero, 0);
         }
+    }
+
+    internal Vector2 MapToLocal(Vector2I vector2I)
+    {
+        return TileMapLayer.MapToLocal(vector2I);
+    }
+
+    internal Vector2I LocalToMap(Vector2 vector)
+    {
+        return TileMapLayer.LocalToMap(vector);
+    }
+
+    internal string GetCellProvinceId(Vector2I vector)
+    {
+        var layer = tileMapLayers.Values.FirstOrDefault(x => x.GetCellSourceId(vector) != -1);
+        return layer != null ? layer.Name : null;
+    }
+
+    internal void Clear()
+    {
+        foreach (var oldLayer in tileMapLayers.Values)
+        {
+            oldLayer.QueueFree();
+        }
+
+        tileMapLayers.Clear();
     }
 }
