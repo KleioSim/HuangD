@@ -1,4 +1,5 @@
 ﻿using Godot;
+using HuangD.Godot.Utilties;
 using HuangD.Sessions;
 using HuangD.Sessions.Maps;
 using System;
@@ -9,25 +10,44 @@ public partial class PopCountMap : Node2D
 {
     private TileMapLayer TileMapLayer => GetNode<TileMapLayer>("TileMapLayer");
 
+
     public override void _Ready()
     {
+        TileMapLayer.Modulate = new Color(1f, 1f, 1f);
+
         for (int i = 0; i < 10; i++)
         {
             var newTileMapLayer = TileMapLayer.Duplicate() as TileMapLayer;
             TileMapLayer.AddSibling(newTileMapLayer);
+
+            newTileMapLayer.Modulate = new Color(1f, (10 - i) * 0.1f, (10 - i) * 0.1f);
         }
     }
 
-    internal void AddOrUpdate(IEnumerable<HuangD.Sessions.Maps.Index> indexes, int layerId)
+    internal void Refresh()
     {
+        Clear();
+
         var layers = TileMapLayer.GetParent().GetChildren().OfType<TileMapLayer>().ToArray();
 
-        layers[layerId].Modulate = new Color(1f, (10 - layerId) * 0.1f, (10 - layerId) * 0.1f);
-
-        foreach (var index in indexes)
+        var session = this.GetSession();
+        foreach (var province in session.Provinces.Values)
         {
-            layers[layerId].SetCell(new Vector2I(index.X, index.Y), 0, Vector2I.Zero, 0);
+            var layerId = province.PopCount * 10 / session.Provinces.Values.Max(p => p.PopCount);
+            foreach (var index in province.Block.Indexes)
+            {
+                layers[layerId].SetCell(new Vector2I(index.X, index.Y), 0, Vector2I.Zero, 0);
+            }
         }
+    }
 
+
+    private void Clear()
+    {
+        var layers = TileMapLayer.GetParent().GetChildren().OfType<TileMapLayer>().ToArray();
+        foreach (var layer in layers)
+        {
+            layer.Clear();
+        }
     }
 }

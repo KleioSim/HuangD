@@ -1,6 +1,10 @@
-﻿using Godot;
+﻿using Chrona.Engine.Godot;
+using Godot;
+using HuangD.Godot.Utilties;
+using HuangD.Sessions.Maps;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public partial class BlockMap : Node2D
 {
@@ -8,17 +12,45 @@ public partial class BlockMap : Node2D
 
     private TileMapLayer TileMapLayer => GetNode<TileMapLayer>("TileMapLayer");
 
-    internal void AddOrUpdate(IEnumerable<HuangD.Sessions.Maps.Index> indexes, string id)
+    //internal void AddOrUpdate(IEnumerable<HuangD.Sessions.Maps.Index> indexes, string id)
+    //{
+    //    var newTileMapLayer = TileMapLayer.Duplicate() as TileMapLayer;
+    //    TileMapLayer.AddSibling(newTileMapLayer);
+
+    //    newTileMapLayer.Name = id;
+    //    newTileMapLayer.Modulate = new Color(random.Next(0, 10) / 10.0f, random.Next(0, 10) / 10.0f, random.Next(0, 10) / 10.0f);
+
+    //    foreach (var index in indexes)
+    //    {
+    //        newTileMapLayer.SetCell(new Vector2I(index.X, index.Y), 0, Vector2I.Zero, 0);
+    //    }
+    //}
+
+    internal void Refresh()
     {
-        var newTileMapLayer = TileMapLayer.Duplicate() as TileMapLayer;
-        TileMapLayer.AddSibling(newTileMapLayer);
+        Clear();
 
-        newTileMapLayer.Name = id;
-        newTileMapLayer.Modulate = new Color(random.Next(0, 10) / 10.0f, random.Next(0, 10) / 10.0f, random.Next(0, 10) / 10.0f);
-
-        foreach (var index in indexes)
+        foreach (var block in this.GetSession().Blocks.Values)
         {
-            newTileMapLayer.SetCell(new Vector2I(index.X, index.Y), 0, Vector2I.Zero, 0);
+            var newTileMapLayer = TileMapLayer.Duplicate() as TileMapLayer;
+            TileMapLayer.AddSibling(newTileMapLayer);
+
+            newTileMapLayer.Name = block.Id;
+            newTileMapLayer.Modulate = new Color(random.Next(0, 10) / 10.0f, random.Next(0, 10) / 10.0f, random.Next(0, 10) / 10.0f);
+
+            foreach (var index in block.Indexes)
+            {
+                newTileMapLayer.SetCell(new Vector2I(index.X, index.Y), 0, Vector2I.Zero, 0);
+            }
+        }
+    }
+
+    private void Clear()
+    {
+        var needRemoveItems = TileMapLayer.GetParent().GetChildren().OfType<TileMapLayer>().Where(x => x != TileMapLayer).ToArray();
+        foreach (var item in needRemoveItems)
+        {
+            item.QueueFree();
         }
     }
 }

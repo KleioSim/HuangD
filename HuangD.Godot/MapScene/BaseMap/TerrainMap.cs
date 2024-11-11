@@ -1,4 +1,5 @@
 ﻿using Godot;
+using HuangD.Godot.Utilties;
 using HuangD.Sessions.Maps;
 using System;
 using System.Collections.Generic;
@@ -13,11 +14,26 @@ public partial class TerrainMap : Node2D
         terrain2layer = GetChildren().OfType<TileMapLayer>().ToDictionary(k => Enum.Parse<TerrainType>(k.Name), v => v);
     }
 
-    internal void AddOrUpdate(IEnumerable<HuangD.Sessions.Maps.Index> indexes, TerrainType terrainType)
+    internal void Refresh()
     {
-        foreach (var index in indexes)
+        Clear();
+
+
+        foreach (var pair in this.GetSession().Block2Terrain)
         {
-            terrain2layer[terrainType].SetCell(new Vector2I(index.X, index.Y), 0, Vector2I.Zero, 0);
+            var block = this.GetSession().Blocks[pair.Key];
+            foreach (var index in block.Indexes)
+            {
+                terrain2layer[pair.Value].SetCell(new Vector2I(index.X, index.Y), 0, Vector2I.Zero, 0);
+            }
+        }
+    }
+
+    private void Clear()
+    {
+        foreach (var layer in terrain2layer.Values)
+        {
+            layer.Clear();
         }
     }
 }

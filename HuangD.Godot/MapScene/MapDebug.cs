@@ -11,26 +11,26 @@ public partial class MapDebug : Node2D
     ProvinceMap ProvinceMap => GetNode<ProvinceMap>("BaseMap/ProvinceMap");
     public override void _Ready()
     {
-        var seed = "test";
+        //var seed = "test";
 
-        var blocks = MapBuilder.BlockBuilder.Build(160, 160, seed);
+        //var blocks = MapBuilder.BlockBuilder.Build(160, 160, seed);
 
-        foreach (var block in blocks)
-        {
-            BlockMap.AddOrUpdate(block.Indexes, block.Id);
-        }
+        //foreach (var block in blocks)
+        //{
+        //    BlockMap.AddOrUpdate(block.Indexes, block.Id);
+        //}
 
-        var block2Terrain = MapBuilder.TerrainBuilder.Build(blocks, seed);
-        foreach (var pair in block2Terrain)
-        {
-            TerrainMap.AddOrUpdate(pair.Key.Indexes, pair.Value);
-        }
+        //var block2Terrain = MapBuilder.TerrainBuilder.Build(blocks, seed);
+        //foreach (var pair in block2Terrain)
+        //{
+        //    TerrainMap.AddOrUpdate(pair.Key.Indexes, pair.Value);
+        //}
 
-        var provinces = Province.Builder.Build(block2Terrain, seed);
-        foreach (var province in provinces.Values)
-        {
-            PopCountMap.AddOrUpdate(province.Block.Indexes, province.PopCount * 10 / provinces.Values.Max(p => p.PopCount));
-            ProvinceMap.AddOrUpdate(province.Block.Indexes, province.Id);
-        }
+        //var provinces = Province.Builder.Build(block2Terrain, seed);
+        //foreach (var province in provinces.Values)
+        //{
+        //    PopCountMap.AddOrUpdate(province.Block.Indexes, province.PopCount * 10 / provinces.Values.Max(p => p.PopCount));
+        //    ProvinceMap.AddOrUpdate(province.Block.Indexes, province.Id);
+        //}
     }
 }

@@ -1,10 +1,31 @@
 ﻿using Godot;
+using Godot.Collections;
+using HuangD.Godot.Utilties;
+using HuangD.Sessions;
 using HuangD.Sessions.Maps;
 using System;
+using System.Drawing;
 using System.Linq;
 
 public partial class BoundaryMap : TileMapLayer
 {
+    internal void Refresh(Vector2I scale)
+    {
+        this.Clear();
+
+        var mapSize = new Vector2I(this.GetSession().MapSize.x, this.GetSession().MapSize.y) * scale;
+
+        for (int x = 0; x < mapSize.X; x++)
+        {
+            for (int y = 0; y < mapSize.Y; y++)
+            {
+                var index = new Vector2I(x, y);
+                this.SetCell(index, 0, Vector2I.Zero, 0);
+            }
+        }
+
+    }
+
     internal void Update(Vector2I size, ProvinceMap provinceMap)
     {
         this.Clear();

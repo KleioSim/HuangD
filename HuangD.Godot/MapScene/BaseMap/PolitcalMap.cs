@@ -1,13 +1,18 @@
 ﻿using Godot;
+using HuangD.Godot.Utilties;
 using HuangD.Sessions.Maps;
 using System.Collections.Generic;
 
 public partial class PolitcalMap : TileMapLayer
 {
-    internal void AddOrUpdate(Index coreIndex, string provinceId)
+    internal void Refresh()
     {
-        this.SetCell(new Vector2I(coreIndex.X, coreIndex.Y), 0, Vector2I.Zero, 0);
+        this.Clear();
 
-        GD.Print($"PolitcalMap {coreIndex}");
+        foreach (var province in this.GetSession().Provinces.Values)
+        {
+            var coreIndex = province.Block.coreIndex;
+            this.SetCell(new Vector2I(coreIndex.X, coreIndex.Y), 0, Vector2I.Zero, 0);
+        }
     }
 }

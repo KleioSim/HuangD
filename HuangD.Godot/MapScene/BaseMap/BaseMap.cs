@@ -16,46 +16,22 @@ public partial class BaseMap : Node2D
 
     public override void _Ready()
     {
-        var session = this.GetSession();
-
-        foreach (var block in session.Blocks.Values)
-        {
-            BlockMap.AddOrUpdate(block.Indexes, block.Id);
-        }
-
-        foreach (var pair in session.Block2Terrain)
-        {
-            TerrainMap.AddOrUpdate(session.Blocks[pair.Key].Indexes, pair.Value);
-        }
-
-        ProvinceMap.Clear();
-        foreach (var province in session.Provinces.Values)
-        {
-            PopCountMap.AddOrUpdate(province.Block.Indexes, province.PopCount * 10 / session.Provinces.Values.Max(p => p.PopCount));
-            ProvinceMap.AddOrUpdate(province.Block.Indexes, province.Id);
-            PolitcalMap.AddOrUpdate(province.Block.coreIndex, province.Id);
-        }
-
-        var mapSize = new Vector2I(session.MapSize.x, session.MapSize.y);
-        var provTileSize = ProvinceMap.TileSize;
-
-        var boundaryTileSize = BoundaryMap.TileSet.TileSize;
-        BoundaryMap.Update(mapSize * provTileSize / boundaryTileSize, ProvinceMap);
-
-        var edgeTileSize = EdgeMap.TileSet.TileSize;
-        EdgeMap.Update(mapSize * provTileSize / edgeTileSize);
-    }
-
-    internal Vector2 GetProvinceCenter(string id)
-    {
-        var session = this.GetSession();
-
-        var coreIndex = session.Provinces[id].Block.coreIndex;
-        return ProvinceMap.MapToLocal(new Vector2I(coreIndex.X, coreIndex.Y));
+        Refresh();
     }
 
     internal Vector2 GetSize()
     {
         return EdgeMap.MapToLocal(EdgeMap.GetUsedRect().Size);
+    }
+
+    internal void Refresh()
+    {
+        BlockMap.Refresh();
+        TerrainMap.Refresh();
+        PopCountMap.Refresh();
+        ProvinceMap.Refresh();
+        PolitcalMap.Refresh();
+        BoundaryMap.Refresh(ProvinceMap.TileSize / BoundaryMap.TileSet.TileSize);
+        EdgeMap.Refresh((Vector2)ProvinceMap.TileSize / EdgeMap.TileSet.TileSize);
     }
 }

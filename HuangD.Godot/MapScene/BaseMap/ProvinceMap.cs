@@ -3,7 +3,6 @@ using HuangD.Godot.Utilties;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Index = HuangD.Sessions.Maps.Index;
 
 public partial class ProvinceMap : Node2D
 {
@@ -15,35 +14,6 @@ public partial class ProvinceMap : Node2D
     private List<Color> colors = new List<Color>();
     private Dictionary<string, TileMapLayer> tileMapLayers = new Dictionary<string, TileMapLayer>();
 
-    internal void AddOrUpdate(IEnumerable<Index> indexes, string provinceId)
-    {
-        while (true)
-        {
-            var color = new Color(random.Next(0, 10) / 10.0f, random.Next(0, 10) / 10.0f, random.Next(0, 10) / 10.0f);
-            if (!colors.Contains(color))
-            {
-                colors.Add(color);
-                break;
-            }
-        }
-
-        var newTileMapLayer = TileMapLayer.Duplicate() as TileMapLayer;
-        TileMapLayer.AddSibling(newTileMapLayer);
-        tileMapLayers.Add(provinceId, newTileMapLayer);
-
-        newTileMapLayer.Name = provinceId;
-        newTileMapLayer.Modulate = colors.Last();
-
-        foreach (var index in indexes)
-        {
-            newTileMapLayer.SetCell(new Vector2I(index.X, index.Y), 0, Vector2I.Zero, 0);
-        }
-    }
-
-    internal Vector2 MapToLocal(Vector2I vector2I)
-    {
-        return TileMapLayer.MapToLocal(vector2I);
-    }
 
     internal Vector2I LocalToMap(Vector2 vector)
     {
@@ -64,5 +34,35 @@ public partial class ProvinceMap : Node2D
         }
 
         tileMapLayers.Clear();
+    }
+
+    internal void Refresh()
+    {
+        Clear();
+
+        foreach (var province in this.GetSession().Provinces.Values)
+        {
+            while (true)
+            {
+                var color = new Color(random.Next(0, 10) / 10.0f, random.Next(0, 10) / 10.0f, random.Next(0, 10) / 10.0f);
+                if (!colors.Contains(color))
+                {
+                    colors.Add(color);
+                    break;
+                }
+            }
+
+            var newTileMapLayer = TileMapLayer.Duplicate() as TileMapLayer;
+            TileMapLayer.AddSibling(newTileMapLayer);
+            tileMapLayers.Add(province.Id, newTileMapLayer);
+
+            newTileMapLayer.Name = province.Id;
+            newTileMapLayer.Modulate = colors.Last();
+
+            foreach (var index in province.Block.Indexes)
+            {
+                newTileMapLayer.SetCell(new Vector2I(index.X, index.Y), 0, Vector2I.Zero, 0);
+            }
+        }
     }
 }
