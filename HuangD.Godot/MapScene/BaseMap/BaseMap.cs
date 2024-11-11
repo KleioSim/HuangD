@@ -19,7 +19,7 @@ public partial class BaseMap : Node2D
 
         foreach (var block in session.Blocks.Values)
         {
-            BlockMap.AddOrUpdate(block.Indexes);
+            BlockMap.AddOrUpdate(block.Indexes, block.Id);
         }
 
         foreach (var pair in session.Block2Terrain)

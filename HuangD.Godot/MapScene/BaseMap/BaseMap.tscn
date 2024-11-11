@@ -11,12 +11,12 @@
 [ext_resource type="Script" path="res://MapScene/BaseMap/EdgeMap.cs" id="9_d0l4k"]
 [ext_resource type="Texture2D" uid="uid://d3o4sb567jy4j" path="res://MapScene/whrite128.png" id="9_r3q6f"]
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ee8ga"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_nk82o"]
 texture = ExtResource("1_ksx8f")
 0:0/0 = 0
 
-[sub_resource type="TileSet" id="TileSet_4mdm2"]
-sources/0 = SubResource("TileSetAtlasSource_ee8ga")
+[sub_resource type="TileSet" id="TileSet_eitqf"]
+sources/0 = SubResource("TileSetAtlasSource_nk82o")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5wvpa"]
 texture = ExtResource("1_ksx8f")
@@ -60,21 +60,14 @@ sources/0 = SubResource("TileSetAtlasSource_daj27")
 [node name="BaseMap" type="Node2D"]
 script = ExtResource("1_kq2vw")
 
-[node name="BlockMap" type="TileMap" parent="."]
-visible = false
-self_modulate = Color(1, 1, 1, 0.117647)
-tile_set = SubResource("TileSet_4mdm2")
-format = 2
-layer_0/modulate = Color(0, 0, 0.4, 1)
-layer_1/name = "Layer1"
-layer_1/modulate = Color(0, 0.4, 0, 1)
-layer_2/name = "Layer2"
-layer_2/modulate = Color(0.4, 0.288067, 0.108, 1)
-layer_3/name = "Layer3"
-layer_3/modulate = Color(0.3268, 0.156, 0.4, 1)
+[node name="BlockMap" type="Node2D" parent="."]
 script = ExtResource("3_myy0s")
 
+[node name="TileMapLayer" type="TileMapLayer" parent="BlockMap"]
+tile_set = SubResource("TileSet_eitqf")
+
 [node name="TerrainMap" type="Node2D" parent="."]
+visible = false
 script = ExtResource("4_x1xyj")
 
 [node name="Water" type="TileMapLayer" parent="TerrainMap"]

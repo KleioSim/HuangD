@@ -17,7 +17,7 @@ public partial class MapDebug : Node2D
 
         foreach (var block in blocks)
         {
-            BlockMap.AddOrUpdate(block.Indexes);
+            BlockMap.AddOrUpdate(block.Indexes, block.Id);
         }
 
         var block2Terrain = MapBuilder.TerrainBuilder.Build(blocks, seed);
