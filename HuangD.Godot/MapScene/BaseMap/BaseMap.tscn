@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://4djj474jikp0"]
+[gd_scene load_steps=23 format=3 uid="uid://4djj474jikp0"]
 
 [ext_resource type="Script" path="res://MapScene/BaseMap/BaseMap.cs" id="1_kq2vw"]
 [ext_resource type="Texture2D" uid="uid://bsgby7tsxt1l7" path="res://MapScene/whrite16.png" id="1_ksx8f"]
@@ -24,6 +24,13 @@ texture = ExtResource("1_ksx8f")
 
 [sub_resource type="TileSet" id="TileSet_wxd1e"]
 sources/0 = SubResource("TileSetAtlasSource_5wvpa")
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_7rxhq"]
+texture = ExtResource("1_ksx8f")
+0:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_meny7"]
+sources/0 = SubResource("TileSetAtlasSource_7rxhq")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_k7c3j"]
 texture = ExtResource("1_ksx8f")
@@ -82,20 +89,14 @@ layer_3/name = "Layer3"
 layer_3/modulate = Color(0.3268, 0.156, 0.4, 1)
 script = ExtResource("4_x1xyj")
 
-[node name="PopCountMap" type="TileMap" parent="."]
-visible = false
-tile_set = SubResource("TileSet_wxd1e")
-format = 2
-layer_0/modulate = Color(0, 0, 0.4, 1)
-layer_1/name = "Layer1"
-layer_1/modulate = Color(0, 0.4, 0, 1)
-layer_2/name = "Layer2"
-layer_2/modulate = Color(0.4, 0.288067, 0.108, 1)
-layer_3/name = "Layer3"
-layer_3/modulate = Color(0.3268, 0.156, 0.4, 1)
+[node name="PopCountMap" type="Node2D" parent="."]
 script = ExtResource("5_adhf4")
 
+[node name="TileMapLayer" type="TileMapLayer" parent="PopCountMap"]
+tile_set = SubResource("TileSet_meny7")
+
 [node name="ProvinceMap" type="Node2D" parent="."]
+visible = false
 modulate = Color(1, 1, 1, 0.196078)
 script = ExtResource("6_1jkdy")
 
