@@ -32,4 +32,9 @@ public class Index
     {
         return (int)(Math.Pow(other.X - X, 2) + Math.Pow(other.Y - Y, 2));
     }
+
+    public override string ToString()
+    {
+        return $"({X}, {Y})";
+    }
 }

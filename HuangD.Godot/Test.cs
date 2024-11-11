@@ -10,58 +10,10 @@ using System.Reflection;
 
 public partial class Test : Control
 {
-    public static IData data;
-    Label label => GetNode<Label>("Label");
-
-    public override void _Ready()
-    {
-        //data = Decorator.Create(new Data());
-    }
+    public TileMapLayer layer => GetNode<TileMapLayer>("TileMapLayer");
 
     public override void _Process(double delta)
     {
-        base._Process(delta);
-    }
-
-    public override void _Input(InputEvent @event)
-    {
-        if (@event is InputEventScreenDrag eventKey)
-        {
-            GD.Print($"Drag {eventKey.Position}");
-        }
-    }
-
-    public void OnButton()
-    {
-        data.SetName(Guid.NewGuid().ToString());
-    }
-
-    public void OnRemove()
-    {
-        label.QueueFree();
+        var obj = layer.GetCellTileData(new Vector2I(0, 0));
     }
 }
-
-
-public interface IData
-{
-    string GetName();
-    void SetName(string name);
-}
-
-public class Data : IData
-{
-    private string name = "999";
-
-    public string GetName()
-    {
-        return name;
-    }
-
-    [DataChange]
-    public void SetName(string value)
-    {
-        name = value;
-    }
-}
-

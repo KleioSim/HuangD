@@ -16,18 +16,30 @@ font_color = Color(0, 0, 0, 1)
 outline_size = 2
 outline_color = Color(0.980392, 0.980392, 0.980392, 1)
 
-[node name="PoliticalItem" type="HBoxContainer"]
-offset_right = 65.0
-offset_bottom = 59.0
-pivot_offset = Vector2(15, 45)
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme_override_constants/separation = 10
+[node name="PoliticalItem" type="Control"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_fdej2")
-metadata/_edit_use_anchors_ = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 2
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -15.0
+offset_top = -29.5
+offset_right = 15.0
+offset_bottom = 29.5
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 
@@ -87,6 +99,10 @@ expand_mode = 1
 
 [node name="Armies" type="GridContainer" parent="."]
 layout_mode = 2
+offset_left = 25.0
+offset_top = 5.0
+offset_right = 50.0
+offset_bottom = 30.0
 size_flags_horizontal = 0
 size_flags_vertical = 8
 columns = 3

@@ -18,5 +18,7 @@ public partial class EdgeMap : TileMapLayer
             this.SetCell(new Vector2I(-1, i), 0, Vector2I.Zero, 0);
             this.SetCell(new Vector2I(size.X, i), 0, Vector2I.Zero, 0);
         }
+
+
     }
 }

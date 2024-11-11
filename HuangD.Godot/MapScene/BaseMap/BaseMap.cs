@@ -12,6 +12,7 @@ public partial class BaseMap : Node2D
     ProvinceMap ProvinceMap => GetNode<ProvinceMap>("ProvinceMap");
     BoundaryMap BoundaryMap => GetNode<BoundaryMap>("BoundaryMap");
     EdgeMap EdgeMap => GetNode<EdgeMap>("EdgeMap");
+    PolitcalMap PolitcalMap => GetNode<PolitcalMap>("PolitcalMap");
 
     public override void _Ready()
     {
@@ -32,6 +33,7 @@ public partial class BaseMap : Node2D
         {
             PopCountMap.AddOrUpdate(province.Block.Indexes, province.PopCount * 10 / session.Provinces.Values.Max(p => p.PopCount));
             ProvinceMap.AddOrUpdate(province.Block.Indexes, province.Id);
+            PolitcalMap.AddOrUpdate(province.Block.coreIndex, province.Id);
         }
 
         var mapSize = new Vector2I(session.MapSize.x, session.MapSize.y);

@@ -1,9 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://bnjubmq3phi3w"]
+[gd_scene load_steps=4 format=3 uid="uid://bnjubmq3phi3w"]
 
 [ext_resource type="Script" path="res://MapScene/MapScene.cs" id="1_3h0t5"]
 [ext_resource type="Theme" uid="uid://dgi25jix5u4k8" path="res://Themes/HiddeScrollBar.tres" id="1_5acv7"]
 [ext_resource type="PackedScene" uid="uid://4djj474jikp0" path="res://MapScene/BaseMap/BaseMap.tscn" id="2_2ryrc"]
-[ext_resource type="PackedScene" uid="uid://okq5t8265wxa" path="res://MapScene/Politicals/PoliticalContainer.tscn" id="4_4cj6y"]
 
 [node name="MapScene" type="GraphEdit"]
 anchors_preset = 15
@@ -21,22 +20,17 @@ script = ExtResource("1_3h0t5")
 
 [node name="GraphElement" type="GraphElement" parent="."]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_right = 1152.0
-offset_bottom = 648.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -576.0
+offset_top = -324.0
+offset_right = -576.0
+offset_bottom = -324.0
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="BaseMap" parent="GraphElement" instance=ExtResource("2_2ryrc")]
 position = Vector2(128, 128)
-
-[node name="PoliticalContainer" parent="GraphElement/BaseMap" instance=ExtResource("4_4cj6y")]
-visible = false
-layout_direction = 2
-offset_right = 0.0
-offset_bottom = 0.0
-size_flags_horizontal = 0
-size_flags_vertical = 0
-mouse_filter = 1

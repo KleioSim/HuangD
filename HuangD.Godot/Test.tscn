@@ -1,13 +1,13 @@
-[gd_scene load_steps=4 format=4 uid="uid://cbn2qdvofnnot"]
+[gd_scene load_steps=5 format=3 uid="uid://cbn2qdvofnnot"]
 
-[ext_resource type="Texture2D" uid="uid://bsgby7tsxt1l7" path="res://MapScene/whrite16.png" id="1_t8upp"]
+[ext_resource type="Script" path="res://Test.cs" id="1_xt7lv"]
+[ext_resource type="PackedScene" uid="uid://df0qeobvo5f2h" path="res://MapScene/Politicals/PoliticalItem.tscn" id="2_8l8ss"]
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2mie7"]
-texture = ExtResource("1_t8upp")
-0:0/0 = 0
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_xfml8"]
+scenes/2/scene = ExtResource("2_8l8ss")
 
-[sub_resource type="TileSet" id="TileSet_fyppa"]
-sources/0 = SubResource("TileSetAtlasSource_2mie7")
+[sub_resource type="TileSet" id="TileSet_c2mnx"]
+sources/1 = SubResource("TileSetScenesCollectionSource_xfml8")
 
 [node name="Test" type="Control"]
 layout_mode = 3
@@ -16,30 +16,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_xt7lv")
 
-[node name="GraphEdit" type="GraphEdit" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="GraphElement" type="GraphElement" parent="GraphEdit"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_right = 1152.0
-offset_bottom = 648.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="CenterContainer" type="CenterContainer" parent="GraphEdit/GraphElement"]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-
-[node name="TileMapLayer" type="TileMapLayer" parent="GraphEdit/GraphElement/CenterContainer"]
-tile_map_data = PackedByteArray("AAAAAP//AAAAAAAAAAD/////AAAAAAAAAAD//wAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAABAAEAAAAAAAAAAAD//wEAAAAAAAAAAAD//wIAAAAAAAAAAAD//wMAAAAAAAAAAAD//wQAAAAAAAAAAAD//wUAAAAAAAAAAAAAAAUAAAAAAAAAAAABAAUAAAAAAAAAAAACAAUAAAAAAAAAAAADAAUAAAAAAAAAAAAEAAUAAAAAAAAAAAAFAAUAAAAAAAAAAAAGAAUAAAAAAAAAAAAHAAUAAAAAAAAAAAABAP//AAAAAAAAAAACAP//AAAAAAAAAAADAP//AAAAAAAAAAAEAAAAAAAAAAAAAAAFAAAAAAAAAAAAAAAGAAAAAAAAAAAAAAAHAAAAAAAAAAAAAAAHAAEAAAAAAAAAAAAHAAIAAAAAAAAAAAAHAAMAAAAAAAAAAAAHAAQAAAAAAAAAAAACAAEAAAAAAAAAAAADAAEAAAAAAAAAAAADAAIAAAAAAAAAAAAEAAIAAAAAAAAAAAAFAAIAAAAAAAAAAAAFAAMAAAAAAAAAAAAFAAQAAAAAAAAAAAAEAAQAAAAAAAAAAAADAAQAAAAAAAAAAAACAAQAAAAAAAAAAAABAAQAAAAAAAAAAAAAAAMAAAAAAAAAAAACAAIAAAAAAAAAAAABAAIAAAAAAAAAAAAAAAIAAAAAAAAAAAADAAMAAAAAAAAAAAACAAMAAAAAAAAAAAABAAMAAAAAAAAAAAAAAAQAAAAAAAAAAAAEAAMAAAAAAAAAAAAGAAMAAAAAAAAAAAAGAAIAAAAAAAAAAAAFAAEAAAAAAAAAAAAEAAEAAAAAAAAAAAACAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAEAP//AAAAAAAAAAAFAP//AAAAAAAAAAAGAAEAAAAAAAAAAAAGAAQAAAAAAAAAAAAHAP//AAAAAAAAAAAGAP//AAAAAAAAAAA=")
-tile_set = SubResource("TileSet_fyppa")
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray(0, 0, 255, 255, 0, 0, 1, 0, 0, 0, 0, 0, 2, 0, 4, 0, 4, 0, 1, 0, 0, 0, 0, 0, 2, 0, 5, 0, 255, 255, 1, 0, 0, 0, 0, 0, 2, 0)
+tile_set = SubResource("TileSet_c2mnx")

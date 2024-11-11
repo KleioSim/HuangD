@@ -10,7 +10,5 @@ public partial class LabelTest : Label, IView
         var view = this as IView;
         if (!view.IsDirty()) { return; }
         GD.Print("Update");
-
-        Text = Test.data.GetName();
     }
 }

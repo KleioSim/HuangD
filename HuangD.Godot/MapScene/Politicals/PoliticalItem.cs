@@ -5,57 +5,36 @@ using HuangD.Sessions;
 using System;
 using System.Linq;
 
-public partial class PoliticalItem : HBoxContainer, IView
+public partial class PoliticalItem : Control, IView
 {
     public TextureButton ProvinceButton => GetNode<TextureButton>("VBoxContainer/Province");
     public TextureButton CountryButton => GetNode<TextureButton>("VBoxContainer/Country");
 
     public Label ProvinceName => GetNode<Label>("VBoxContainer/Province/VBoxContainer/Name");
     public Label CountryName => GetNode<Label>("VBoxContainer/Country/Name");
-
-    //public Control CurrentOwner => GetNode<Control>("HBoxContainer");
     public InstancePlaceholder ArmyInfo => GetNode<InstancePlaceholder>("Armies/ArmyInfo");
 
     public Control BattleFlag => GetNode<Control>("VBoxContainer/Province/VBoxContainer/Battle");
 
-    //public ArmyInfo ArmyInfo => GetNode<ArmyInfo>("HBoxContainer/Military/HBoxContainer/Army");
-    //public EnemyInfo EnemyInfo => GetNode<EnemyInfo>("HBoxContainer/Military/HBoxContainer/Enemy");
-
-    //public BattleInfo BattleInfo => GetNode<BattleInfo>("HBoxContainer/Military/HBoxContainer/Enemy/Battle");
-    //public MoveTarget MoveTarget => GetNode<MoveTarget>("HBoxContainer/VBoxContainer/Province/MoveTarget");
-
-    public Province province
+    private Province GetProvince()
     {
-        get
-        {
-            return _province;
-        }
-        set
-        {
-            if (_province == value)
-            {
-                return;
-            }
+        var politicalMap = this.GetParent<PolitcalMap>();
+        var vector = politicalMap.LocalToMap(this.Position);
+        GD.Print($"GetProvince {vector}");
 
-            _province = value;
-            var view = this as IView;
-            view.IsSelfDirty = true;
-        }
+        return this.GetSession().Provinces.Values.Single(x => x.Block.coreIndex.Equals(new HuangD.Sessions.Maps.Index(vector.X, vector.Y)));
     }
-
-    private Province _province;
-
 
     public override void _Ready()
     {
         ProvinceButton.Connect(TextureButton.SignalName.Pressed, Callable.From(() =>
         {
-            this.GetSelectEntity().Current = this.GetSession().Entities[_province.Id];
+            this.GetSelectEntity().Current = GetProvince();
         }));
 
         CountryButton.Connect(TextureButton.SignalName.Pressed, Callable.From(() =>
         {
-            this.GetSelectEntity().Current = this.GetSession().Entities[_province.Owner.Id];
+            this.GetSelectEntity().Current = GetProvince().Owner;
         }));
     }
 
@@ -64,13 +43,14 @@ public partial class PoliticalItem : HBoxContainer, IView
         var view = this as IView;
         if (!view.IsDirty()) { return; }
 
-        ProvinceName.Text = _province.Name;
-        CountryName.Text = _province.Owner.Id;
+        var province = GetProvince();
+        ProvinceName.Text = province.Name;
+        CountryName.Text = province.Owner.Id;
 
         var armyInfos = ArmyInfo.GetParent().GetChildren().OfType<ArmyInfo>();
 
-        var needAddArmies = _province.centralArmies.Except(armyInfos.Select(x => x.armyObj)).ToArray();
-        var needRemoveArmies = armyInfos.Where(x => !_province.centralArmies.Contains(x.armyObj)).ToArray();
+        var needAddArmies = province.centralArmies.Except(armyInfos.Select(x => x.armyObj)).ToArray();
+        var needRemoveArmies = armyInfos.Where(x => !province.centralArmies.Contains(x.armyObj)).ToArray();
 
         foreach (var item in needRemoveArmies)
         {
