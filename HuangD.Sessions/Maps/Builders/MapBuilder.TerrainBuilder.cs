@@ -11,7 +11,7 @@ public static partial class MapBuilder
     {
         public static Dictionary<Block, TerrainType> Build(IEnumerable<Block> blocks, string seed)
         {
-            var dict = blocks.ToDictionary(x => x, _ => TerrainType.Land);
+            var dict = blocks.ToDictionary(x => x, _ => TerrainType.Plain);
 
             var waterBlocks = BuildWater(blocks, seed);
             foreach (var block in waterBlocks)
@@ -22,7 +22,7 @@ public static partial class MapBuilder
             var mountionBlocks = BuildMountion(blocks.Except(waterBlocks), seed);
             foreach (var block in mountionBlocks)
             {
-                dict[block] = TerrainType.Mount;
+                dict[block] = TerrainType.Mountion;
             }
 
             var hillBlocks = BuildHill(blocks.Except(waterBlocks).Except(mountionBlocks), mountionBlocks, seed);

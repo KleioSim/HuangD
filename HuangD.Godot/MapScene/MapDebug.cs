@@ -23,10 +23,7 @@ public partial class MapDebug : Node2D
         var block2Terrain = MapBuilder.TerrainBuilder.Build(blocks, seed);
         foreach (var pair in block2Terrain)
         {
-            foreach (var index in pair.Key.Indexes)
-            {
-                TerrainMap.AddOrUpdate(index, pair.Value);
-            }
+            TerrainMap.AddOrUpdate(pair.Key.Indexes, pair.Value);
         }
 
         var provinces = Province.Builder.Build(block2Terrain, seed);

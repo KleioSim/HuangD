@@ -3,8 +3,8 @@
 public enum TerrainType
 {
     Water,
-    Land,
-    Mount,
+    Plain,
+    Mountion,
     Steppe,
     Hill
 }

@@ -11,16 +11,16 @@ public static partial class MapBuilder
     {
         private static readonly Dictionary<TerrainType, (int min, int max)> basePopDict = new Dictionary<TerrainType, (int min, int max)>()
         {
-            { TerrainType.Land, (200000,500000)},
+            { TerrainType.Plain, (200000,500000)},
             { TerrainType.Hill, (50000,100000)},
-            { TerrainType.Mount, (20000,50000)},
+            { TerrainType.Mountion, (20000,50000)},
         };
 
         private static readonly Dictionary<TerrainType, (int min, int max)> incPopDict = new Dictionary<TerrainType, (int min, int max)>()
         {
-            { TerrainType.Land, (20000,50000)},
+            { TerrainType.Plain, (20000,50000)},
             { TerrainType.Hill, (5000,10000)},
-            { TerrainType.Mount, (2000,5000)},
+            { TerrainType.Mountion, (2000,5000)},
         };
 
         public static Dictionary<Block, int> Build(Dictionary<Block, TerrainType> terrains, string seed)
@@ -54,13 +54,13 @@ public static partial class MapBuilder
 
                 switch (terrain)
                 {
-                    case TerrainType.Land:
+                    case TerrainType.Plain:
                         popCount = random.Next(1000, 5000);
                         break;
                     case TerrainType.Hill:
                         popCount = random.Next(100, 500);
                         break;
-                    case TerrainType.Mount:
+                    case TerrainType.Mountion:
                         popCount = random.Next(10, 50);
                         break;
                 }
@@ -72,11 +72,11 @@ public static partial class MapBuilder
                     {
                         switch (neighborTerrain)
                         {
-                            case TerrainType.Land:
+                            case TerrainType.Plain:
                                 return random.Next(500, 1000);
                             case TerrainType.Hill:
                                 return random.Next(50, 100);
-                            case TerrainType.Mount:
+                            case TerrainType.Mountion:
                                 return 0;
                         }
                     }
