@@ -16,9 +16,6 @@ public partial class InitialScene : Control, IView
 
     public override void _Ready()
     {
-        //var commandRegister = new CommandRegister();
-        //GetTree().Root.AddChild(commandRegister, true);
-
         SelectCountryPanel.Visible = false;
 
         SeedPanel.Connect(SeedPanel.SignalName.Confirm, Callable.From((string seed) =>

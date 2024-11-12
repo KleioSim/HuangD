@@ -7,6 +7,9 @@ public partial class MapScene : GraphEdit
 
     public override void _Ready()
     {
+        var commandRegister = new CommandRegister();
+        GetTree().Root.AddChild(commandRegister, true);
+
         GraphElement.Size = BaseMap.GetSize();
         GraphElement.PositionOffset = this.GetViewportRect().Size / 2 - GraphElement.Size / 2;
     }

@@ -65,7 +65,7 @@ public partial class CommandConsole : Node
         style2.BgColor = new Color(0, 0, 0, 0.5f);
 
         CanvasLayer canvas = new CanvasLayer();
-        canvas.Layer = 3;
+        canvas.Layer = int.MaxValue;
         AddChild(canvas);
         control.AnchorBottom = 1;
         control.AnchorRight = 1;
