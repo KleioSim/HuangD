@@ -1,9 +1,12 @@
 ﻿using Chrona.Engine.Core.Interfaces;
 using Chrona.Engine.Core.Sessions;
+using HuangD.Sessions;
 using HuangD.Sessions.Maps;
 using HuangD.Sessions.Messages;
 using HuangD.Sessions.Utilties;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using static HuangD.Sessions.Maps.Builders.MapBuilder;
 
@@ -19,7 +22,65 @@ public interface ISessionData : ISession
     Dictionary<string, Block> Blocks { get; }
     Dictionary<string, TerrainType> Block2Terrain { get; }
     Dictionary<string, Province> Block2Province { get; }
-    Dictionary<string, Province> Provinces { get; }
+    ProvinceDictionary Provinces { get; }
+}
+
+public class ProvinceDictionary : IReadOnlyDictionary<string, Province>
+{
+    private Dictionary<string, Province> Id2Province;
+    private Dictionary<Index, Province> Index2Province;
+
+    public Province this[string key] => ((IReadOnlyDictionary<string, Province>)Id2Province)[key];
+
+    public IEnumerable<string> Keys => ((IReadOnlyDictionary<string, Province>)Id2Province).Keys;
+
+    public IEnumerable<Province> Values => ((IReadOnlyDictionary<string, Province>)Id2Province).Values;
+
+    public int Count => ((IReadOnlyCollection<KeyValuePair<string, Province>>)Id2Province).Count;
+
+    public ProvinceDictionary(Dictionary<string, Province> id2Province)
+    {
+        Id2Province = id2Province;
+
+        Index2Province = new Dictionary<Index, Province>();
+        foreach (var province in id2Province.Values)
+        {
+            foreach (var index in province.Block.Indexes)
+            {
+                Index2Province.Add(index, province);
+            }
+        }
+    }
+
+    public bool ContainsKey(string key)
+    {
+        return ((IReadOnlyDictionary<string, Province>)Id2Province).ContainsKey(key);
+    }
+
+    public IEnumerator<KeyValuePair<string, Province>> GetEnumerator()
+    {
+        return ((IEnumerable<KeyValuePair<string, Province>>)Id2Province).GetEnumerator();
+    }
+
+    public bool TryGetValue(string key, [MaybeNullWhen(false)] out Province value)
+    {
+        return ((IReadOnlyDictionary<string, Province>)Id2Province).TryGetValue(key, out value);
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return ((IEnumerable)Id2Province).GetEnumerator();
+    }
+
+    public Province GetByIndex(Index index)
+    {
+        if (Index2Province.TryGetValue(index, out var ret))
+        {
+            return ret;
+        }
+
+        return null;
+    }
 }
 
 public class Session : AbstractSession, ISessionData
@@ -43,7 +104,7 @@ public class Session : AbstractSession, ISessionData
     public Dictionary<string, Block> Blocks { get; private set; }
     public Dictionary<string, TerrainType> Block2Terrain { get; private set; }
     public Dictionary<string, Province> Block2Province { get; private set; }
-    public Dictionary<string, Province> Provinces { get; private set; }
+    public ProvinceDictionary Provinces { get; private set; }
 
     public Country PlayerCountry { get; private set; }
 
@@ -92,7 +153,7 @@ public class Session : AbstractSession, ISessionData
         Blocks = blocks.ToDictionary(b => b.Id, b => b);
         Block2Terrain = block2Terrain.ToDictionary(p => p.Key.Id, p => p.Value);
         Block2Province = block2province.ToDictionary(p => p.Key.Id, p => p.Value);
-        Provinces = Block2Province.ToDictionary(p => p.Value.Id, p => p.Value);
+        Provinces = new ProvinceDictionary(Block2Province.ToDictionary(p => p.Value.Id, p => p.Value));
 
         var countries = Country.Builder.Build(Provinces.Values, Provinces.Values.Max(x => x.PopCount) * 3, Provinces.Count() / 5, seed);
         var centralArmies = countries.Values.Select(x => new CentralArmy(x, ArmyLevel.VeryHigh)).ToDictionary(x => x.Id, y => y);

@@ -15,19 +15,10 @@ public partial class ProvinceMap : Node2D
     private Dictionary<string, TileMapLayer> tileMapLayers = new Dictionary<string, TileMapLayer>();
 
 
-    internal Vector2I LocalToMap(Vector2 vector)
-    {
-        return TileMapLayer.LocalToMap(vector);
-    }
-
-    internal string GetCellProvinceId(Vector2I vector)
-    {
-        var layer = tileMapLayers.Values.FirstOrDefault(x => x.GetCellSourceId(vector) != -1);
-        return layer != null ? layer.Name : null;
-    }
-
     internal void Clear()
     {
+        TileMapLayer.Clear();
+
         foreach (var oldLayer in tileMapLayers.Values)
         {
             oldLayer.QueueFree();

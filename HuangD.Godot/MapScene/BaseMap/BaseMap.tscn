@@ -69,12 +69,15 @@ sources/0 = SubResource("TileSetAtlasSource_daj27")
 script = ExtResource("1_kq2vw")
 
 [node name="BlockMap" type="Node2D" parent="."]
+visible = false
+modulate = Color(1, 1, 1, 0.0784314)
 script = ExtResource("3_myy0s")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="BlockMap"]
 tile_set = SubResource("TileSet_eitqf")
 
 [node name="TerrainMap" type="Node2D" parent="."]
+visible = false
 script = ExtResource("4_x1xyj")
 
 [node name="Water" type="TileMapLayer" parent="TerrainMap"]
@@ -99,12 +102,14 @@ use_parent_material = true
 tile_set = SubResource("TileSet_wxd1e")
 
 [node name="PopCountMap" type="Node2D" parent="."]
+visible = false
 script = ExtResource("5_adhf4")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="PopCountMap"]
 tile_set = SubResource("TileSet_meny7")
 
 [node name="ProvinceMap" type="Node2D" parent="."]
+modulate = Color(1, 1, 1, 0.0784314)
 script = ExtResource("6_1jkdy")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="ProvinceMap"]
@@ -112,12 +117,13 @@ tile_map_data = PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 
 tile_set = SubResource("TileSet_mlpsl")
 
 [node name="PolitcalMap" type="TileMapLayer" parent="."]
+visible = false
 tile_set = SubResource("TileSet_xwjjy")
 script = ExtResource("8_kregv")
 
 [node name="BoundaryMap" type="TileMapLayer" parent="."]
-position = Vector2(4, 4)
-tile_map_data = PackedByteArray(0, 0, 71, 0, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 143, 0, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0)
+position = Vector2(-4, -4)
+tile_map_data = PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 tile_set = SubResource("TileSet_mc214")
 script = ExtResource("7_wggg4")
 

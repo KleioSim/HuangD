@@ -44,6 +44,8 @@ public partial class PopCountMap : Node2D
 
     private void Clear()
     {
+        TileMapLayer.Clear();
+
         var layers = TileMapLayer.GetParent().GetChildren().OfType<TileMapLayer>().ToArray();
         foreach (var layer in layers)
         {
