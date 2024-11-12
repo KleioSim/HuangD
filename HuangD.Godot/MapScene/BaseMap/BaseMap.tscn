@@ -77,7 +77,6 @@ script = ExtResource("3_myy0s")
 tile_set = SubResource("TileSet_eitqf")
 
 [node name="TerrainMap" type="Node2D" parent="."]
-visible = false
 script = ExtResource("4_x1xyj")
 
 [node name="Water" type="TileMapLayer" parent="TerrainMap"]
@@ -109,6 +108,7 @@ script = ExtResource("5_adhf4")
 tile_set = SubResource("TileSet_meny7")
 
 [node name="ProvinceMap" type="Node2D" parent="."]
+visible = false
 modulate = Color(1, 1, 1, 0.0784314)
 script = ExtResource("6_1jkdy")
 
@@ -117,7 +117,6 @@ tile_map_data = PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 
 tile_set = SubResource("TileSet_mlpsl")
 
 [node name="PolitcalMap" type="TileMapLayer" parent="."]
-visible = false
 tile_set = SubResource("TileSet_xwjjy")
 script = ExtResource("8_kregv")
 

@@ -9,74 +9,49 @@ using System.Linq;
 
 public partial class InitialScene : Control, IView
 {
-    public TextEdit TextEdit => GetNode<TextEdit>("CanvasLayer/VBoxContainer/BuildMapPanel/VBoxContainer/SeedEditor");
-    public SelectCountryPanel SelectCountryPanel => GetNode<SelectCountryPanel>("CanvasLayer/VBoxContainer/SelectCountryPanel");
+    public SeedPanel SeedPanel => GetNode<SeedPanel>("CanvasLayer/SeedPanel");
+    public SelectCountryPanel SelectCountryPanel => GetNode<SelectCountryPanel>("CanvasLayer/SelectCountryPanel");
 
-    private Country selectedCountry;
-
-    public void Start()
-    {
-        this.GetSelectEntity().Current = null;
-
-        this.GetSession().OnMessage(new Command_ChangePlayerCountry(selectedCountry.Id));
-
-        GetTree().ChangeSceneToFile("res://MainScene/MainScene.tscn");
-    }
-
-    public void Load()
-    {
-        var instance = Session.Instance;
-        instance.Init(TextEdit.Text);
-
-        this.SetSession(Decorator.Create<ISessionData>(instance));
-
-        var commandRegister = new CommandRegister();
-        GetTree().Root.AddChild(commandRegister, true);
-
-        var mapScene = ResourceLoader.Load<PackedScene>("res://MapScene/MapScene.tscn").Instantiate() as MapScene;
-        GetTree().Root.AddChild(mapScene);
-    }
+    private MapScene mapScene;
 
     public override void _Ready()
     {
+        //var commandRegister = new CommandRegister();
+        //GetTree().Root.AddChild(commandRegister, true);
+
         SelectCountryPanel.Visible = false;
-    }
 
-    public override void _Process(double delta)
-    {
-        if (this.GetSession() == null)
+        SeedPanel.Connect(SeedPanel.SignalName.Confirm, Callable.From((string seed) =>
         {
-            return;
-        }
+            var instance = Session.Instance;
+            instance.Init(seed);
 
-        var view = this as IView;
-        if (!view.IsDirty()) { return; }
+            this.SetSession(Decorator.Create<ISessionData>(instance));
 
-        selectedCountry = null;
+            mapScene = ResourceLoader.Load<PackedScene>("res://MapScene/MapScene.tscn").Instantiate() as MapScene;
+            GetTree().Root.AddChild(mapScene);
 
-        var selectEntity = this.GetSelectEntity().Current;
-        switch (selectEntity)
+            SeedPanel.Visible = false;
+            SelectCountryPanel.Visible = true;
+        }));
+
+        SelectCountryPanel.Connect(SelectCountryPanel.SignalName.Next, Callable.From((string id) =>
         {
-            case Province province:
-                selectedCountry = province.Owner;
-                break;
-            case Country country:
-                selectedCountry = country;
-                break;
-            case CentralArmy centralArmy:
-                selectedCountry = centralArmy.Owner;
-                break;
-            default:
-                break;
-        }
+            this.GetSelectEntity().Current = null;
 
+            this.GetSession().OnMessage(new Command_ChangePlayerCountry(id));
 
-        SelectCountryPanel.Visible = selectedCountry != null;
-        if (SelectCountryPanel.Visible)
+            GetTree().ChangeSceneToFile("res://MainScene/MainScene.tscn");
+        }));
+
+        SelectCountryPanel.Connect(SelectCountryPanel.SignalName.Back, Callable.From(() =>
         {
-            SelectCountryPanel.CountryName.Text = selectedCountry.Id;
-            SelectCountryPanel.ProvinceCount.Text = selectedCountry.Provinces.Count().ToString();
-            SelectCountryPanel.PopCount.Text = selectedCountry.PopCount.ToString();
-        }
+            mapScene.QueueFree();
+
+            this.GetSelectEntity().Current = null;
+
+            SeedPanel.Visible = true;
+            SelectCountryPanel.Visible = false;
+        }));
     }
 }
