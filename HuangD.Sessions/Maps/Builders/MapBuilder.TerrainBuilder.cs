@@ -1,5 +1,6 @@
 ﻿using DynamicData;
 using HuangD.Sessions.Utilties;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,29 +10,72 @@ public static partial class MapBuilder
 {
     public static class TerrainBuilder
     {
+
         public static Dictionary<Block, TerrainType> Build(IEnumerable<Block> blocks, string seed)
         {
-            var dict = blocks.ToDictionary(x => x, _ => TerrainType.Plain);
+            var dict = blocks.ToDictionary(x => x, _ => TerrainType.Water);
 
-            var waterBlocks = BuildWater(blocks, seed);
-            foreach (var block in waterBlocks)
+            var plainBlocks = BuildPlain(blocks, seed);
+            foreach (var block in plainBlocks)
             {
-                dict[block] = TerrainType.Water;
+                dict[block] = TerrainType.Plain;
             }
 
-            var mountionBlocks = BuildMountion(blocks.Except(waterBlocks), seed);
+            var mountionBlocks = BuildMountion(plainBlocks, seed);
             foreach (var block in mountionBlocks)
             {
                 dict[block] = TerrainType.Mountion;
             }
 
-            var hillBlocks = BuildHill(blocks.Except(waterBlocks).Except(mountionBlocks), mountionBlocks, seed);
+            var hillBlocks = BuildHill(plainBlocks.Except(mountionBlocks), mountionBlocks, seed);
             foreach (var block in hillBlocks)
             {
                 dict[block] = TerrainType.Hill;
             }
 
             return dict;
+        }
+
+        private static IEnumerable<Block> BuildPlain(IEnumerable<Block> blocks, string seed)
+        {
+            var random = RandomBuilder.Build(seed);
+
+            var maxX = blocks.SelectMany(x => x.Indexes).Max(i => i.X);
+            var maxY = blocks.SelectMany(x => x.Indexes).Max(i => i.Y);
+
+            var factor = 0.5;
+            var result = blocks.Where(b => (b.coreIndex.X < maxX * factor && b.coreIndex.Y < maxY * factor))
+                .Concat(blocks.Where(b => b.Indexes.Min(i => i.X) == 0 || b.Indexes.Min(i => i.Y) == 0))
+                .ToHashSet();
+
+            var validBlocks = result.Where(x => x.Neighbors.Except(result).Any()).ToHashSet();
+
+            Block selectBlock = null;
+
+            while (result.Count < blocks.Count() * 0.75)
+            {
+                selectBlock ??= validBlocks.OrderBy(b => b.coreIndex.Distance(new Index(0, 0))).First();
+
+                var vaildNeighbor = selectBlock.Neighbors.Where(b => b.Indexes.Max(i => i.X) < maxX && b.Indexes.Max(i => i.Y) < maxY)
+                    .Except(result)
+                    .OrderBy(b => b.coreIndex.Distance(new Index(0, 0))).ToArray();
+                if (vaildNeighbor.Length == 0)
+                {
+                    validBlocks.Remove(selectBlock);
+                    selectBlock = null;
+                    continue;
+                }
+
+                selectBlock = vaildNeighbor[random.Next(0, vaildNeighbor.Length)];
+                result.Add(selectBlock);
+
+                if (selectBlock.Neighbors.Except(result).Any())
+                {
+                    validBlocks.Add(selectBlock);
+                }
+            }
+
+            return result;
         }
 
         private static IEnumerable<Block> BuildHill(IEnumerable<Block> landBlocks, IEnumerable<Block> mountionBlocks, string seed)

@@ -31,9 +31,8 @@ public static partial class MapBuilder
 
             var freeIndexes = Enumerable.Range(0, width)
                 .SelectMany(x => Enumerable.Range(0, high).Select(y => new Index(x, y)))
+                .Except(dict.Values.Distinct().SelectMany(x => x.Indexes))
                 .ToHashSet();
-
-            freeIndexes.ExceptWith(dict.Values.Distinct().SelectMany(x => x.Indexes));
 
             var list = dict.Values.ToHashSet();
             var finishedBlocks = new HashSet<Block>();
@@ -74,13 +73,6 @@ public static partial class MapBuilder
 
                             dict.Add(newEdge, block);
 
-                            var neighborBlocks = GetNeighborBlock(newEdge, dict);
-                            block.Neighbors.Union(neighborBlocks);
-                            foreach (var neighborBlock in neighborBlocks)
-                            {
-                                neighborBlock.Neighbors.Add(block);
-                            }
-
                             break;
                         }
                     }
@@ -90,6 +82,11 @@ public static partial class MapBuilder
                         finishedBlocks.Add(block);
                     }
                 }
+            }
+
+            foreach (var block in dict.Values)
+            {
+                block.Neighbors.UnionWith(block.Edges.SelectMany(x => GetNeighborBlock(x, dict)));
             }
 
             var blocks = dict.Values.Distinct().ToList();

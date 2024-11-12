@@ -70,7 +70,6 @@ script = ExtResource("1_kq2vw")
 
 [node name="BlockMap" type="Node2D" parent="."]
 visible = false
-modulate = Color(1, 1, 1, 0.0784314)
 script = ExtResource("3_myy0s")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="BlockMap"]
