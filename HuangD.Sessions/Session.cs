@@ -155,7 +155,7 @@ public class Session : AbstractSession, ISessionData
         Block2Province = block2province.ToDictionary(p => p.Key.Id, p => p.Value);
         Provinces = new ProvinceDictionary(Block2Province.ToDictionary(p => p.Value.Id, p => p.Value));
 
-        var countries = Country.Builder.Build(Provinces.Values, Provinces.Values.Max(x => x.PopCount) * 3, Provinces.Count() / 5, seed);
+        var countries = Country.Builder.Build(Provinces.Values, (int)Provinces.Values.Average(x => x.PopCount) * 4, 4, seed);
         var centralArmies = countries.Values.Select(x => new CentralArmy(x, ArmyLevel.VeryHigh)).ToDictionary(x => x.Id, y => y);
 
         foreach (var entity in Provinces.Values)

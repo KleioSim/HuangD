@@ -7,6 +7,7 @@
 font_size = 10
 font_color = Color(0, 0, 0, 1)
 outline_size = 1
+outline_color = Color(0.980392, 0.980392, 0.980392, 1)
 shadow_size = 2
 
 [node name="ArmyInfo" type="TextureButton"]
