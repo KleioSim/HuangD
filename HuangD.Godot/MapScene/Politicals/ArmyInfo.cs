@@ -39,6 +39,6 @@ public partial class ArmyInfo : TextureButton, IView
         var view = this as IView;
         if (!view.IsDirty()) { return; }
 
-        CountryName.Text = _armyObj.Owner.Id;
+        CountryName.Text = _armyObj.Owner.Name;
     }
 }

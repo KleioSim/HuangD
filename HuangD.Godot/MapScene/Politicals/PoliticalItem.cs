@@ -45,7 +45,7 @@ public partial class PoliticalItem : Control, IView
 
         var province = GetProvince();
         ProvinceName.Text = province.Name;
-        CountryName.Text = province.Owner.Id;
+        CountryName.Text = province.Owner.Name;
 
         var armyInfos = ArmyInfo.GetParent().GetChildren().OfType<ArmyInfo>();
 
@@ -65,7 +65,7 @@ public partial class PoliticalItem : Control, IView
 
         BattleFlag.Visible = false;
 
-        //CurrentOwner.Modulate = Color.FromHsv(_province.Owner.Color.h, _province.Owner.Color.s, _province.Owner.Color.v);
+        Modulate = Color.FromHsv(province.Owner.Color.h, province.Owner.Color.s, province.Owner.Color.v);
 
         //ArmyInfo.Update(_province.centralArmies.Where(x => x.Owner == _province.Owner));
         //EnemyInfo.Update(_province.centralArmies.Where(x => x.Owner != _province.Owner));

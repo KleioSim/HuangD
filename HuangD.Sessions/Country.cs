@@ -16,6 +16,7 @@ public partial class Country : IEntity
 
     public (float h, float s, float v) Color { get; }
 
+    public string Name { get; internal set; }
     public string Id { get; }
 
     public IEnumerable<Province> Provinces => GetProvinces(this);
@@ -41,9 +42,9 @@ public partial class Country : IEntity
 
     private Province capitalProvince;
 
-    public Country(string key, (float h, float s, float v) color)
+    public Country((float h, float s, float v) color)
     {
-        Id = key;
+        Id = UUID.Generate("CNT");
         Color = color;
         Economy = new Economy(this);
     }
