@@ -20,7 +20,6 @@ public partial class PoliticalItem : Control, IView
     {
         var politicalMap = this.GetParent<PolitcalMap>();
         var vector = politicalMap.LocalToMap(this.Position);
-        GD.Print($"GetProvince {vector}");
 
         return this.GetSession().Provinces.Values.Single(x => x.Block.coreIndex.Equals(new HuangD.Sessions.Maps.Index(vector.X, vector.Y)));
     }
@@ -66,12 +65,5 @@ public partial class PoliticalItem : Control, IView
         BattleFlag.Visible = false;
 
         Modulate = Color.FromHsv(province.Owner.Color.h, province.Owner.Color.s, province.Owner.Color.v);
-
-        //ArmyInfo.Update(_province.centralArmies.Where(x => x.Owner == _province.Owner));
-        //EnemyInfo.Update(_province.centralArmies.Where(x => x.Owner != _province.Owner));
-        //BattleInfo.Update(_province.Battle);
-
-        //var selectedEntity = this.GetSelectEntity().Current;
-        //MoveTarget.Visible = (selectedEntity is Army) && ((Army)selectedEntity).Position.Neighbors.Contains(_province);
     }
 }

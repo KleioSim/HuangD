@@ -1,0 +1,73 @@
+[gd_scene load_steps=5 format=3 uid="uid://ccxefb6gagvbn"]
+
+[ext_resource type="Script" path="res://MainScene/DetailPanels/ProvinceDetailPanels/ProvinceDetailPanel.cs" id="1_14ltj"]
+[ext_resource type="Script" path="res://MainScene/DetailPanels/ProvinceDetailPanels/ProvinceAttributeInfo.cs" id="2_8w3e0"]
+[ext_resource type="Script" path="res://MainScene/DetailPanels/ProvinceDetailPanels/ProvinceBattleInfo.cs" id="3_r51ca"]
+[ext_resource type="PackedScene" uid="uid://hj5vnhho5o2k" path="res://MainScene/DetailPanels/ProvinceDetailPanels/LocalArmyPanel.tscn" id="4_vtrg4"]
+
+[node name="ProvinceDetailPanel" type="PanelContainer"]
+offset_top = 239.0
+offset_right = 400.0
+offset_bottom = 239.0
+script = ExtResource("1_14ltj")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Header" type="HBoxContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "--"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="VBoxContainer/Header"]
+layout_mode = 2
+text = "X"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="TabContainer" type="TabContainer" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+current_tab = 0
+
+[node name="AttributeInfo" type="Panel" parent="VBoxContainer/HBoxContainer/TabContainer"]
+custom_minimum_size = Vector2(400, 200)
+layout_mode = 2
+script = ExtResource("2_8w3e0")
+metadata/_tab_index = 0
+
+[node name="BattleReport" type="Panel" parent="VBoxContainer/HBoxContainer/TabContainer"]
+visible = false
+custom_minimum_size = Vector2(400, 200)
+layout_mode = 2
+script = ExtResource("3_r51ca")
+metadata/_tab_index = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer/HBoxContainer/TabContainer/BattleReport"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="OperationPanel" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+visible = false
+layout_mode = 2
+
+[node name="TogglePropertyPanel" type="PanelContainer" parent="VBoxContainer/HBoxContainer/OperationPanel"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/OperationPanel/TogglePropertyPanel"]
+layout_mode = 2
+
+[node name="LocalArmy" parent="VBoxContainer/HBoxContainer/OperationPanel/TogglePropertyPanel/VBoxContainer" instance=ExtResource("4_vtrg4")]
+layout_mode = 2
+
+[connection signal="pressed" from="VBoxContainer/Header/Button" to="." method="queue_free"]
