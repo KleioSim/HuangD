@@ -1,0 +1,81 @@
+[gd_scene load_steps=2 format=3 uid="uid://dxfj5o1pix53d"]
+
+[ext_resource type="Script" path="res://MainScene/DetailPanels/ArmyItem.cs" id="1_4x4sx"]
+
+[node name="ArmyItem" type="HBoxContainer"]
+script = ExtResource("1_4x4sx")
+
+[node name="Name" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+size_flags_stretch_ratio = 0.2
+text = "--"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Datas" type="GridContainer" parent="."]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+size_flags_horizontal = 3
+columns = 5
+
+[node name="Control" type="Control" parent="Datas"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Level" type="OptionButton" parent="Datas/Control"]
+custom_minimum_size = Vector2(63, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+selected = 0
+fit_to_longest_item = false
+item_count = 5
+popup/item_0/text = "VHIGH"
+popup/item_1/text = "HIGH"
+popup/item_1/id = 1
+popup/item_2/text = "MID"
+popup/item_2/id = 2
+popup/item_3/text = "LOW"
+popup/item_3/id = 3
+popup/item_4/text = "VLOW"
+popup/item_4/id = 4
+
+[node name="Current" type="Label" parent="Datas"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "--"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Expect" type="Label" parent="Datas"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "--"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Increase" type="Label" parent="Datas"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "--"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Spend" type="Label" parent="Datas"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "--"
+horizontal_alignment = 1
+vertical_alignment = 1

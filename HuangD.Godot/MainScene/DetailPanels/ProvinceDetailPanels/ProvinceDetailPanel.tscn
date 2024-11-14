@@ -1,10 +1,15 @@
-[gd_scene load_steps=2 format=3 uid="uid://ccxefb6gagvbn"]
+[gd_scene load_steps=5 format=3 uid="uid://ccxefb6gagvbn"]
+
+[ext_resource type="Script" path="res://MainScene/DetailPanels/ProvinceDetailPanels/ProvinceDetailPanel.cs" id="1_qdjv1"]
+[ext_resource type="PackedScene" uid="uid://ce1x46je8tywf" path="res://MainScene/DetailPanels/ProvinceDetailPanels/Attributes.tscn" id="2_g7y42"]
+[ext_resource type="PackedScene" uid="uid://clcibiwmblw3y" path="res://MainScene/DetailPanels/ProvinceDetailPanels/Armies.tscn" id="3_iwowd"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_f1f4g"]
-font_size = 25
+font_size = 20
 
 [node name="ProvinceDetailPanel" type="PanelContainer"]
 custom_minimum_size = Vector2(450, 400)
+script = ExtResource("1_qdjv1")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
@@ -21,7 +26,7 @@ alignment = 1
 
 [node name="Label" type="Label" parent="VBoxContainer/Title/HBoxContainer"]
 layout_mode = 2
-text = "--"
+text = "Test"
 label_settings = SubResource("LabelSettings_f1f4g")
 
 [node name="Button" type="Button" parent="VBoxContainer/Title"]
@@ -41,312 +46,12 @@ size_flags_vertical = 3
 current_tab = 0
 tabs_visible = false
 
-[node name="Attributes" type="Panel" parent="VBoxContainer/TabContainer"]
+[node name="Attributes" parent="VBoxContainer/TabContainer" instance=ExtResource("2_g7y42")]
 layout_mode = 2
 metadata/_tab_index = 0
 
-[node name="GridContainer" type="GridContainer" parent="VBoxContainer/TabContainer/Attributes"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-columns = 2
-
-[node name="Terrain" type="HBoxContainer" parent="VBoxContainer/TabContainer/Attributes/GridContainer"]
-custom_minimum_size = Vector2(0, 40)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
-
-[node name="Label" type="Label" parent="VBoxContainer/TabContainer/Attributes/GridContainer/Terrain"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 1
-text = "Terrain"
-horizontal_alignment = 2
-vertical_alignment = 1
-
-[node name="Value" type="Label" parent="VBoxContainer/TabContainer/Attributes/GridContainer/Terrain"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 1
-text = "--"
-vertical_alignment = 1
-
-[node name="PopCount" type="HBoxContainer" parent="VBoxContainer/TabContainer/Attributes/GridContainer"]
-custom_minimum_size = Vector2(0, 40)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
-
-[node name="Label" type="Label" parent="VBoxContainer/TabContainer/Attributes/GridContainer/PopCount"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 1
-text = "PopCount"
-horizontal_alignment = 2
-vertical_alignment = 1
-
-[node name="Value" type="Label" parent="VBoxContainer/TabContainer/Attributes/GridContainer/PopCount"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 1
-text = "--"
-vertical_alignment = 1
-
-[node name="Tax" type="HBoxContainer" parent="VBoxContainer/TabContainer/Attributes/GridContainer"]
-custom_minimum_size = Vector2(0, 40)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
-
-[node name="Label" type="Label" parent="VBoxContainer/TabContainer/Attributes/GridContainer/Tax"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 1
-text = "Tax"
-horizontal_alignment = 2
-vertical_alignment = 1
-
-[node name="Value" type="Label" parent="VBoxContainer/TabContainer/Attributes/GridContainer/Tax"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 1
-text = "--"
-vertical_alignment = 1
-
-[node name="ArmyCount" type="HBoxContainer" parent="VBoxContainer/TabContainer/Attributes/GridContainer"]
-custom_minimum_size = Vector2(0, 40)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
-
-[node name="Label" type="Label" parent="VBoxContainer/TabContainer/Attributes/GridContainer/ArmyCount"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 1
-text = "ArmyCount"
-horizontal_alignment = 2
-vertical_alignment = 1
-
-[node name="Value" type="Label" parent="VBoxContainer/TabContainer/Attributes/GridContainer/ArmyCount"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 1
-text = "--"
-vertical_alignment = 1
-
-[node name="Armies" type="Panel" parent="VBoxContainer/TabContainer"]
+[node name="Armies" parent="VBoxContainer/TabContainer" instance=ExtResource("3_iwowd")]
 visible = false
-layout_mode = 2
-metadata/_tab_index = 1
-
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/Armies"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Total" type="PanelContainer" parent="VBoxContainer/TabContainer/Armies/VBoxContainer"]
-layout_mode = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/Armies/VBoxContainer/Total"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="VBoxContainer/TabContainer/Armies/VBoxContainer/Total/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 1
-size_flags_stretch_ratio = 0.2
-text = "Total"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/Armies/VBoxContainer/Total/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Title" type="GridContainer" parent="VBoxContainer/TabContainer/Armies/VBoxContainer/Total/HBoxContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 30)
-layout_mode = 2
-columns = 5
-
-[node name="Level" type="Label" parent="VBoxContainer/TabContainer/Armies/VBoxContainer/Total/HBoxContainer/VBoxContainer/Title"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 6
-text = "Level"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Current" type="Label" parent="VBoxContainer/TabContainer/Armies/VBoxContainer/Total/HBoxContainer/VBoxContainer/Title"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 6
-text = "Current"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Expect" type="Label" parent="VBoxContainer/TabContainer/Armies/VBoxContainer/Total/HBoxContainer/VBoxContainer/Title"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 6
-text = "Expect"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Increase" type="Label" parent="VBoxContainer/TabContainer/Armies/VBoxContainer/Total/HBoxContainer/VBoxContainer/Title"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 6
-text = "Increase"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Spend" type="Label" parent="VBoxContainer/TabContainer/Armies/VBoxContainer/Total/HBoxContainer/VBoxContainer/Title"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 6
-text = "Spend"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Datas" type="GridContainer" parent="VBoxContainer/TabContainer/Armies/VBoxContainer/Total/HBoxContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 50)
-layout_mode = 2
-columns = 5
-
-[node name="Level" type="Label" parent="VBoxContainer/TabContainer/Armies/VBoxContainer/Total/HBoxContainer/VBoxContainer/Datas"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-text = "--"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Current" type="Label" parent="VBoxContainer/TabContainer/Armies/VBoxContainer/Total/HBoxContainer/VBoxContainer/Datas"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-text = "--"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Expect" type="Label" parent="VBoxContainer/TabContainer/Armies/VBoxContainer/Total/HBoxContainer/VBoxContainer/Datas"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-text = "--"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Increase" type="Label" parent="VBoxContainer/TabContainer/Armies/VBoxContainer/Total/HBoxContainer/VBoxContainer/Datas"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-text = "--"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Spend" type="Label" parent="VBoxContainer/TabContainer/Armies/VBoxContainer/Total/HBoxContainer/VBoxContainer/Datas"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-text = "--"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/TabContainer/Armies/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="CentralArmyItem" type="VBoxContainer" parent="VBoxContainer/TabContainer/Armies/VBoxContainer/ScrollContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/Armies/VBoxContainer/ScrollContainer/CentralArmyItem"]
-layout_mode = 2
-
-[node name="Name" type="Label" parent="VBoxContainer/TabContainer/Armies/VBoxContainer/ScrollContainer/CentralArmyItem/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 1
-size_flags_stretch_ratio = 0.2
-text = "--"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Datas" type="GridContainer" parent="VBoxContainer/TabContainer/Armies/VBoxContainer/ScrollContainer/CentralArmyItem/HBoxContainer"]
-custom_minimum_size = Vector2(0, 35)
-layout_mode = 2
-size_flags_horizontal = 3
-columns = 5
-
-[node name="Control" type="Control" parent="VBoxContainer/TabContainer/Armies/VBoxContainer/ScrollContainer/CentralArmyItem/HBoxContainer/Datas"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Level" type="OptionButton" parent="VBoxContainer/TabContainer/Armies/VBoxContainer/ScrollContainer/CentralArmyItem/HBoxContainer/Datas/Control"]
-custom_minimum_size = Vector2(63, 0)
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 6
-size_flags_vertical = 6
-selected = 0
-fit_to_longest_item = false
-item_count = 5
-popup/item_0/text = "VHIGH"
-popup/item_1/text = "HIGH"
-popup/item_1/id = 1
-popup/item_2/text = "MID"
-popup/item_2/id = 2
-popup/item_3/text = "LOW"
-popup/item_3/id = 3
-popup/item_4/text = "VLOW"
-popup/item_4/id = 4
-
-[node name="Current" type="Label" parent="VBoxContainer/TabContainer/Armies/VBoxContainer/ScrollContainer/CentralArmyItem/HBoxContainer/Datas"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-text = "--"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Expect" type="Label" parent="VBoxContainer/TabContainer/Armies/VBoxContainer/ScrollContainer/CentralArmyItem/HBoxContainer/Datas"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-text = "--"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Increase" type="Label" parent="VBoxContainer/TabContainer/Armies/VBoxContainer/ScrollContainer/CentralArmyItem/HBoxContainer/Datas"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-text = "--"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Spend" type="Label" parent="VBoxContainer/TabContainer/Armies/VBoxContainer/ScrollContainer/CentralArmyItem/HBoxContainer/Datas"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-text = "--"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/Armies/VBoxContainer"]
 layout_mode = 2
 
 [connection signal="pressed" from="VBoxContainer/Title/Button" to="." method="queue_free"]

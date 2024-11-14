@@ -76,7 +76,6 @@ script = ExtResource("3_myy0s")
 tile_set = SubResource("TileSet_eitqf")
 
 [node name="TerrainMap" type="Node2D" parent="."]
-visible = false
 script = ExtResource("4_x1xyj")
 
 [node name="Water" type="TileMapLayer" parent="TerrainMap"]

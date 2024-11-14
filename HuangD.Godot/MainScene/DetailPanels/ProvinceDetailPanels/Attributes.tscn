@@ -1,0 +1,120 @@
+[gd_scene load_steps=2 format=3 uid="uid://ce1x46je8tywf"]
+
+[ext_resource type="Script" path="res://MainScene/DetailPanels/ProvinceDetailPanels/Attributes.cs" id="1_hpjf8"]
+
+[node name="Attributes" type="PanelContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_hpjf8")
+
+[node name="GridContainer" type="GridContainer" parent="."]
+layout_mode = 2
+columns = 2
+
+[node name="Terrain" type="HBoxContainer" parent="GridContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="GridContainer/Terrain"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Terrain"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Value" type="Label" parent="GridContainer/Terrain"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "--"
+vertical_alignment = 1
+
+[node name="PopCount" type="HBoxContainer" parent="GridContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="GridContainer/PopCount"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "PopCount"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Value" type="Label" parent="GridContainer/PopCount"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "--"
+vertical_alignment = 1
+
+[node name="Tax" type="HBoxContainer" parent="GridContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="GridContainer/Tax"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Tax"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Value" type="Label" parent="GridContainer/Tax"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "--"
+vertical_alignment = 1
+
+[node name="Control" type="Control" parent="GridContainer"]
+layout_mode = 2
+
+[node name="LocalArmyCount" type="HBoxContainer" parent="GridContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="GridContainer/LocalArmyCount"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "LocalArmy"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Value" type="Label" parent="GridContainer/LocalArmyCount"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "--"
+vertical_alignment = 1
+
+[node name="CentralArmyCount" type="HBoxContainer" parent="GridContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="GridContainer/CentralArmyCount"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "CentralArmy"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Value" type="Label" parent="GridContainer/CentralArmyCount"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "--"
+vertical_alignment = 1

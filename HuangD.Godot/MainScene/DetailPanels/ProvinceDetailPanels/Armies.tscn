@@ -1,0 +1,133 @@
+[gd_scene load_steps=2 format=3 uid="uid://clcibiwmblw3y"]
+
+[ext_resource type="Script" path="res://MainScene/DetailPanels/ProvinceDetailPanels/Armies.cs" id="1_28ytd"]
+
+[node name="Armies" type="PanelContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_28ytd")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Total" type="PanelContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Total"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/Total/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+size_flags_stretch_ratio = 0.2
+text = "Total"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Total/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Title" type="GridContainer" parent="VBoxContainer/Total/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+columns = 5
+
+[node name="Level" type="Label" parent="VBoxContainer/Total/HBoxContainer/VBoxContainer/Title"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "Level"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Current" type="Label" parent="VBoxContainer/Total/HBoxContainer/VBoxContainer/Title"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "Current"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Expect" type="Label" parent="VBoxContainer/Total/HBoxContainer/VBoxContainer/Title"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "Expect"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Increase" type="Label" parent="VBoxContainer/Total/HBoxContainer/VBoxContainer/Title"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "Increase"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Spend" type="Label" parent="VBoxContainer/Total/HBoxContainer/VBoxContainer/Title"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "Spend"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Datas" type="GridContainer" parent="VBoxContainer/Total/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+columns = 5
+
+[node name="Level" type="Label" parent="VBoxContainer/Total/HBoxContainer/VBoxContainer/Datas"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "--"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Current" type="Label" parent="VBoxContainer/Total/HBoxContainer/VBoxContainer/Datas"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "--"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Expect" type="Label" parent="VBoxContainer/Total/HBoxContainer/VBoxContainer/Datas"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "--"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Increase" type="Label" parent="VBoxContainer/Total/HBoxContainer/VBoxContainer/Datas"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "--"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Spend" type="Label" parent="VBoxContainer/Total/HBoxContainer/VBoxContainer/Datas"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "--"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Content" type="VBoxContainer" parent="VBoxContainer/ScrollContainer"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ArmyItem" parent="VBoxContainer/ScrollContainer/Content" instance_placeholder="res://MainScene/DetailPanels/ArmyItem.tscn"]
+layout_mode = 2

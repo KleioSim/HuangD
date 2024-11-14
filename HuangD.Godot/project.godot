@@ -22,6 +22,11 @@ Chrona_Global="*res://addons/Chrona.Engine.Godot/Global.cs"
 CommandConsole="*res://addons/csharpConsole/CommandConsole.cs"
 SelectEntity="*res://Utilties/SelectEntity.cs"
 
+[display]
+
+window/size/viewport_width=1366
+window/size/viewport_height=768
+
 [dotnet]
 
 project/assembly_name="HuangD.Godot"
