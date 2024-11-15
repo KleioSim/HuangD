@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3 uid="uid://dia220q4gxc8i"]
+
+[ext_resource type="Texture2D" uid="uid://c2hshwm854rkl" path="res://MapScene/battle.png" id="1_cyo8j"]
+[ext_resource type="Script" path="res://MainScene/Wars/WarItem.cs" id="2_fugjl"]
+
+[node name="WarItem" type="TextureButton"]
+custom_minimum_size = Vector2(70, 70)
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = ExtResource("1_cyo8j")
+ignore_texture_size = true
+stretch_mode = 0
+script = ExtResource("2_fugjl")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "--"
+horizontal_alignment = 1
+vertical_alignment = 1

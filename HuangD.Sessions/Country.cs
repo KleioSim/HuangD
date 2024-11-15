@@ -13,6 +13,7 @@ public partial class Country : IEntity
 {
     internal static Func<Country, IEnumerable<Province>> GetProvinces;
     internal static Func<Country, IEnumerable<CentralArmy>> GetCenterArmies;
+    internal static Func<Country, IEnumerable<War>> GetWars;
 
     public (float h, float s, float v) Color { get; }
 
@@ -21,6 +22,7 @@ public partial class Country : IEntity
 
     public IEnumerable<Province> Provinces => GetProvinces(this);
     public IEnumerable<CentralArmy> CenterArmies => GetCenterArmies(this);
+    public IEnumerable<War> Wars => GetWars(this);
 
     public Economy Economy { get; }
 

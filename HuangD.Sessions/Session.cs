@@ -83,6 +83,22 @@ public class ProvinceDictionary : IReadOnlyDictionary<string, Province>
     }
 }
 
+public class War : IEntity
+{
+    public War(Country from, Country target)
+    {
+        this.from = from;
+        this.target = target;
+
+        Id = UUID.Generate("WAR");
+    }
+
+    public Country from { get; set; }
+    public Country target { get; set; }
+
+    public string Id { get; }
+}
+
 public class Session : AbstractSession, ISessionData
 {
     public static Session Instance
@@ -105,6 +121,7 @@ public class Session : AbstractSession, ISessionData
     public Dictionary<string, TerrainType> Block2Terrain { get; private set; }
     public Dictionary<string, Province> Block2Province { get; private set; }
     public ProvinceDictionary Provinces { get; private set; }
+    public IEnumerable<War> Wars => entities.Values.OfType<War>();
 
     public Country PlayerCountry { get; private set; }
 
@@ -124,6 +141,7 @@ public class Session : AbstractSession, ISessionData
     {
         Country.GetCenterArmies = (country) => instance.entities.Values.OfType<CentralArmy>().Where(x => x.Owner == country);
         Country.GetProvinces = (coutry) => instance.Provinces.Values.Where(x => x.Owner == coutry);
+        Country.GetWars = (country) => instance.Wars.Where(x => x.from == country || x.target == country);
 
         Province.GetBlock = (blockId) => instance.Blocks[blockId];
         Province.GetTerrain = (blockId) => instance.Block2Terrain[blockId];
@@ -285,5 +303,12 @@ public class Session : AbstractSession, ISessionData
     {
         var army = entities[cmd.id] as Army;
         entities.Remove(army.Id);
+    }
+
+    [MessageProcess]
+    private void On_Command_WarStart(Command_WarStart cmd)
+    {
+        var war = new War(entities[cmd.fromId] as Country, entities[cmd.targetId] as Country);
+        entities.Add(war.Id, war);
     }
 }

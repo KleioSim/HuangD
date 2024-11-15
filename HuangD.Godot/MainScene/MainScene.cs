@@ -44,29 +44,4 @@ public partial class MainScene : Control, IView
 
         ArmyCount.Text = this.GetSession().PlayerCountry.CenterArmies.Sum(x => x.Count).ToString();
     }
-
-    //private void OnStartArmyMove(string provinceId)
-    //{
-    //    var detailPanel = DetailPanelPlaceHolder.GetParent().GetChildren().OfType<DetailPanelContainer>().Single();
-
-    //    if (this.GetSession().Entities[detailPanel.EntityId] is CentralArmy centralArmy)
-    //    {
-    //        SendCommand(new Command_ArmyMove(detailPanel.EntityId, provinceId));
-
-    //        MapScene.UpdateMoveInfo(detailPanel.EntityId);
-    //    }
-    //}
 }
-
-//internal class PlayerArmyData
-//{
-//    private ISessionData session;
-
-//    public IEnumerable<LocalArmy> localArmies => session.PlayerCountry.Provinces.Select(x => x.LocalArmy);
-//    public IEnumerable<CentralArmy> localArmies => session.PlayerCountry.Provinces.Select(x => x.LocalArmy);
-//    public PlayerArmyData(ISessionData session)
-//    {
-//        this.session = session;
-//    }
-
-//}
