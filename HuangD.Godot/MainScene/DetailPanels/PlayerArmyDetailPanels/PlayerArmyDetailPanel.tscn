@@ -1,10 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://bkttfna4ornph"]
+[gd_scene load_steps=3 format=3 uid="uid://bkttfna4ornph"]
+
+[ext_resource type="Script" path="res://MainScene/DetailPanels/PlayerArmyDetailPanels/PlayerArmyDetailPanel.cs" id="1_yysty"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_f1f4g"]
 font_size = 25
 
 [node name="PlayerArmyDetailPanel" type="PanelContainer"]
 custom_minimum_size = Vector2(450, 400)
+script = ExtResource("1_yysty")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
@@ -63,7 +66,7 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
-size_flags_stretch_ratio = 0.2
+size_flags_stretch_ratio = 0.32
 text = "Total"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -166,90 +169,20 @@ vertical_alignment = 1
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="CentralArmyItem" type="VBoxContainer" parent="VBoxContainer/TabContainer/CenterArmies/VBoxContainer/ScrollContainer"]
+[node name="Content" type="VBoxContainer" parent="VBoxContainer/TabContainer/CenterArmies/VBoxContainer/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/CenterArmies/VBoxContainer/ScrollContainer/CentralArmyItem"]
+[node name="ArmyItem" parent="VBoxContainer/TabContainer/CenterArmies/VBoxContainer/ScrollContainer/Content" instance_placeholder="res://MainScene/DetailPanels/ArmyItem.tscn"]
 layout_mode = 2
-
-[node name="Name" type="Label" parent="VBoxContainer/TabContainer/CenterArmies/VBoxContainer/ScrollContainer/CentralArmyItem/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 1
-size_flags_stretch_ratio = 0.2
-text = "--"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Datas" type="GridContainer" parent="VBoxContainer/TabContainer/CenterArmies/VBoxContainer/ScrollContainer/CentralArmyItem/HBoxContainer"]
-custom_minimum_size = Vector2(0, 35)
-layout_mode = 2
-size_flags_horizontal = 3
-columns = 5
-
-[node name="Control" type="Control" parent="VBoxContainer/TabContainer/CenterArmies/VBoxContainer/ScrollContainer/CentralArmyItem/HBoxContainer/Datas"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Level" type="OptionButton" parent="VBoxContainer/TabContainer/CenterArmies/VBoxContainer/ScrollContainer/CentralArmyItem/HBoxContainer/Datas/Control"]
-custom_minimum_size = Vector2(63, 0)
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 6
-size_flags_vertical = 6
-selected = 0
-fit_to_longest_item = false
-item_count = 5
-popup/item_0/text = "VHIGH"
-popup/item_1/text = "HIGH"
-popup/item_1/id = 1
-popup/item_2/text = "MID"
-popup/item_2/id = 2
-popup/item_3/text = "LOW"
-popup/item_3/id = 3
-popup/item_4/text = "VLOW"
-popup/item_4/id = 4
-
-[node name="Current" type="Label" parent="VBoxContainer/TabContainer/CenterArmies/VBoxContainer/ScrollContainer/CentralArmyItem/HBoxContainer/Datas"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-text = "--"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Expect" type="Label" parent="VBoxContainer/TabContainer/CenterArmies/VBoxContainer/ScrollContainer/CentralArmyItem/HBoxContainer/Datas"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-text = "--"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Increase" type="Label" parent="VBoxContainer/TabContainer/CenterArmies/VBoxContainer/ScrollContainer/CentralArmyItem/HBoxContainer/Datas"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-text = "--"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Spend" type="Label" parent="VBoxContainer/TabContainer/CenterArmies/VBoxContainer/ScrollContainer/CentralArmyItem/HBoxContainer/Datas"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-text = "--"
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/CenterArmies/VBoxContainer"]
 layout_mode = 2
+
+[node name="Add" type="Button" parent="VBoxContainer/TabContainer/CenterArmies/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(120, 40)
+layout_mode = 2
+text = "+"
 
 [node name="LocalArmies" type="Panel" parent="VBoxContainer/TabContainer"]
 visible = false
@@ -274,7 +207,7 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
-size_flags_stretch_ratio = 0.2
+size_flags_stretch_ratio = 0.32
 text = "Total"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -377,89 +310,11 @@ vertical_alignment = 1
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="CentralArmyItem" type="VBoxContainer" parent="VBoxContainer/TabContainer/LocalArmies/VBoxContainer/ScrollContainer"]
+[node name="Content" type="VBoxContainer" parent="VBoxContainer/TabContainer/LocalArmies/VBoxContainer/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/LocalArmies/VBoxContainer/ScrollContainer/CentralArmyItem"]
-layout_mode = 2
-
-[node name="Name" type="Label" parent="VBoxContainer/TabContainer/LocalArmies/VBoxContainer/ScrollContainer/CentralArmyItem/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 1
-size_flags_stretch_ratio = 0.2
-text = "--"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Datas" type="GridContainer" parent="VBoxContainer/TabContainer/LocalArmies/VBoxContainer/ScrollContainer/CentralArmyItem/HBoxContainer"]
-custom_minimum_size = Vector2(0, 35)
-layout_mode = 2
-size_flags_horizontal = 3
-columns = 5
-
-[node name="Control" type="Control" parent="VBoxContainer/TabContainer/LocalArmies/VBoxContainer/ScrollContainer/CentralArmyItem/HBoxContainer/Datas"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Level" type="OptionButton" parent="VBoxContainer/TabContainer/LocalArmies/VBoxContainer/ScrollContainer/CentralArmyItem/HBoxContainer/Datas/Control"]
-custom_minimum_size = Vector2(63, 0)
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 6
-size_flags_vertical = 6
-selected = 0
-fit_to_longest_item = false
-item_count = 5
-popup/item_0/text = "VHIGH"
-popup/item_1/text = "HIGH"
-popup/item_1/id = 1
-popup/item_2/text = "MID"
-popup/item_2/id = 2
-popup/item_3/text = "LOW"
-popup/item_3/id = 3
-popup/item_4/text = "VLOW"
-popup/item_4/id = 4
-
-[node name="Current" type="Label" parent="VBoxContainer/TabContainer/LocalArmies/VBoxContainer/ScrollContainer/CentralArmyItem/HBoxContainer/Datas"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-text = "--"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Expect" type="Label" parent="VBoxContainer/TabContainer/LocalArmies/VBoxContainer/ScrollContainer/CentralArmyItem/HBoxContainer/Datas"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-text = "--"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Increase" type="Label" parent="VBoxContainer/TabContainer/LocalArmies/VBoxContainer/ScrollContainer/CentralArmyItem/HBoxContainer/Datas"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-text = "--"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Spend" type="Label" parent="VBoxContainer/TabContainer/LocalArmies/VBoxContainer/ScrollContainer/CentralArmyItem/HBoxContainer/Datas"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-text = "--"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/LocalArmies/VBoxContainer"]
+[node name="ArmyItem" parent="VBoxContainer/TabContainer/LocalArmies/VBoxContainer/ScrollContainer/Content" instance_placeholder="res://MainScene/DetailPanels/ArmyItem.tscn"]
 layout_mode = 2
 
 [connection signal="pressed" from="VBoxContainer/Title/Button" to="." method="queue_free"]

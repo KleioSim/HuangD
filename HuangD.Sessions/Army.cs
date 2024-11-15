@@ -37,9 +37,9 @@ public abstract class Army : IEntity
 
 public enum ArmyLevel
 {
-    VeryLow,
-    Low,
-    Mid,
-    High,
-    VeryHigh,
+    VHIGH,
+    HIGH,
+    MID,
+    LOW,
+    VLOW,
 }

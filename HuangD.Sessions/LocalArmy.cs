@@ -9,7 +9,7 @@ public class LocalArmy : Army
 
     public override float Cost => Math.Max(ExpectCount, Count) / 5000;
 
-    public override int ExpectCount => ((int)Level + 1) * 500;
+    public override int ExpectCount => (5 - (int)Level) * 500;
     public override Country Owner => Province.Owner;
     public Province Province { get; }
 
@@ -17,7 +17,7 @@ public class LocalArmy : Army
     {
         Id = UUID.Generate("ARMY");
         this.Province = province;
-        Level = ArmyLevel.Low;
+        Level = ArmyLevel.LOW;
 
         Count = ExpectCount;
     }

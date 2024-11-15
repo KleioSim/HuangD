@@ -19,11 +19,11 @@ public partial class LocalArmyPanel : PanelContainer,IView
 
     public override void _Ready()
     {
-        VLow.Connect(Button.SignalName.Pressed, Callable.From(() => ChangeArmyLevel(ArmyLevel.VeryLow)));
-        Low.Connect(Button.SignalName.Pressed, Callable.From(() => ChangeArmyLevel(ArmyLevel.Low)));
-        Mid.Connect(Button.SignalName.Pressed, Callable.From(() => ChangeArmyLevel(ArmyLevel.Mid)));
-        High.Connect(Button.SignalName.Pressed, Callable.From(() => ChangeArmyLevel(ArmyLevel.High)));
-        VHigh.Connect(Button.SignalName.Pressed, Callable.From(() => ChangeArmyLevel(ArmyLevel.VeryHigh)));
+        VLow.Connect(Button.SignalName.Pressed, Callable.From(() => ChangeArmyLevel(ArmyLevel.VLOW)));
+        Low.Connect(Button.SignalName.Pressed, Callable.From(() => ChangeArmyLevel(ArmyLevel.LOW)));
+        Mid.Connect(Button.SignalName.Pressed, Callable.From(() => ChangeArmyLevel(ArmyLevel.MID)));
+        High.Connect(Button.SignalName.Pressed, Callable.From(() => ChangeArmyLevel(ArmyLevel.HIGH)));
+        VHigh.Connect(Button.SignalName.Pressed, Callable.From(() => ChangeArmyLevel(ArmyLevel.VHIGH)));
     }
 
     private void ChangeArmyLevel(ArmyLevel level)
@@ -49,19 +49,19 @@ public partial class LocalArmyPanel : PanelContainer,IView
 
         switch (army.Level)
         {
-            case ArmyLevel.VeryLow:
+            case ArmyLevel.VLOW:
                 VLow.SetPressedNoSignal(true);
                 break;
-            case ArmyLevel.Low:
+            case ArmyLevel.LOW:
                 Low.SetPressedNoSignal(true);
                 break;
-            case ArmyLevel.Mid:
+            case ArmyLevel.MID:
                 Mid.SetPressedNoSignal(true);
                 break;
-            case ArmyLevel.High:
+            case ArmyLevel.HIGH:
                 High.SetPressedNoSignal(true);
                 break;
-            case ArmyLevel.VeryHigh:
+            case ArmyLevel.VHIGH:
                 VHigh.SetPressedNoSignal(true);
                 break;
             default: 

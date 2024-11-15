@@ -21,13 +21,14 @@ public partial class MainScene : Control, IView
     public override void _Ready()
     {
         NextTurn.Connect(
-            Button.SignalName.Pressed, 
+            Button.SignalName.Pressed,
             Callable.From(() => this.GetSession().OnMessage(new Command_NextTurn())));
         Army.Connect(
             Button.SignalName.Pressed,
             Callable.From(() =>
             {
-                this.GetSelectEntity().Current = new PlayerArmyData(this.GetSession());
+                var country = this.GetSession().PlayerCountry;
+                this.GetSelectEntity().Current = country.CenterArmies.OfType<Army>().Concat(country.Provinces.Select(x => x.LocalArmy));
             }));
     }
 
@@ -41,7 +42,7 @@ public partial class MainScene : Control, IView
         var view = this as IView;
         if (!view.IsDirty()) { return; }
 
-        ArmyCount.Text = this.GetSession().PlayerCountry.Provinces.Sum(x=>x.LocalArmy.Count).ToString();
+        ArmyCount.Text = this.GetSession().PlayerCountry.CenterArmies.Sum(x => x.Count).ToString();
     }
 
     //private void OnStartArmyMove(string provinceId)
@@ -57,16 +58,15 @@ public partial class MainScene : Control, IView
     //}
 }
 
-internal class PlayerArmyData
-{
-    private ISessionData session;
+//internal class PlayerArmyData
+//{
+//    private ISessionData session;
 
-    public string Id { get; } = nameof(PlayerArmyData);
-    public IEnumerable<LocalArmy> localArmies => session.PlayerCountry.Provinces.Select(x => x.LocalArmy);
+//    public IEnumerable<LocalArmy> localArmies => session.PlayerCountry.Provinces.Select(x => x.LocalArmy);
+//    public IEnumerable<CentralArmy> localArmies => session.PlayerCountry.Provinces.Select(x => x.LocalArmy);
+//    public PlayerArmyData(ISessionData session)
+//    {
+//        this.session = session;
+//    }
 
-    public PlayerArmyData(ISessionData session)
-    {
-        this.session = session;
-    }
-
-}
+//}

@@ -8,7 +8,7 @@ public class CentralArmy : Army
     public override string Id { get; }
     public override float Cost => Math.Max(ExpectCount, Count) / 1000;
     public override Country Owner { get; }
-    public override int ExpectCount => (int)Level * 500;
+    public override int ExpectCount => (5 - (int)Level) * 500;
     public bool IsRetreat { get; internal set; }
     public MoveTo MoveTo { get; internal set; }
 

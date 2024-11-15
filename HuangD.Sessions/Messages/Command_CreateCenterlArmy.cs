@@ -3,7 +3,7 @@
 namespace HuangD.Sessions.Messages;
 
 [RegistCommand]
-internal class Command_CreateCenterlArmy : IMessage
+public class Command_CreateCenterlArmy : IMessage
 {
     internal readonly string countryId;
     internal readonly int level;

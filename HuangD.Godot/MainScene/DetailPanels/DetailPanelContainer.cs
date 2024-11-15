@@ -24,12 +24,12 @@ public partial class DetailPanelContainer : PanelContainer, IView
         switch (this.GetSelectEntity().Current)
         {
             case Province:
-                if(!ProvinceDetailPlaceholder.GetParent().GetChildren().OfType<ProvinceDetailPanel>().Any()) 
+                if (!ProvinceDetailPlaceholder.GetParent().GetChildren().OfType<ProvinceDetailPanel>().Any())
                 {
                     ProvinceDetailPlaceholder.CreateInstance();
                 }
                 break;
-            case PlayerArmyData:
+            case IEnumerable<Army>:
                 if (!PlayerArmyDetailPlaceholder.GetParent().GetChildren().OfType<PlayerArmyDetailPanel>().Any())
                 {
                     PlayerArmyDetailPlaceholder.CreateInstance();

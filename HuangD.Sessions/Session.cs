@@ -156,7 +156,7 @@ public class Session : AbstractSession, ISessionData
         Provinces = new ProvinceDictionary(Block2Province.ToDictionary(p => p.Value.Id, p => p.Value));
 
         var countries = Country.Builder.Build(Provinces.Values, (int)Provinces.Values.Average(x => x.PopCount) * 4, 4, seed);
-        var centralArmies = countries.Values.Select(x => new CentralArmy(x, ArmyLevel.VeryHigh)).ToDictionary(x => x.Id, y => y);
+        var centralArmies = countries.Values.Select(x => new CentralArmy(x, ArmyLevel.VHIGH)).ToDictionary(x => x.Id, y => y);
 
         foreach (var entity in Provinces.Values)
         {
@@ -278,5 +278,12 @@ public class Session : AbstractSession, ISessionData
         var country = entities[cmd.countryId] as Country;
         var army = new CentralArmy(country, (ArmyLevel)cmd.level);
         entities.Add(army.Id, army);
+    }
+
+    [MessageProcess]
+    private void On_Command_DisbandCentralArmy(Command_DisbandCentralArmy cmd)
+    {
+        var army = entities[cmd.id] as Army;
+        entities.Remove(army.Id);
     }
 }
