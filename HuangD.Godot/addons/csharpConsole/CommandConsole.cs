@@ -18,6 +18,8 @@ public partial class CommandConsole : Node
 
     public static bool IsVaild { get; set; } = false;
 
+    public bool IsConsoleVisable => control.Visible;
+
     static CommandConsole instance;
 
     class Command

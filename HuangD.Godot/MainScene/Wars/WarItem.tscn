@@ -28,7 +28,7 @@ text = "--"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="CountryId" type="Label" parent="HBoxContainer"]
+[node name="WarId" type="Label" parent="HBoxContainer"]
 layout_mode = 2
 
-[node name="DebugFlag" parent="HBoxContainer/CountryId" instance=ExtResource("3_13otc")]
+[node name="DebugFlag" parent="HBoxContainer/WarId" instance=ExtResource("3_13otc")]

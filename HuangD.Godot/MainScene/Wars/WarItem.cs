@@ -6,7 +6,7 @@ using HuangD.Sessions;
 public partial class WarItem : TextureButton, IItem, IView
 {
     public Label CountryName => GetNode<Label>("HBoxContainer/CountryName");
-    public Label CountryId => GetNode<Label>("HBoxContainer/CountryId");
+    public Label WarId => GetNode<Label>("HBoxContainer/WarId");
 
     public object Id { get; set; }
 
@@ -19,6 +19,6 @@ public partial class WarItem : TextureButton, IItem, IView
 
         var peer = war.from != this.GetSession().PlayerCountry ? war.from : war.target;
         CountryName.Text = peer.Name;
-        CountryId.Text = peer.Id;
+        WarId.Text = war.Id;
     }
 }

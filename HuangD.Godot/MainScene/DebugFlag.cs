@@ -5,18 +5,18 @@ public partial class DebugFlag : Node
 {
     public override void _Ready()
     {
-        var parent = GetParent() as CanvasItem;
-        parent.Visible = false;
+        var console = GetTree().Root.GetNode<CommandConsole>("CommandConsole");
 
-        GetTree().Root.GetNode<CommandConsole>("CommandConsole")
-            .Connect(CommandConsole.SignalName.ConsoleOpened, Callable.From(() =>
+        var parent = GetParent() as CanvasItem;
+        parent.Visible = console.IsConsoleVisable;
+
+        console.Connect(CommandConsole.SignalName.ConsoleOpened, Callable.From(() =>
             {
                 parent.Visible = true;
             }),
             (uint)ConnectFlags.ReferenceCounted);
 
-        GetTree().Root.GetNode<CommandConsole>("CommandConsole")
-            .Connect(CommandConsole.SignalName.ConsoleClosed, Callable.From(() =>
+        console.Connect(CommandConsole.SignalName.ConsoleClosed, Callable.From(() =>
             {
                 parent.Visible = false;
             }),
