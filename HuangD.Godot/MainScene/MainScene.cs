@@ -20,6 +20,9 @@ public partial class MainScene : Control, IView
 
     public override void _Ready()
     {
+        var commandRegister = new CommandRegister();
+        GetTree().Root.AddChild(commandRegister, true);
+
         NextTurn.Connect(
             Button.SignalName.Pressed,
             Callable.From(() => this.GetSession().OnMessage(new Command_NextTurn())));

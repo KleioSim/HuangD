@@ -10,8 +10,11 @@ public partial class PoliticalItem : Control, IView
     public TextureButton ProvinceButton => GetNode<TextureButton>("VBoxContainer/Province");
     public TextureButton CountryButton => GetNode<TextureButton>("VBoxContainer/Country");
 
-    public Label ProvinceName => GetNode<Label>("VBoxContainer/Province/VBoxContainer/Name");
-    public Label CountryName => GetNode<Label>("VBoxContainer/Country/Name");
+    public Label ProvinceName => GetNode<Label>("VBoxContainer/Province/VBoxContainer/HBoxContainer/Name");
+    public Label ProvinceId => GetNode<Label>("VBoxContainer/Province/VBoxContainer/HBoxContainer/Id");
+
+    public Label CountryName => GetNode<Label>("VBoxContainer/Country/HBoxContainer/Name");
+    public Label CountryId => GetNode<Label>("VBoxContainer/Country/HBoxContainer/Id");
     public InstancePlaceholder ArmyInfo => GetNode<InstancePlaceholder>("Armies/ArmyInfo");
 
     public Control BattleFlag => GetNode<Control>("VBoxContainer/Province/VBoxContainer/Battle");
@@ -44,7 +47,10 @@ public partial class PoliticalItem : Control, IView
 
         var province = GetProvince();
         ProvinceName.Text = province.Name;
+        ProvinceId.Text = province.Id;
+
         CountryName.Text = province.Owner.Name;
+        CountryId.Text = province.Owner.Id;
 
         var armyInfos = ArmyInfo.GetParent().GetChildren().OfType<ArmyInfo>();
 

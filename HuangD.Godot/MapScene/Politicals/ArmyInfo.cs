@@ -9,7 +9,8 @@ using System.Linq;
 
 public partial class ArmyInfo : TextureButton, IView
 {
-    public Label CountryName => GetNode<Label>("Name");
+    public Label ArmyName => GetNode<Label>("HBoxContainer/Name");
+    public Label ArmyId => GetNode<Label>("HBoxContainer/Id");
 
     public CentralArmy armyObj
     {
@@ -39,6 +40,7 @@ public partial class ArmyInfo : TextureButton, IView
         var view = this as IView;
         if (!view.IsDirty()) { return; }
 
-        CountryName.Text = _armyObj.Owner.Name;
+        ArmyName.Text = _armyObj.Owner.Name;
+        ArmyName.Text = _armyObj.Id;
     }
 }

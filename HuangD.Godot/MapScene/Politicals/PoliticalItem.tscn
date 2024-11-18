@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://df0qeobvo5f2h"]
+[gd_scene load_steps=8 format=3 uid="uid://df0qeobvo5f2h"]
 
 [ext_resource type="Script" path="res://MapScene/Politicals/PoliticalItem.cs" id="1_fdej2"]
 [ext_resource type="Texture2D" uid="uid://2y5lnclm3om" path="res://MapScene/shield.png" id="2_fkemn"]
 [ext_resource type="Texture2D" uid="uid://blcgtofhv8oh4" path="res://MapScene/china.png" id="3_6t75m"]
+[ext_resource type="PackedScene" uid="uid://dyio3rdkccb6q" path="res://Utilties/DebugFlag.tscn" id="3_r3uma"]
 [ext_resource type="Texture2D" uid="uid://c2hshwm854rkl" path="res://MapScene/battle.png" id="4_6fopm"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_7c6r4"]
@@ -50,19 +51,37 @@ texture_normal = ExtResource("2_fkemn")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="Name" type="Label" parent="VBoxContainer/Country"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Country"]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -3.0
-offset_right = 3.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -43.0
+offset_top = -11.5
+offset_right = 43.0
+offset_bottom = 11.5
 grow_horizontal = 2
 grow_vertical = 2
+alignment = 1
+
+[node name="Name" type="Label" parent="VBoxContainer/Country/HBoxContainer"]
+layout_mode = 2
 text = "CNT_NAME"
 label_settings = SubResource("LabelSettings_7c6r4")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Id" type="Label" parent="VBoxContainer/Country/HBoxContainer"]
+visible = false
+layout_mode = 2
+text = "CNT_ID"
+label_settings = SubResource("LabelSettings_7c6r4")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DebugFlag" parent="VBoxContainer/Country/HBoxContainer/Id" instance=ExtResource("3_r3uma")]
 
 [node name="Province" type="TextureButton" parent="VBoxContainer"]
 custom_minimum_size = Vector2(30, 25)
@@ -81,13 +100,28 @@ offset_right = 64.0
 offset_bottom = 84.0
 theme_override_constants/separation = 0
 
-[node name="Name" type="Label" parent="VBoxContainer/Province/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Province/VBoxContainer"]
 layout_mode = 2
-text = "PROV_NAME
+alignment = 1
+
+[node name="Name" type="Label" parent="VBoxContainer/Province/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "ROV_NAME
 "
 label_settings = SubResource("LabelSettings_v8lxk")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Id" type="Label" parent="VBoxContainer/Province/VBoxContainer/HBoxContainer"]
+visible = false
+layout_mode = 2
+text = "PROV_ID
+"
+label_settings = SubResource("LabelSettings_v8lxk")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DebugFlag" parent="VBoxContainer/Province/VBoxContainer/HBoxContainer/Id" instance=ExtResource("3_r3uma")]
 
 [node name="Battle" type="TextureRect" parent="VBoxContainer/Province/VBoxContainer"]
 custom_minimum_size = Vector2(30, 30)

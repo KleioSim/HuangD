@@ -5,7 +5,8 @@ using HuangD.Sessions;
 
 public partial class WarItem : TextureButton, IItem, IView
 {
-    public Label Label => GetNode<Label>("Label");
+    public Label CountryName => GetNode<Label>("HBoxContainer/CountryName");
+    public Label CountryId => GetNode<Label>("HBoxContainer/CountryId");
 
     public object Id { get; set; }
 
@@ -15,6 +16,9 @@ public partial class WarItem : TextureButton, IItem, IView
         if (!view.IsDirty()) { return; }
 
         var war = Id as War;
-        Label.Text = war.from != this.GetSession().PlayerCountry ? war.from.Name : war.target.Name;
+
+        var peer = war.from != this.GetSession().PlayerCountry ? war.from : war.target;
+        CountryName.Text = peer.Name;
+        CountryId.Text = peer.Id;
     }
 }

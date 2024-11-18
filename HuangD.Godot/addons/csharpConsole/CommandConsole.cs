@@ -8,9 +8,13 @@ using System.Text.RegularExpressions;
 
 public partial class CommandConsole : Node
 {
-    public event Action console_opened;
-    public event Action console_closed;
     public event Action console_unknown_command;
+
+    [Signal]
+    public delegate void ConsoleOpenedEventHandler();
+
+    [Signal]
+    public delegate void ConsoleClosedEventHandler();
 
     public static bool IsVaild { get; set; } = false;
 
@@ -325,7 +329,7 @@ public partial class CommandConsole : Node
         {
             //GetTree().Paused = true;
             line_edit.GrabFocus();
-            console_opened?.Invoke();
+            EmitSignal(SignalName.ConsoleOpened);
         }
         else
         {
@@ -333,7 +337,7 @@ public partial class CommandConsole : Node
             //GetTree().Paused = false;
             ScrollToBottom();
             ResetAutoComplete();
-            console_closed?.Invoke();
+            EmitSignal(SignalName.ConsoleClosed);
         }
     }
     void ToggleSize()

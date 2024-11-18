@@ -311,4 +311,11 @@ public class Session : AbstractSession, ISessionData
         var war = new War(entities[cmd.fromId] as Country, entities[cmd.targetId] as Country);
         entities.Add(war.Id, war);
     }
+
+    [MessageProcess]
+    private void On_Command_WarEnd(Command_WarEnd cmd)
+    {
+        var war = entities[cmd.Id] as War;
+        entities.Remove(war.Id);
+    }
 }
