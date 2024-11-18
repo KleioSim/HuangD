@@ -1,6 +1,6 @@
 ﻿using Chrona.Engine.Core.Interfaces;
 using Chrona.Engine.Core.Sessions;
-using HuangD.Sessions;
+using HuangD.Sessions.AIProcessers;
 using HuangD.Sessions.Maps;
 using HuangD.Sessions.Messages;
 using HuangD.Sessions.Utilties;
@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using static HuangD.Sessions.Maps.Builders.MapBuilder;
+using Index = HuangD.Sessions.Maps.Index;
 
 namespace HuangD.Sessions;
 
@@ -137,6 +138,9 @@ public class Session : AbstractSession, ISessionData
 
     private static Session instance;
 
+    private AIProcesser aiProcesser;
+    private IEnumerable<AIDef> AIDefs;
+
     static Session()
     {
         Country.GetCenterArmies = (country) => instance.entities.Values.OfType<CentralArmy>().Where(x => x.Owner == country);
@@ -153,7 +157,7 @@ public class Session : AbstractSession, ISessionData
 
     private Session()
     {
-
+        aiProcesser = new AIProcesser(this);
     }
 
     public void Init(string seed)
@@ -221,15 +225,21 @@ public class Session : AbstractSession, ISessionData
 
         Date.DaysInc(10);
 
+        foreach (var army in entities.Values.OfType<Army>())
+        {
+            army.OnNextTurn();
+        }
 
-        foreach (var army in entities.Values.OfType<CentralArmy>())
+        foreach (var country in entities.Values.OfType<Country>())
         {
-            army.OnNextTurn();
+            country.OnNextTurn();
         }
-        foreach (var army in entities.Values.OfType<LocalArmy>())
+
+        foreach (var countryAI in AIDefs.OfType<CountryAIDef>())
         {
-            army.OnNextTurn();
+            aiProcesser.Run(countryAI, entities.Values.OfType<Country>());
         }
+
         foreach (var battle in entities.Values.OfType<Province>().Select(x => x.Battle).Where(x => x != null))
         {
             currentReports.AddRange(battle.OnNextTurn(Date).Select(x => x.Desc));

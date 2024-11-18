@@ -3,9 +3,7 @@ using DynamicData;
 using HuangD.Sessions.Utilties;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
-using System.Numerics;
 
 namespace HuangD.Sessions;
 
@@ -23,6 +21,7 @@ public partial class Country : IEntity
     public IEnumerable<Province> Provinces => GetProvinces(this);
     public IEnumerable<CentralArmy> CenterArmies => GetCenterArmies(this);
     public IEnumerable<War> Wars => GetWars(this);
+    public IEnumerable<Country> Neighbors => Provinces.SelectMany(x => x.Neighbors).Except(Provinces).Select(x => x.Owner).Distinct();
 
     public Economy Economy { get; }
 
@@ -49,5 +48,9 @@ public partial class Country : IEntity
         Id = UUID.Generate("CNT");
         Color = color;
         Economy = new Economy(this);
+    }
+
+    internal void OnNextTurn()
+    {
     }
 }
