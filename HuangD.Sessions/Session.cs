@@ -139,7 +139,10 @@ public class Session : AbstractSession, ISessionData
     private static Session instance;
 
     private AIProcesser aiProcesser;
-    private IEnumerable<AIDef> AIDefs;
+    private IEnumerable<AIDef> AIDefs = new AIDef[]
+    {
+        new CountryDeclareWar()
+    };
 
     static Session()
     {
@@ -235,7 +238,7 @@ public class Session : AbstractSession, ISessionData
             country.OnNextTurn();
         }
 
-        foreach (var countryAI in AIDefs.OfType<CountryAIDef>())
+        foreach (var countryAI in AIDefs.OfType<ICountryAIDef>())
         {
             aiProcesser.Run(countryAI, entities.Values.OfType<Country>());
         }
