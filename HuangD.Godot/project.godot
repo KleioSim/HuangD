@@ -26,6 +26,7 @@ SelectEntity="*res://Utilties/SelectEntity.cs"
 
 window/size/viewport_width=1366
 window/size/viewport_height=768
+window/size/mode=4
 
 [dotnet]
 

@@ -70,12 +70,14 @@ script = ExtResource("1_kq2vw")
 
 [node name="BlockMap" type="Node2D" parent="."]
 visible = false
+position = Vector2(128, 128)
 script = ExtResource("3_myy0s")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="BlockMap"]
 tile_set = SubResource("TileSet_eitqf")
 
 [node name="TerrainMap" type="Node2D" parent="."]
+position = Vector2(128, 128)
 script = ExtResource("4_x1xyj")
 
 [node name="Water" type="TileMapLayer" parent="TerrainMap"]
@@ -101,6 +103,7 @@ tile_set = SubResource("TileSet_wxd1e")
 
 [node name="PopCountMap" type="Node2D" parent="."]
 visible = false
+position = Vector2(128, 128)
 script = ExtResource("5_adhf4")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="PopCountMap"]
@@ -109,6 +112,7 @@ tile_set = SubResource("TileSet_meny7")
 [node name="ProvinceMap" type="Node2D" parent="."]
 visible = false
 modulate = Color(1, 1, 1, 0.0784314)
+position = Vector2(128, 128)
 script = ExtResource("6_1jkdy")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="ProvinceMap"]
@@ -116,16 +120,17 @@ tile_map_data = PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 
 tile_set = SubResource("TileSet_mlpsl")
 
 [node name="PolitcalMap" type="TileMapLayer" parent="."]
+position = Vector2(128, 128)
 tile_set = SubResource("TileSet_xwjjy")
 script = ExtResource("8_kregv")
 
 [node name="BoundaryMap" type="TileMapLayer" parent="."]
-position = Vector2(-4, -4)
+position = Vector2(124, 124)
 tile_map_data = PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 tile_set = SubResource("TileSet_mc214")
 script = ExtResource("7_wggg4")
 
 [node name="EdgeMap" type="TileMapLayer" parent="."]
-tile_map_data = PackedByteArray(0, 0, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0)
+tile_map_data = PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 tile_set = SubResource("TileSet_gpklp")
 script = ExtResource("9_d0l4k")

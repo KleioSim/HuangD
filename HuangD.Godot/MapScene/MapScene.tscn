@@ -1,37 +1,80 @@
-[gd_scene load_steps=4 format=3 uid="uid://bnjubmq3phi3w"]
+[gd_scene load_steps=6 format=3 uid="uid://bnjubmq3phi3w"]
 
 [ext_resource type="Script" path="res://MapScene/MapScene.cs" id="1_3h0t5"]
 [ext_resource type="Theme" uid="uid://dgi25jix5u4k8" path="res://Themes/HiddeScrollBar.tres" id="1_5acv7"]
 [ext_resource type="PackedScene" uid="uid://4djj474jikp0" path="res://MapScene/BaseMap/BaseMap.tscn" id="2_2ryrc"]
+[ext_resource type="Texture2D" uid="uid://djwnwl0d5r42p" path="res://MapScene/mask.png" id="3_4wdmt"]
+[ext_resource type="Texture2D" uid="uid://b0e5ea5pq75sp" path="res://MapScene/Background.png" id="3_8erma"]
 
 [node name="MapScene" type="GraphEdit"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = 4634.0
+offset_bottom = 5232.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
 theme = ExtResource("1_5acv7")
 show_grid = false
 snapping_enabled = false
+zoom_min = 0.3
+zoom_max = 1.2
 minimap_enabled = false
 show_menu = false
 script = ExtResource("1_3h0t5")
 
 [node name="GraphElement" type="GraphElement" parent="."]
-modulate = Color(1, 1, 1, 0.0980392)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -683.0
-offset_top = -384.0
-offset_right = -683.0
-offset_bottom = -384.0
+offset_left = -3000.0
+offset_top = -3000.0
+offset_right = 3000.0
+offset_bottom = 3000.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="BaseMap" parent="GraphElement" instance=ExtResource("2_2ryrc")]
-position = Vector2(128, 128)
+[node name="Control" type="Control" parent="GraphElement"]
+custom_minimum_size = Vector2(6000, 6000)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 1
+
+[node name="Mask" type="TextureRect" parent="GraphElement/Control"]
+clip_children = 1
+custom_minimum_size = Vector2(11000, 11000)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -5000.0
+offset_top = -5000.0
+offset_right = 5000.0
+offset_bottom = 5000.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("3_4wdmt")
+
+[node name="Background" type="TextureRect" parent="GraphElement/Control/Mask"]
+custom_minimum_size = Vector2(6000, 6000)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+texture = ExtResource("3_8erma")
+expand_mode = 1
+stretch_mode = 1
+
+[node name="BaseMap" parent="GraphElement/Control" instance=ExtResource("2_2ryrc")]

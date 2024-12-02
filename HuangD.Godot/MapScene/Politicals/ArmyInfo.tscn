@@ -5,14 +5,13 @@
 [ext_resource type="PackedScene" uid="uid://dyio3rdkccb6q" path="res://Utilties/DebugFlag.tscn" id="3_llsg4"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_e32q4"]
-font_size = 10
 font_color = Color(0, 0, 0, 1)
 outline_size = 2
 outline_color = Color(0.980392, 0.980392, 0.980392, 1)
 shadow_size = 2
 
 [node name="ArmyInfo" type="TextureButton"]
-custom_minimum_size = Vector2(25, 25)
+custom_minimum_size = Vector2(30, 30)
 offset_right = 25.0
 offset_bottom = 25.0
 texture_normal = ExtResource("1_s3yau")
@@ -25,6 +24,9 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -34.5
+offset_right = 34.5
+offset_bottom = -7.0
 grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
@@ -37,6 +39,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Id" type="Label" parent="HBoxContainer"]
+visible = false
 layout_mode = 2
 text = "ARMY_ID"
 label_settings = SubResource("LabelSettings_e32q4")

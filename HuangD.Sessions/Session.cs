@@ -170,7 +170,7 @@ public class Session : AbstractSession, ISessionData
 
         Date = new Date();
 
-        MapSize = (120, 120);
+        MapSize = (320, 320);
         var blocks = BlockBuilder.Build(MapSize.x, MapSize.y, seed);
         var block2Terrain = TerrainBuilder.Build(blocks, seed);
         var block2province = Province.Builder.Build(block2Terrain, seed);

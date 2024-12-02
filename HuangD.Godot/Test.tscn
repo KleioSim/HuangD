@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://cbn2qdvofnnot"]
+[gd_scene load_steps=6 format=3 uid="uid://cbn2qdvofnnot"]
 
 [ext_resource type="Script" path="res://Test.cs" id="1_xt7lv"]
 [ext_resource type="PackedScene" uid="uid://df0qeobvo5f2h" path="res://MapScene/Politicals/PoliticalItem.tscn" id="2_8l8ss"]
+[ext_resource type="Texture2D" uid="uid://cysxa4lny27st" path="res://arrow.png" id="2_8wptd"]
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_xfml8"]
 scenes/2/scene = ExtResource("2_8l8ss")
@@ -18,6 +19,16 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_xt7lv")
 
-[node name="TileMapLayer" type="TileMapLayer" parent="."]
+[node name="TextureRect" type="TextureRect" parent="."]
+clip_children = 1
+layout_mode = 0
+offset_left = 104.0
+offset_top = 45.0
+offset_right = 148.0
+offset_bottom = 173.0
+texture = ExtResource("2_8wptd")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="TextureRect"]
+position = Vector2(-113, -13)
 tile_map_data = PackedByteArray(0, 0, 255, 255, 0, 0, 1, 0, 0, 0, 0, 0, 2, 0, 4, 0, 4, 0, 1, 0, 0, 0, 0, 0, 2, 0, 5, 0, 255, 255, 1, 0, 0, 0, 0, 0, 2, 0)
 tile_set = SubResource("TileSet_c2mnx")
