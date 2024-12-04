@@ -11,7 +11,7 @@ public partial class BlockMap : Node2D
     private Random random = new System.Random();
 
     private TileMapLayer TileMapLayer => GetNode<TileMapLayer>("TileMapLayer");
-
+    private TileMapLayer TileMapLayer128 => GetNode<TileMapLayer>("Size128/TileMapLayer");
     internal void Refresh()
     {
         Clear();
@@ -27,6 +27,29 @@ public partial class BlockMap : Node2D
             foreach (var index in block.Indexes)
             {
                 newTileMapLayer.SetCell(new Vector2I(index.X, index.Y), 0, Vector2I.Zero, 0);
+            }
+        }
+    }
+
+    internal void Refresh128(IEnumerable<Vector2I[]> vectorArraies)
+    {
+        TileMapLayer128.Clear();
+        var needRemoveItems = TileMapLayer128.GetParent().GetChildren().OfType<TileMapLayer>().Where(x => x != TileMapLayer128).ToArray();
+        foreach (var item in needRemoveItems)
+        {
+            item.QueueFree();
+        }
+
+        foreach (var vectorArray in vectorArraies)
+        {
+            var newTileMapLayer = TileMapLayer128.Duplicate() as TileMapLayer;
+            TileMapLayer128.AddSibling(newTileMapLayer);
+
+            newTileMapLayer.Modulate = new Color(random.Next(0, 10) / 10.0f, random.Next(0, 10) / 10.0f, random.Next(0, 10) / 10.0f);
+
+            foreach (var item in vectorArray)
+            {
+                TileMapLayer128.SetCell(item, 0, Vector2I.Zero, 0);
             }
         }
     }

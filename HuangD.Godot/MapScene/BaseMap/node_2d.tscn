@@ -1,0 +1,75 @@
+[gd_scene load_steps=10 format=3 uid="uid://bxjfmh7mjcjba"]
+
+[ext_resource type="Script" path="res://MapScene/BaseMap/MapManager.cs" id="1_1pn8g"]
+[ext_resource type="Texture2D" uid="uid://d3o4sb567jy4j" path="res://MapScene/whrite128.png" id="2_vsk4j"]
+
+[sub_resource type="TileSet" id="TileSet_wddrj"]
+tile_shape = 2
+tile_offset_axis = 1
+tile_size = Vector2i(256, 256)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_x7ojp"]
+texture = ExtResource("2_vsk4j")
+texture_region_size = Vector2i(128, 128)
+0:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_b1sql"]
+tile_shape = 2
+tile_offset_axis = 1
+tile_size = Vector2i(128, 128)
+sources/0 = SubResource("TileSetAtlasSource_x7ojp")
+
+[sub_resource type="TileSet" id="TileSet_dpit1"]
+tile_shape = 2
+tile_offset_axis = 1
+tile_size = Vector2i(64, 64)
+
+[sub_resource type="TileSet" id="TileSet_qscyt"]
+tile_shape = 2
+tile_offset_axis = 1
+tile_size = Vector2i(32, 32)
+
+[sub_resource type="TileSet" id="TileSet_tg8gw"]
+tile_shape = 2
+
+[sub_resource type="TileSet" id="TileSet_wcyhf"]
+tile_shape = 2
+tile_size = Vector2i(8, 8)
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_1pn8g")
+
+[node name="TileMapLayer256" type="TileMapLayer" parent="."]
+visible = false
+position = Vector2(-128, -128)
+tile_set = SubResource("TileSet_wddrj")
+
+[node name="TileMapLayerBlueprint" type="TileMapLayer" parent="."]
+self_modulate = Color(0.807843, 0.847059, 0.968627, 1)
+position = Vector2(-64, -64)
+tile_map_data = PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+tile_set = SubResource("TileSet_b1sql")
+
+[node name="Blocks" type="Node2D" parent="."]
+
+[node name="TileMapLayer128" type="TileMapLayer" parent="Blocks"]
+self_modulate = Color(0.807843, 0.847059, 0.968627, 1)
+position = Vector2(-64, -64)
+tile_map_data = PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+tile_set = SubResource("TileSet_b1sql")
+
+[node name="TileMapLayer64" type="TileMapLayer" parent="."]
+position = Vector2(-32, -32)
+tile_set = SubResource("TileSet_dpit1")
+
+[node name="TileMapLayer32" type="TileMapLayer" parent="."]
+position = Vector2(-16, -16)
+tile_set = SubResource("TileSet_qscyt")
+
+[node name="TileMapLayer16" type="TileMapLayer" parent="."]
+position = Vector2(-8, -8)
+tile_set = SubResource("TileSet_tg8gw")
+
+[node name="TileMapLayer8" type="TileMapLayer" parent="."]
+position = Vector2(-4, -4)
+tile_set = SubResource("TileSet_wcyhf")

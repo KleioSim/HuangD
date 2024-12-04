@@ -1,0 +1,66 @@
+[gd_scene load_steps=12 format=4 uid="uid://cttwu7j3etaqi"]
+
+[ext_resource type="Script" path="res://MapScene/BaseMap/BaseMap.cs" id="1_401a0"]
+[ext_resource type="Texture2D" uid="uid://cdoac5vohyaua" path="res://MapScene/BaseMap/128.png" id="2_xgl8j"]
+[ext_resource type="Script" path="res://MapScene/BaseMap/BlockMap.cs" id="3_ghg16"]
+[ext_resource type="Texture2D" uid="uid://cgp30fe4y8o4t" path="res://MapScene/BaseMap/512.png" id="4_y4cu8"]
+[ext_resource type="Texture2D" uid="uid://ixq4iqkhu521" path="res://MapScene/BaseMap/256.png" id="5_l3x1x"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_aypr8"]
+texture = ExtResource("2_xgl8j")
+texture_region_size = Vector2i(128, 128)
+0:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_texet"]
+tile_shape = 2
+tile_offset_axis = 1
+tile_size = Vector2i(128, 128)
+sources/0 = SubResource("TileSetAtlasSource_aypr8")
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cy24g"]
+texture = ExtResource("4_y4cu8")
+texture_region_size = Vector2i(512, 512)
+0:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_3wvmr"]
+tile_shape = 2
+tile_offset_axis = 1
+tile_size = Vector2i(512, 512)
+sources/0 = SubResource("TileSetAtlasSource_cy24g")
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ddwq3"]
+texture = ExtResource("5_l3x1x")
+texture_region_size = Vector2i(256, 256)
+0:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_x36dt"]
+tile_shape = 2
+tile_offset_axis = 1
+tile_size = Vector2i(256, 256)
+sources/0 = SubResource("TileSetAtlasSource_ddwq3")
+
+[node name="BaseMap" type="Node2D"]
+script = ExtResource("1_401a0")
+
+[node name="Blueprint" type="TileMapLayer" parent="."]
+tile_set = SubResource("TileSet_texet")
+
+[node name="BlockMap" type="Node2D" parent="."]
+script = ExtResource("3_ghg16")
+
+[node name="512" type="Node2D" parent="BlockMap"]
+
+[node name="TileMapLayer" type="TileMapLayer" parent="BlockMap/512"]
+tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAACAAEAAAAAAAAAAAA=")
+tile_set = SubResource("TileSet_3wvmr")
+
+[node name="256" type="Node2D" parent="BlockMap"]
+
+[node name="TileMapLayer" type="TileMapLayer" parent="BlockMap/256"]
+position = Vector2(128, 128)
+tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAACAAEAAAAAAAAAAAAEAAIAAAAAAAAAAAABAAEAAAAAAAAAAAACAAMAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAAkAAAAAAAAAAAACAAIAAAAAAAAAAAACAAAAAAAAAAAAAAABAAIAAAAAAAAAAAADAAAAAAAAAAAAAAADAAEAAAAAAAAAAAA=")
+tile_set = SubResource("TileSet_x36dt")
+
+[node name="TileMapLayer128" type="TileMapLayer" parent="BlockMap"]
+position = Vector2(192, 192)
+tile_set = SubResource("TileSet_texet")

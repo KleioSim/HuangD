@@ -2,10 +2,13 @@
 using Godot;
 using HuangD.Godot.Utilties;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 public partial class BaseMap : Node2D
 {
+    TileMapLayer Blueprint => GetNode<TileMapLayer>("Blueprint");
+
     BlockMap BlockMap => GetNode<BlockMap>("BlockMap");
     TerrainMap TerrainMap => GetNode<TerrainMap>("TerrainMap");
     PopCountMap PopCountMap => GetNode<PopCountMap>("PopCountMap");
@@ -16,7 +19,7 @@ public partial class BaseMap : Node2D
 
     public override void _Ready()
     {
-        Refresh();
+        //Refresh();
     }
 
     internal Vector2 GetSize()
@@ -33,5 +36,18 @@ public partial class BaseMap : Node2D
         PolitcalMap.Refresh();
         BoundaryMap.Refresh(ProvinceMap.TileSize / BoundaryMap.TileSet.TileSize);
         EdgeMap.Refresh((Vector2)ProvinceMap.TileSize / EdgeMap.TileSet.TileSize);
+    }
+
+    internal void RefreshBlockMap(IEnumerable<Vector2I[]> vectors)
+    {
+        BlockMap.Refresh128(vectors);
+    }
+
+    internal void RefreshBlueprint(IEnumerable<Vector2I> vectors)
+    {
+        foreach (var item in vectors)
+        {
+            Blueprint.SetCell(item, 0, Vector2I.Zero, 0);
+        }
     }
 }

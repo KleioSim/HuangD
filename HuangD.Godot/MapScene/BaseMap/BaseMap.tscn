@@ -1,7 +1,8 @@
-[gd_scene load_steps=27 format=3 uid="uid://4djj474jikp0"]
+[gd_scene load_steps=34 format=4 uid="uid://4djj474jikp0"]
 
 [ext_resource type="Script" path="res://MapScene/BaseMap/BaseMap.cs" id="1_kq2vw"]
 [ext_resource type="Texture2D" uid="uid://bsgby7tsxt1l7" path="res://MapScene/whrite16.png" id="1_ksx8f"]
+[ext_resource type="Texture2D" uid="uid://cdoac5vohyaua" path="res://MapScene/BaseMap/128.png" id="2_e5lrs"]
 [ext_resource type="Script" path="res://MapScene/BaseMap/BlockMap.cs" id="3_myy0s"]
 [ext_resource type="Script" path="res://MapScene/BaseMap/TerrainMap.cs" id="4_x1xyj"]
 [ext_resource type="Script" path="res://MapScene/BaseMap/PopCountMap.cs" id="5_adhf4"]
@@ -13,12 +14,42 @@
 [ext_resource type="Script" path="res://MapScene/BaseMap/EdgeMap.cs" id="9_d0l4k"]
 [ext_resource type="Texture2D" uid="uid://d3o4sb567jy4j" path="res://MapScene/whrite128.png" id="9_r3q6f"]
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_nk82o"]
-texture = ExtResource("1_ksx8f")
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_aypr8"]
+texture = ExtResource("2_e5lrs")
+texture_region_size = Vector2i(128, 128)
+0:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_texet"]
+tile_shape = 2
+tile_offset_axis = 1
+tile_size = Vector2i(128, 128)
+sources/0 = SubResource("TileSetAtlasSource_aypr8")
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_r3d0p"]
+texture = ExtResource("2_e5lrs")
+texture_region_size = Vector2i(128, 128)
 0:0/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_eitqf"]
-sources/0 = SubResource("TileSetAtlasSource_nk82o")
+tile_shape = 2
+tile_offset_axis = 1
+tile_size = Vector2i(128, 128)
+sources/2 = SubResource("TileSetAtlasSource_r3d0p")
+
+[sub_resource type="TileSet" id="TileSet_ighvu"]
+tile_shape = 2
+tile_offset_axis = 1
+tile_size = Vector2i(64, 64)
+
+[sub_resource type="TileSet" id="TileSet_hhsvk"]
+tile_shape = 2
+tile_offset_axis = 1
+tile_size = Vector2i(32, 32)
+
+[sub_resource type="TileSet" id="TileSet_mkhbt"]
+
+[sub_resource type="TileSet" id="TileSet_das7u"]
+tile_size = Vector2i(8, 8)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5wvpa"]
 texture = ExtResource("1_ksx8f")
@@ -68,22 +99,52 @@ sources/0 = SubResource("TileSetAtlasSource_daj27")
 [node name="BaseMap" type="Node2D"]
 script = ExtResource("1_kq2vw")
 
+[node name="Blueprint" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAA=")
+tile_set = SubResource("TileSet_texet")
+
 [node name="BlockMap" type="Node2D" parent="."]
-visible = false
-position = Vector2(128, 128)
 script = ExtResource("3_myy0s")
 
-[node name="TileMapLayer" type="TileMapLayer" parent="BlockMap"]
+[node name="Size128" type="Node2D" parent="BlockMap"]
+
+[node name="TileMapLayer" type="TileMapLayer" parent="BlockMap/Size128"]
+tile_map_data = PackedByteArray("AAABAAAAAgAAAAAAAAAAAAAAAgAAAAAAAAACAAEAAgAAAAAAAAADAAEAAgAAAAAAAAADAAAAAgAAAAAAAAACAAAAAgAAAAAAAAABAAEAAgAAAAAAAAD//wAAAgAAAAAAAAA=")
 tile_set = SubResource("TileSet_eitqf")
 
+[node name="Size64" type="Node2D" parent="BlockMap"]
+
+[node name="TileMapLayer" type="TileMapLayer" parent="BlockMap/Size64"]
+position = Vector2(32, 32)
+tile_set = SubResource("TileSet_ighvu")
+
+[node name="Size32" type="Node2D" parent="BlockMap"]
+
+[node name="TileMapLayer" type="TileMapLayer" parent="BlockMap/Size32"]
+position = Vector2(48, 48)
+tile_set = SubResource("TileSet_hhsvk")
+
+[node name="Size16" type="Node2D" parent="BlockMap"]
+
+[node name="TileMapLayer" type="TileMapLayer" parent="BlockMap/Size16"]
+position = Vector2(56, 56)
+tile_set = SubResource("TileSet_mkhbt")
+
+[node name="Size8" type="Node2D" parent="BlockMap"]
+
+[node name="TileMapLayer" type="TileMapLayer" parent="BlockMap/Size8"]
+position = Vector2(60, 60)
+tile_set = SubResource("TileSet_das7u")
+
 [node name="TerrainMap" type="Node2D" parent="."]
+visible = false
 position = Vector2(128, 128)
 script = ExtResource("4_x1xyj")
 
 [node name="Water" type="TileMapLayer" parent="TerrainMap"]
 modulate = Color(0, 0, 0.4, 1)
 use_parent_material = true
-tile_map_data = PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAABAAAAAAAAAAAAAAA=")
 tile_set = SubResource("TileSet_wxd1e")
 
 [node name="Plain" type="TileMapLayer" parent="TerrainMap"]
@@ -116,21 +177,24 @@ position = Vector2(128, 128)
 script = ExtResource("6_1jkdy")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="ProvinceMap"]
-tile_map_data = PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAA=")
 tile_set = SubResource("TileSet_mlpsl")
 
 [node name="PolitcalMap" type="TileMapLayer" parent="."]
+visible = false
 position = Vector2(128, 128)
 tile_set = SubResource("TileSet_xwjjy")
 script = ExtResource("8_kregv")
 
 [node name="BoundaryMap" type="TileMapLayer" parent="."]
+visible = false
 position = Vector2(124, 124)
-tile_map_data = PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAA=")
 tile_set = SubResource("TileSet_mc214")
 script = ExtResource("7_wggg4")
 
 [node name="EdgeMap" type="TileMapLayer" parent="."]
-tile_map_data = PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+visible = false
+tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAA=")
 tile_set = SubResource("TileSet_gpklp")
 script = ExtResource("9_d0l4k")
